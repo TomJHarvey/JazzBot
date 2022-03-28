@@ -1,0 +1,10 @@
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/install.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/MidiFileGenerator.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/ALL_BUILD.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/ZERO_CHECK.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/CMakeFiles/install.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/CMakeFiles/ALL_BUILD.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/CMakeFiles/ZERO_CHECK.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/modules/CMakeFiles/install.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/extras/Build/CMakeFiles/install.dir
+/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/JUCE/extras/Build/juceaide/CMakeFiles/install.dir

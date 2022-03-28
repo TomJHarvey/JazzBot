@@ -1,0 +1,884 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		22535C50EC4E4788B797EE5C /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C4031605312C434496BD9EC9 /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				1B2434F1E78B4909B3597E67 /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		61866D1E71D24CC1A50037F8 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 846EF32A4FD746398DEC15A3 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				54DC1DA50ACB7ECD26E4DF3A /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				007884ABC8B841039EC7975C /* PBXTargetDependency */,
+				AEF09F45F4724553A2E86456 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		DB15112542714C71B9F4C610 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B4FF6F2B1F0146E19F4DAD22 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				7411248A1E15D72AEBF63896 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		074B0F2A9B0143CFB9377CFD /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/Main.cpp */ = {isa = PBXBuildFile; fileRef = 4E8BC8D455E44F85B16007C3 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/Main.cpp */; };
+		0A8323FA4A4449ABA0A98A7A /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXBuildFile; fileRef = 6BD4F52C8C5D4C02BACBE90B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_core/juce_core.mm */; };
+		281F13FD5D414A7886441C4A /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/MidiFileGenerator.cpp */ = {isa = PBXBuildFile; fileRef = 7A097FFD872F481081ABA68B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/MidiFileGenerator.cpp */; };
+		38691FFCFB71476CB6E994FF /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 3FB8CD685B244195BF7E4C93 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */; };
+		5CBF3300E3634EE0BFEAB1F6 /* /Users/tom-harvey/dev/JazzBot/Utility/Utility.cpp */ = {isa = PBXBuildFile; fileRef = 68B81D46820E48919DA4400D /* /Users/tom-harvey/dev/JazzBot/Utility/Utility.cpp */; };
+		F1D499E6CDFA426C996EF6EB /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_audio_basics/juce_audio_basics.mm */ = {isa = PBXBuildFile; fileRef = 10AE1139C28246D7869FA001 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_audio_basics/juce_audio_basics.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		3DCEA8FBD4FA4EBBB9D3D24B /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		5489BC6434D142E6A1389F95 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		58E84826D7DF41D881D356D0 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		75E93C96C67749EA84E9D9DC /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		55F77E59E4A847BE9CE65593 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCD95895F9D4D4489012DC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB15112542714C71B9F4C610;
+			remoteInfo = ZERO_CHECK;
+		};
+		6869078D37734F7B8612EB5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCD95895F9D4D4489012DC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB15112542714C71B9F4C610;
+			remoteInfo = ZERO_CHECK;
+		};
+		AE010545BDF74BB792173834 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCD95895F9D4D4489012DC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61866D1E71D24CC1A50037F8;
+			remoteInfo = ALL_BUILD;
+		};
+		B2B0F96B6F1D4C76B85917E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCD95895F9D4D4489012DC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9272B8037C574628A669DE4A;
+			remoteInfo = MidiFileGenerator;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		10AE1139C28246D7869FA001 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_audio_basics/juce_audio_basics.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_audio_basics.mm; path = JUCE/modules/juce_audio_basics/juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
+		3FB8CD685B244195BF7E4C93 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		4E8BC8D455E44F85B16007C3 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/Main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Main.cpp; path = Main.cpp; sourceTree = SOURCE_ROOT; };
+		68B81D46820E48919DA4400D /* /Users/tom-harvey/dev/JazzBot/Utility/Utility.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Utility.cpp; path = ../Utility/Utility.cpp; sourceTree = SOURCE_ROOT; };
+		6BD4F52C8C5D4C02BACBE90B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_core.mm; path = JUCE/modules/juce_core/juce_core.mm; sourceTree = SOURCE_ROOT; };
+		78A05091909E4944BEF03545 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7A097FFD872F481081ABA68B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/MidiFileGenerator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = MidiFileGenerator.cpp; path = MidiFileGenerator.cpp; sourceTree = SOURCE_ROOT; };
+		E9D31D769BB749B6805B4D4D /* MidiFileGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = MidiFileGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E18B1D552EF24370A10D6ED7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03717A11A5924D9CAB06D9A1 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		281057CF7FCF4E38AC1EB7A2 /* MidiFileGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				C733D81392A24A66B38D1EE5 /* Source Files */,
+				3FB8CD685B244195BF7E4C93 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */,
+			);
+			name = MidiFileGenerator;
+			sourceTree = "<group>";
+		};
+		2AE739A1463E44FE9C770B2F /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				03717A11A5924D9CAB06D9A1 /* CMake Rules */,
+				78A05091909E4944BEF03545 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		9A6A66F1DEBC4CECB361A62A = {
+			isa = PBXGroup;
+			children = (
+				281057CF7FCF4E38AC1EB7A2 /* MidiFileGenerator */,
+				2AE739A1463E44FE9C770B2F /* ALL_BUILD */,
+				E3F61418D057491AA240CD5B /* Products */,
+				A3D3B13A69FE4C59996E3668 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A3D3B13A69FE4C59996E3668 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C733D81392A24A66B38D1EE5 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				10AE1139C28246D7869FA001 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_audio_basics/juce_audio_basics.mm */,
+				6BD4F52C8C5D4C02BACBE90B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_core/juce_core.mm */,
+				4E8BC8D455E44F85B16007C3 /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/Main.cpp */,
+				7A097FFD872F481081ABA68B /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/MidiFileGenerator.cpp */,
+				68B81D46820E48919DA4400D /* /Users/tom-harvey/dev/JazzBot/Utility/Utility.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E3F61418D057491AA240CD5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9D31D769BB749B6805B4D4D /* MidiFileGenerator */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9272B8037C574628A669DE4A /* MidiFileGenerator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 709F61EF6E534405B5319780 /* Build configuration list for PBXNativeTarget "MidiFileGenerator" */;
+			buildPhases = (
+				08C7FEDCD7A34D2AB7FD06F3 /* Sources */,
+				E18B1D552EF24370A10D6ED7 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				75018B3365C944F7B058FEFD /* PBXTargetDependency */,
+			);
+			name = MidiFileGenerator;
+			productName = MidiFileGenerator;
+			productReference = E9D31D769BB749B6805B4D4D /* MidiFileGenerator */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCCD95895F9D4D4489012DC9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1240;
+			};
+			buildConfigurationList = 33D9F766042D48E5848B189C /* Build configuration list for PBXProject "MIDI_FILE_GENERATOR" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				58E84826D7DF41D881D356D0 /* Debug */,
+				75E93C96C67749EA84E9D9DC /* Release */,
+				5489BC6434D142E6A1389F95 /* MinSizeRel */,
+				3DCEA8FBD4FA4EBBB9D3D24B /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 9A6A66F1DEBC4CECB361A62A;
+			projectDirPath = ../;
+			projectRoot = "";
+			targets = (
+				61866D1E71D24CC1A50037F8 /* ALL_BUILD */,
+				9272B8037C574628A669DE4A /* MidiFileGenerator */,
+				DB15112542714C71B9F4C610 /* ZERO_CHECK */,
+				22535C50EC4E4788B797EE5C /* install */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		54DC1DA50ACB7ECD26E4DF3A /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		7411248A1E15D72AEBF63896 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  make -f /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  make -f /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  make -f /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  make -f /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		87AF4882E018677E2624B544 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  /Applications/CMake.app/Contents/bin/cmake -DBUILD_TYPE=$CONFIGURATION$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  /Applications/CMake.app/Contents/bin/cmake -DBUILD_TYPE=$CONFIGURATION$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  /Applications/CMake.app/Contents/bin/cmake -DBUILD_TYPE=$CONFIGURATION$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode
+  /Applications/CMake.app/Contents/bin/cmake -DBUILD_TYPE=$CONFIGURATION$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08C7FEDCD7A34D2AB7FD06F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D499E6CDFA426C996EF6EB /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_audio_basics/juce_audio_basics.mm */,
+				0A8323FA4A4449ABA0A98A7A /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules/juce_core/juce_core.mm */,
+				074B0F2A9B0143CFB9377CFD /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/Main.cpp */,
+				281F13FD5D414A7886441C4A /* /Users/tom-harvey/dev/JazzBot/MidiFileGenerator/MidiFileGenerator.cpp */,
+				5CBF3300E3634EE0BFEAB1F6 /* /Users/tom-harvey/dev/JazzBot/Utility/Utility.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		007884ABC8B841039EC7975C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9272B8037C574628A669DE4A /* MidiFileGenerator */;
+			targetProxy = B2B0F96B6F1D4C76B85917E9 /* PBXContainerItemProxy */;
+		};
+		1B2434F1E78B4909B3597E67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61866D1E71D24CC1A50037F8 /* ALL_BUILD */;
+			targetProxy = AE010545BDF74BB792173834 /* PBXContainerItemProxy */;
+		};
+		75018B3365C944F7B058FEFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB15112542714C71B9F4C610 /* ZERO_CHECK */;
+			targetProxy = 6869078D37734F7B8612EB5A /* PBXContainerItemProxy */;
+		};
+		AEF09F45F4724553A2E86456 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB15112542714C71B9F4C610 /* ZERO_CHECK */;
+			targetProxy = 55F77E59E4A847BE9CE65593 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		016C6F8C900A474D9B6BF340 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_WEB_BROWSER=0'","'JUCE_USE_CURL=0'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'DEBUG=1'","'_DEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_audio_basics=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/JuceLibraryCode","/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules","$(inherited)");
+				INSTALL_PATH = "";
+				OTHER_CPLUSPLUSFLAGS = "          -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=gnu++11' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-framework Cocoa","-framework Foundation","-framework IOKit","-framework Accelerate");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MidiFileGenerator;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		21B13464DB624C12A2DA81AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		25BF9E036B1F4886A5D8F272 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		696998E7C8CF45C29EE75C0F /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk;
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/build";
+			};
+			name = RelWithDebInfo;
+		};
+		7058645F22874C2E8E83D29B /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		7962C12960984B35A7437346 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk;
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/build";
+			};
+			name = MinSizeRel;
+		};
+		81072C1BE68141A8A791B44B /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_WEB_BROWSER=0'","'JUCE_USE_CURL=0'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_audio_basics=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/JuceLibraryCode","/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules","$(inherited)");
+				INSTALL_PATH = "";
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=gnu++11' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-framework Cocoa","-framework Foundation","-framework IOKit","-framework Accelerate");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MidiFileGenerator;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		8BF6FBBB28774779AD4C0957 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		8C1C7A813AC740219CB9DA7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		A7369B3E8C4147C69B8359DC /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_WEB_BROWSER=0'","'JUCE_USE_CURL=0'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_audio_basics=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/JuceLibraryCode","/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules","$(inherited)");
+				INSTALL_PATH = "";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=gnu++11' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-framework Cocoa","-framework Foundation","-framework IOKit","-framework Accelerate");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MidiFileGenerator;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B5DD087822DE4B23B51E5DC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk;
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/build";
+			};
+			name = Debug;
+		};
+		C1D267A50041492DB4108154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		C6D95C8595214B9D9203B2D7 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		C919E30AA5704D5A8149BFA3 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		CA7E2ED3E30A4EA7BE86CE73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		D2509E262DA24BBF84A0A18C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_WEB_BROWSER=0'","'JUCE_USE_CURL=0'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_audio_basics=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/MidiFileGenerator_artefacts/JuceLibraryCode","/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/JUCE/modules","$(inherited)");
+				INSTALL_PATH = "";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG     -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=gnu++11' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-framework Cocoa","-framework Foundation","-framework IOKit","-framework Accelerate");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MidiFileGenerator;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		D9B7D00045D9468EB5C9E0C5 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		DF949CB31EE94D12A99B0ED7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		EA7F5DAA8B914A65ACD5E5F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk;
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode/build";
+			};
+			name = Release;
+		};
+		EF6E978AAA9241A580E0CC22 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/tom-harvey/dev/JazzBot/MidiFileGenerator/xcode";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		33D9F766042D48E5848B189C /* Build configuration list for PBXProject "MIDI_FILE_GENERATOR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5DD087822DE4B23B51E5DC4 /* Debug */,
+				EA7F5DAA8B914A65ACD5E5F6 /* Release */,
+				7962C12960984B35A7437346 /* MinSizeRel */,
+				696998E7C8CF45C29EE75C0F /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		709F61EF6E534405B5319780 /* Build configuration list for PBXNativeTarget "MidiFileGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				016C6F8C900A474D9B6BF340 /* Debug */,
+				D2509E262DA24BBF84A0A18C /* Release */,
+				A7369B3E8C4147C69B8359DC /* MinSizeRel */,
+				81072C1BE68141A8A791B44B /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		846EF32A4FD746398DEC15A3 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF949CB31EE94D12A99B0ED7 /* Debug */,
+				8BF6FBBB28774779AD4C0957 /* Release */,
+				D9B7D00045D9468EB5C9E0C5 /* MinSizeRel */,
+				C6D95C8595214B9D9203B2D7 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B4FF6F2B1F0146E19F4DAD22 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA7E2ED3E30A4EA7BE86CE73 /* Debug */,
+				C1D267A50041492DB4108154 /* Release */,
+				EF6E978AAA9241A580E0CC22 /* MinSizeRel */,
+				C919E30AA5704D5A8149BFA3 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C4031605312C434496BD9EC9 /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21B13464DB624C12A2DA81AE /* Debug */,
+				8C1C7A813AC740219CB9DA7A /* Release */,
+				25BF9E036B1F4886A5D8F272 /* MinSizeRel */,
+				7058645F22874C2E8E83D29B /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BCCD95895F9D4D4489012DC9 /* Project object */;
+}
