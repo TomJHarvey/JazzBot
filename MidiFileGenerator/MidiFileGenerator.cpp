@@ -124,7 +124,7 @@ MidiFileGenerator::initMidiFile()
 {
     m_midi_file.setTicksPerQuarterNote(ppqn);
     //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::String file_location = m_project_path + juce::String("/test38") + juce::String(".mid");
+    juce::File file_location = m_project_path + juce::String("/test38") + juce::String(".mid");
     m_midi_file_output = file_location;
 }
 
@@ -292,7 +292,13 @@ bool
 MidiFileGenerator::writeMidiFile() const
 {
     juce::FileOutputStream file_output_stream (m_midi_file_output);
-    jassert(!file_output_stream.failedToOpen()); // TODO: handle, false if fail
+    file_output_stream.setPosition(0);
+    file_output_stream.truncate();
+    if(file_output_stream.failedToOpen())
+    {
+        std::cout << "File: " << file_output_stream.getFile().getFileName() << " failed to open." << std::endl;
+        return false;
+    }
     m_midi_file.writeTo(file_output_stream);
     return true;
 }
