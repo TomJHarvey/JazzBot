@@ -124,7 +124,7 @@ MidiFileGenerator::initMidiFile()
 {
     m_midi_file.setTicksPerQuarterNote(ppqn);
     //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::String file_location = m_project_path + juce::String("/test35") + juce::String(".mid");
+    juce::String file_location = m_project_path + juce::String("/test38") + juce::String(".mid");
     m_midi_file_output = file_location;
 }
 
@@ -173,11 +173,13 @@ MidiFileGenerator::getMidiTickDuration(const float& note_duration,
         float under_spill_relative_duration = ppqn * (under_spill/m_beat_lengths[m_current_beat]);
         
         // The duration of the portion of the current note in the last bar its in
-        float last_beat_note_duration = relative_note_duration - m_beat_onsets[m_current_beat + number_of_beats];
-        float last_beat_note_relative_duration = ppqn * (last_beat_note_duration/m_beat_lengths[m_current_beat + number_of_beats]);
+        float last_beat_note_duration =
+            relative_note_duration - m_beat_onsets[m_current_beat + number_of_beats];
+        float last_beat_note_relative_duration =
+            ppqn * (last_beat_note_duration/m_beat_lengths[m_current_beat + number_of_beats]);
         
         // If its more than one beat that the note is over, add the middle notes
-        float extra_beats = (number_of_beats - 1) * ppqn;
+        float extra_beats = ppqn * (number_of_beats - 1);
         
         midi_tick_duration = under_spill_relative_duration + last_beat_note_relative_duration + extra_beats;
     }
@@ -191,8 +193,9 @@ MidiFileGenerator::getMidiTickDuration(const float& note_duration,
 float
 MidiFileGenerator::getMidiTickOnset(const float& note_onset) const
 {
-    // TODO: this needs tidying up
-    return (ppqn * ((note_onset-m_beat_onsets[m_current_beat])/m_beat_lengths[m_current_beat])) + (ppqn * m_current_beat);
+    float beats_elapsed = (ppqn * m_current_beat);
+    float relative_note_onset = (note_onset-m_beat_onsets[m_current_beat]);
+    return (ppqn * (relative_note_onset/m_beat_lengths[m_current_beat])) + beats_elapsed;
 }
 
 bool
