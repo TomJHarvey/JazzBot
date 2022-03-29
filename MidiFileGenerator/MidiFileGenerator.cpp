@@ -121,16 +121,16 @@ MidiFileGenerator::initMidiFile()
 {
     m_midi_file.setTicksPerQuarterNote(ppqn);
     //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::String file_location = m_project_path + juce::String("/test24") + juce::String(".mid");
+    juce::String file_location = m_project_path + juce::String("/test32") + juce::String(".mid");
     m_midi_file_output = file_location;
 }
 
 bool
-MidiFileGenerator::setCurrentBeat(const float& note_onset)
+MidiFileGenerator::findBeat(const float& note_onset, std::size_t& beat) const
 {
-    if (m_current_beat + 1 == m_beat_onsets.size())
+    if (beat + 1 == m_beat_onsets.size())
     {
-        if (note_onset > (m_beat_onsets[m_current_beat] + m_beat_lengths[m_current_beat] ))
+        if (note_onset > (m_beat_onsets[beat] + m_beat_lengths[beat]))
         {
             return false; // TODO: test out of range
         }
@@ -138,15 +138,15 @@ MidiFileGenerator::setCurrentBeat(const float& note_onset)
     }
     else
     {
-        if (m_beat_onsets[m_current_beat] < note_onset &&
-            note_onset < m_beat_onsets[m_current_beat + 1])
+        if (m_beat_onsets[beat] < note_onset &&
+            note_onset < m_beat_onsets[beat + 1])
         {
             return true; // return the beat number for the current note
         }
         else //current note is not in this beat
         {
-            m_current_beat += 1;
-            return setCurrentBeat(note_onset);
+            beat += 1;
+            return findBeat(note_onset, beat);
         }
     }
 }
@@ -155,34 +155,36 @@ float
 MidiFileGenerator::getMidiTickDuration(const float& note_duration,
                                        const float& note_onset) const
 {
-   float midi_tick_duration = 0.0f;
-   float relative_note_duration = note_onset + note_duration;
+    float midi_tick_duration = 0.0f;
+    float relative_note_duration = note_onset + note_duration;
+    std::size_t beat = m_current_beat;
+    findBeat(relative_note_duration, beat);
+    std::size_t number_of_beats = beat - m_current_beat;
    
-   // this isn't right as it doesn't carry across the beats
-   // it could check where the relative note duratino is. What beat its in.
-   // if its not in the current beat, it will loop through each beat and apply the over spill to each one
-   // then it wil stitch them together
-   
-   if (m_current_beat + 1 < m_beat_onsets.size() &&
-       relative_note_duration > m_beat_onsets[m_current_beat + 1])
-   {
-       float under_spill = m_beat_onsets[m_current_beat + 1] - note_onset;
-       float over_spill = relative_note_duration - m_beat_onsets[m_current_beat + 1];
-       float under_spill_relative_duration = ppqn * (under_spill/m_beat_lengths[m_current_beat]);
-       float over_spill_relative_duration = ppqn * (over_spill/m_beat_lengths[m_current_beat + 1]);
-       midi_tick_duration =  under_spill_relative_duration + over_spill_relative_duration;
-       
-       float normal_midi_tick_duration = ppqn * (note_duration/m_beat_lengths[m_current_beat]);
-       std::cout << "over spill note" << std::endl;
-       std::cout << "modified time =  " << midi_tick_duration << std::endl;
-       std::cout << "normal time =  " << normal_midi_tick_duration << std::endl;
-   }
-   else
-   {
-       std::cout << "normal note" << std::endl;
-       midi_tick_duration = ppqn * (note_duration/m_beat_lengths[m_current_beat]);
-   }
-   return midi_tick_duration;
+    if (number_of_beats > 0 &&
+        m_current_beat + number_of_beats < m_beat_onsets.size() &&
+        relative_note_duration > m_beat_onsets[m_current_beat + number_of_beats])
+    {
+        // The duration of the portion of the current note in the current bar
+        float under_spill = m_beat_onsets[m_current_beat + 1] - note_onset;
+        float under_spill_relative_duration = ppqn * (under_spill/m_beat_lengths[m_current_beat]);
+        
+        // The duration of the portion of the current note in the last bar its in
+        float last_beat_note_duration = relative_note_duration - m_beat_onsets[m_current_beat + number_of_beats];
+        float last_beat_note_relative_duration = ppqn * (last_beat_note_duration/m_beat_lengths[m_current_beat + number_of_beats]);
+        
+        // If its more than one beat that the note is over, add the middle notes
+        float extra_beats = (number_of_beats - 1) * ppqn;
+        
+        midi_tick_duration = under_spill_relative_duration + last_beat_note_relative_duration + extra_beats;
+    }
+    else
+    {
+        // if its the last note it doesn't matter the length
+        std::cout << "normal note" << std::endl;
+        midi_tick_duration = ppqn * (note_duration/m_beat_lengths[m_current_beat]);
+    }
+    return midi_tick_duration;
 }
 
 float
@@ -235,7 +237,7 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                             return false;
                         }
                         
-                        (void)setCurrentBeat(note_onset); //TODO: if false handle, just dont continue?
+                        (void)findBeat(note_onset, m_current_beat); //TODO: if false handle, just dont continue?
                         float midi_tick_onset = getMidiTickOnset(note_onset);
                         float midi_tick_duration = getMidiTickDuration(note_duration,note_onset);
                         

@@ -27,7 +27,7 @@ public:
     bool writeMidiFile() const;
     
 private:
-    bool setCurrentBeat(const float& note_onset);
+    bool findBeat(const float& note_onset, std::size_t& beat) const;
     float getMidiTickDuration(const float& note_duration,
                               const float& note_onset) const;
     float getMidiTickOnset(const float& note_onset) const;
