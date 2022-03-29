@@ -15,6 +15,9 @@ static const std::size_t note_onset_index = 1;
 static const std::size_t note_value_index = 2;
 static const int time_sig_quarter_note = 4; // this will be retrieved from the web scraper
 static const int ppqn = 480; // pulses per quarter note
+static const int note_velocity = 127;
+static const int juce_message_on = 0x90;
+static const int juce_message_off = 0x80;
 
 MidiFileGenerator::MidiFileGenerator(const juce::String& project_path,
                                      const std::string& bar_onset_file_name,
@@ -121,7 +124,7 @@ MidiFileGenerator::initMidiFile()
 {
     m_midi_file.setTicksPerQuarterNote(ppqn);
     //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::String file_location = m_project_path + juce::String("/test32") + juce::String(".mid");
+    juce::String file_location = m_project_path + juce::String("/test35") + juce::String(".mid");
     m_midi_file_output = file_location;
 }
 
@@ -178,10 +181,8 @@ MidiFileGenerator::getMidiTickDuration(const float& note_duration,
         
         midi_tick_duration = under_spill_relative_duration + last_beat_note_relative_duration + extra_beats;
     }
-    else
+    else // no overlap, unless if last note where it doesn't matter the length
     {
-        // if its the last note it doesn't matter the length
-        std::cout << "normal note" << std::endl;
         midi_tick_duration = ppqn * (note_duration/m_beat_lengths[m_current_beat]);
     }
     return midi_tick_duration;
@@ -206,6 +207,7 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
     std::vector<std::vector<std::string>> note_information = Utility::parseCsvFile(m_note_onset_file_name);
     if (!note_information.empty())
     {
+        float previous_midi_tick_onset = -1.0f;
         for (std::size_t i = 0; i < note_information.size(); i++)
         {
             if (i != 0) // ignore csv file headings
@@ -237,12 +239,27 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                             return false;
                         }
                         
-                        (void)findBeat(note_onset, m_current_beat); //TODO: if false handle, just dont continue?
-                        float midi_tick_onset = getMidiTickOnset(note_onset);
-                        float midi_tick_duration = getMidiTickDuration(note_duration,note_onset);
+                        // find the beat the note is in, exit if out of range
+                        if (!findBeat(note_onset, m_current_beat))
+                        {
+                            return true;
+                        }
                         
-                        // TODO: if duration is <= 0, handle
-                        // TODO: ensure onset is sequential, so bigger than the previous one to be safe?
+                        float midi_tick_onset = getMidiTickOnset(note_onset);
+                        if (previous_midi_tick_onset > midi_tick_onset)
+                        {
+                            std::cout << "Non sequential data, current onset: " << midi_tick_onset
+                                      << " is bigger than previous onset: "
+                                      << previous_midi_tick_onset << std::endl;
+                            return false;
+                        }
+                        
+                        float midi_tick_duration = getMidiTickDuration(note_duration,note_onset);
+                        if (midi_tick_duration <= 0)
+                        {
+                            std::cout << "Invalid duration: " << midi_tick_duration << std::endl;
+                            return false;
+                        }
 
                         int note_value = -1;
                         try{
@@ -253,9 +270,9 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                             return false;
                         }
                         
-                        juce::MidiMessage message_on (0x90 ,note_value, 127); // velocity 127, should have constant
+                        juce::MidiMessage message_on (juce_message_on ,note_value, note_velocity);
                         message_on.setTimeStamp(midi_tick_onset);
-                        juce::MidiMessage message_off (0x80, note_value, 0); // hex values also have constant
+                        juce::MidiMessage message_off (juce_message_off, note_value, 0);
                         message_off.setTimeStamp(midi_tick_onset + midi_tick_duration);
                         m_midi_sequence.addEvent(message_on);
                         m_midi_sequence.addEvent(message_off);
