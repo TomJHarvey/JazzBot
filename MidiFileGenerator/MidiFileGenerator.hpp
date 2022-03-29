@@ -23,7 +23,7 @@ public:
                       const std::string& note_onset_file_name);
     bool setBeatInformation();
     void initMidiFile();
-    void writeSequence();
+    bool writeSequence();
     bool writeMidiFile() const;
     
 private:
@@ -32,6 +32,11 @@ private:
                               const float& note_onset) const;
     float getMidiTickOnset(const float& note_onset) const;
     bool isNoteBeforeFirstBar(const float& note_onset) const;
+    
+    bool calculateQuarterNoteIncrement(float& quarter_note_increment,
+                                       const std::size_t& current_bar,
+                                       const std::vector<std::vector<std::string>>& bar_information,
+                                       const float& bar_onset) const;
     
 private:
     std::vector<float> m_beat_onsets;
