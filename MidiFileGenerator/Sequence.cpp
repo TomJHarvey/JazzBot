@@ -7,13 +7,12 @@
 
 #include "Sequence.hpp"
 
-static const int time_sig_quarter_note = 4; // this will be retrieved from the web scraper
 static const int ppqn = 480; // pulses per quarter note
 
-Sequence::Sequence()
+Sequence::Sequence(const int& time_signature_quarter_note)
     : m_current_beat(0)
+    , m_time_signature_quarter_note(time_signature_quarter_note)
 {
-    
 }
 
 void
@@ -24,7 +23,7 @@ Sequence::setBeatInformation(const float& bar_onset,
     
     // set the onset and length for each quarter note in the current bar
     for (int quater_note_index = 0;
-         quater_note_index < time_sig_quarter_note;
+         quater_note_index < m_time_signature_quarter_note;
          quater_note_index ++)
     {
         float beat_onset = bar_onset + (quater_note_index * quarter_note_increment);
@@ -87,7 +86,7 @@ Sequence::getMidiTickDuration(const float& note_duration,
         float last_beat_note_relative_duration =
             ppqn * (last_beat_note_duration/m_beat_lengths[m_current_beat + number_of_beats]);
         
-        // If its more than one beat that the note is over, add the middle notes
+        // If its more than one beat that the note is over, add the middle beats
         float extra_beats = ppqn * (number_of_beats - 1);
         
         midi_tick_duration =
@@ -110,9 +109,9 @@ Sequence::getMidiTickOnset(const float& note_onset) const
 }
 
 float
-Sequence::calculateQuarterNoteIncrement(const float& next_bar_onset, const float& bar_onset)
+Sequence::calculateQuarterNoteIncrement(const float& next_bar_onset, const float& bar_onset) const
 {
-    return ((next_bar_onset - bar_onset) / time_sig_quarter_note);
+    return ((next_bar_onset - bar_onset) / m_time_signature_quarter_note);
 }
 
 bool

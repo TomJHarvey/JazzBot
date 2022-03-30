@@ -15,7 +15,7 @@
 class Sequence
 {
 public:
-    Sequence();
+    Sequence(const int& time_signature_quarter_note);
     void setBeatInformation(const float& bar_onset,
                             const float& quarter_note_increment,
                             float& previous_beat_onset);
@@ -24,8 +24,8 @@ public:
     float getMidiTickOnset(const float& note_onset) const;
     bool isNoteBeforeFirstBar(const float& note_onset) const;
     bool setCurrentBeat(const float& note_onset);
+    float calculateQuarterNoteIncrement(const float& next_bar_onset, const float& bar_onset) const;
     static int getPpqn();
-    static float calculateQuarterNoteIncrement(const float& next_bar_onset, const float& bar_onset);
 
 private:
     bool findBeat(const float& note_onset, std::size_t& beat) const;
@@ -34,7 +34,7 @@ private:
     std::vector<float> m_beat_onsets;
     std::vector<float> m_beat_lengths;
     std::size_t m_current_beat;
-    int time_signature_quarter_note;
+    int m_time_signature_quarter_note;
 };
 
 

@@ -17,13 +17,17 @@ static const int note_velocity = 127;
 static const int juce_message_on = 0x90;
 static const int juce_message_off = 0x80;
 
+static const int time_signature_quarter_note = 4; // this will be obtained from file
+
 MidiFileGenerator::MidiFileGenerator(const juce::String& project_path,
                                      const std::string& bar_onset_file_name,
                                      const std::string& note_onset_file_name)
     : m_project_path(project_path)
     , m_bar_onset_file_name(bar_onset_file_name)
     , m_note_onset_file_name(note_onset_file_name)
+    , m_sequence(time_signature_quarter_note)
 {
+    // TODO: init sequence with the time sig quarter note from file
 }
 
 bool
@@ -82,7 +86,6 @@ MidiFileGenerator::setBeatInformation()
                                                       quarter_note_increment,
                                                       previous_beat_onset);
                     }
-                    
                     previous_bar_onset = bar_onset;
                 }
             }
@@ -179,13 +182,6 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                         }
                         
                         float midi_tick_onset = m_sequence.getMidiTickOnset(note_onset);
-//                        if (previous_midi_tick_onset > midi_tick_onset)
-//                        {
-//                            std::cout << "Non sequential data, current onset: " << midi_tick_onset
-//                                      << " is bigger than previous onset: "
-//                                      << previous_midi_tick_onset << std::endl;
-//                            return false;
-//                        }
                         
                         float midi_tick_duration = m_sequence.getMidiTickDuration(note_duration,note_onset);
                         if (midi_tick_duration <= 0)
