@@ -8,6 +8,8 @@
 #ifndef MidiFileGenerator_hpp
 #define MidiFileGenerator_hpp
 
+#include "Sequence.hpp"
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -27,27 +29,22 @@ public:
     bool writeMidiFile() const;
     
 private:
-    bool findBeat(const float& note_onset, std::size_t& beat) const;
-    float getMidiTickDuration(const float& note_duration,
-                              const float& note_onset) const;
-    float getMidiTickOnset(const float& note_onset) const;
-    bool isNoteBeforeFirstBar(const float& note_onset) const;
-    
+    bool isValidNoteOn();
     bool calculateQuarterNoteIncrement(float& quarter_note_increment,
                                        const std::size_t& current_bar,
                                        const std::vector<std::vector<std::string>>& bar_information,
                                        const float& bar_onset) const;
     
+    static bool validStofConversion(const std::string& value_to_convert, float& converted_value);
+    
 private:
-    std::vector<float> m_beat_onsets;
-    std::vector<float> m_beat_lengths;
-    std::size_t m_current_beat;
     juce::String m_project_path;
     std::string m_bar_onset_file_name;
     std::string m_note_onset_file_name;
     juce::MidiFile m_midi_file;
     juce::MidiMessageSequence m_midi_sequence;
     juce::File m_midi_file_output;
+    Sequence m_sequence;
 };
 
 #endif /* MidiFileGenerator_hpp */

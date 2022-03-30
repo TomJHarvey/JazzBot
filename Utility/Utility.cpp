@@ -30,3 +30,30 @@ Utility::parseCsvFile(std::string file_name)
     }
     return content;
 }
+
+bool
+Utility::validStofConversion(const std::string& value_to_convert,
+                            float& converted_value)
+{
+    try{
+        converted_value = stof(value_to_convert);
+    }
+    catch(const std::exception& e){
+        std::cout << "Invalid input: " << e.what() << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool
+Utility::validStoiConversion(const std::string& value_to_convert, int& converted_value)
+{
+    try{
+        converted_value = stoi(value_to_convert);
+    }
+    catch(const std::exception& e){
+        std::cout << "Invalid input: " << e.what() << std::endl;
+        return false;
+    }
+    return true;
+}

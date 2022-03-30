@@ -10,6 +10,7 @@ target_sources(MidiFileGenerator
     PRIVATE
         Main.cpp
         MidiFileGenerator.cpp
+        Sequence.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../Utility/Utility.cpp)
 
 target_compile_definitions(MidiFileGenerator
@@ -19,6 +20,24 @@ target_compile_definitions(MidiFileGenerator
 
 target_link_libraries(MidiFileGenerator
     PRIVATE   
+        juce::juce_core
+        juce::juce_audio_basics
+    PUBLIC
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_warning_flags)
+        
+
+# Build steps for tests
+
+find_package(Catch2 3 REQUIRED)
+add_executable(tests tests/test.cpp
+                     MidiFileGenerator.cpp
+                     Sequence.cpp
+                     ${CMAKE_CURRENT_SOURCE_DIR}/../Utility/Utility.cpp)
+
+target_link_libraries(tests
+    PRIVATE
+        Catch2::Catch2WithMain
         juce::juce_core
         juce::juce_audio_basics
     PUBLIC
