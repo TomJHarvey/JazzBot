@@ -15,7 +15,7 @@
 class Sequence
 {
 public:
-    Sequence() = default;
+    Sequence();
     void setBeatInformation(const float& bar_onset,
                             const float& quarter_note_increment,
                             float& previous_beat_onset);
@@ -34,6 +34,7 @@ private:
     std::vector<float> m_beat_onsets;
     std::vector<float> m_beat_lengths;
     std::size_t m_current_beat;
+    int time_signature_quarter_note;
 };
 
 

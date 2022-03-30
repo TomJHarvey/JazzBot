@@ -10,11 +10,18 @@
 static const int time_sig_quarter_note = 4; // this will be retrieved from the web scraper
 static const int ppqn = 480; // pulses per quarter note
 
+Sequence::Sequence()
+    : m_current_beat(0)
+{
+    
+}
+
 void
 Sequence::setBeatInformation(const float& bar_onset,
                              const float& quarter_note_increment,
                              float& previous_beat_onset)
 {
+    
     // set the onset and length for each quarter note in the current bar
     for (int quater_note_index = 0;
          quater_note_index < time_sig_quarter_note;
@@ -98,7 +105,8 @@ Sequence::getMidiTickOnset(const float& note_onset) const
 {
     float beats_elapsed = (ppqn * m_current_beat);
     float relative_note_onset = (note_onset-m_beat_onsets[m_current_beat]);
-    return (ppqn * (relative_note_onset/m_beat_lengths[m_current_beat])) + beats_elapsed;
+    float midi_tick_onset = (ppqn * (relative_note_onset/m_beat_lengths[m_current_beat])) + beats_elapsed;
+    return midi_tick_onset;
 }
 
 float

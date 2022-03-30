@@ -33,7 +33,9 @@ private:
     bool calculateQuarterNoteIncrement(float& quarter_note_increment,
                                        const std::size_t& current_bar,
                                        const std::vector<std::vector<std::string>>& bar_information,
-                                       const float& bar_onset) const;
+                                       const float& bar_onset,
+                                       float& next_bar_onset,
+                                       const float& previous_bar_onset) const;
     
     static bool validStofConversion(const std::string& value_to_convert, float& converted_value);
     

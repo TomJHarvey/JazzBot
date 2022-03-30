@@ -35,6 +35,8 @@ MidiFileGenerator::setBeatInformation()
     if (!bar_information.empty())
     {
         float previous_beat_onset = -1.0f;
+        float next_bar_onset = -1.0f;
+        float previous_bar_onset = -1.0f;
         for(std::size_t current_bar = 0; current_bar < bar_information.size(); current_bar++)
         {
             if (bar_information[current_bar].size() == note_information_csv_row_size)
@@ -42,10 +44,18 @@ MidiFileGenerator::setBeatInformation()
                 if (current_bar != 0) // check its not the first row, contains string headings
                 {
                     float bar_onset = 0.0f;
-                    if (!Utility::validStofConversion(bar_information[current_bar][bar_onset_index],
-                                                      bar_onset))
+                    if (next_bar_onset > 0)
                     {
-                        return false;
+                        bar_onset = next_bar_onset; // use previously converted value
+                    }
+                    else
+                    {
+                        // if first time it will need to convert
+                        if (!Utility::validStofConversion(bar_information[current_bar][bar_onset_index],
+                                                          bar_onset))
+                        {
+                            return false;
+                        }
                     }
                     if (previous_beat_onset > bar_onset)
                     {
@@ -60,7 +70,9 @@ MidiFileGenerator::setBeatInformation()
                     if (!calculateQuarterNoteIncrement(quarter_note_increment,
                                                        current_bar,
                                                        bar_information,
-                                                       bar_onset))
+                                                       bar_onset,
+                                                       next_bar_onset,
+                                                       previous_bar_onset))
                     {
                         return false;
                     }
@@ -70,6 +82,8 @@ MidiFileGenerator::setBeatInformation()
                                                       quarter_note_increment,
                                                       previous_beat_onset);
                     }
+                    
+                    previous_bar_onset = bar_onset;
                 }
             }
         }
@@ -85,12 +99,13 @@ bool
 MidiFileGenerator::calculateQuarterNoteIncrement(float& quarter_note_increment,
                                     const std::size_t& current_bar,
                                     const std::vector<std::vector<std::string>>& bar_information,
-                                    const float& bar_onset) const
+                                    const float& bar_onset,
+                                    float& next_bar_onset,
+                                    const float& previous_bar_onset) const
 {
     // calculate the length of a quarter note in the current bar
     if (current_bar + 1 < bar_information.size()) // check it can access the next bar
     {
-        float next_bar_onset =  0.0f;
         if (!Utility::validStofConversion(bar_information[current_bar + 1][bar_onset_index],
                                           next_bar_onset))
         {
@@ -101,12 +116,6 @@ MidiFileGenerator::calculateQuarterNoteIncrement(float& quarter_note_increment,
     }
     else // previous bars spacing used for the last bar, no next bar to make the calculation
     {
-        float previous_bar_onset =  0.0f;
-        if (!Utility::validStofConversion(bar_information[current_bar - 1][bar_onset_index],
-                                          previous_bar_onset))
-        {
-            return false;
-        }
         quarter_note_increment = m_sequence.calculateQuarterNoteIncrement(bar_onset,
                                                                           previous_bar_onset);
     }
@@ -118,7 +127,7 @@ MidiFileGenerator::initMidiFile()
 {
     m_midi_file.setTicksPerQuarterNote(m_sequence.getPpqn());
     //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::File file_location = m_project_path + juce::String("/test39") + juce::String(".mid");
+    juce::File file_location = m_project_path + juce::String("/test41") + juce::String(".mid");
     m_midi_file_output = file_location;
 }
 
@@ -129,7 +138,7 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
         Utility::parseCsvFile(m_note_onset_file_name);
     if (!note_information.empty())
     {
-        float previous_midi_tick_onset = -1.0f;
+        float previous_note_onset = -1.0f;
         for (std::size_t i = 0; i < note_information.size(); i++)
         {
             if (i != 0) // ignore csv file headings
@@ -160,14 +169,23 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                             return true; // end of sequence
                         }
                         
-                        float midi_tick_onset = m_sequence.getMidiTickOnset(note_onset);
-                        if (previous_midi_tick_onset > midi_tick_onset)
+                        
+                        if (previous_note_onset > note_onset)
                         {
-                            std::cout << "Non sequential data, current onset: " << midi_tick_onset
-                                      << " is bigger than previous onset: "
-                                      << previous_midi_tick_onset << std::endl;
+                            std::cout << "Current onset: " << note_onset
+                                      << " is smaller than previous onset: "
+                                      << previous_note_onset << std::endl;
                             return false;
                         }
+                        
+                        float midi_tick_onset = m_sequence.getMidiTickOnset(note_onset);
+//                        if (previous_midi_tick_onset > midi_tick_onset)
+//                        {
+//                            std::cout << "Non sequential data, current onset: " << midi_tick_onset
+//                                      << " is bigger than previous onset: "
+//                                      << previous_midi_tick_onset << std::endl;
+//                            return false;
+//                        }
                         
                         float midi_tick_duration = m_sequence.getMidiTickDuration(note_duration,note_onset);
                         if (midi_tick_duration <= 0)
@@ -189,6 +207,8 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                         message_off.setTimeStamp(midi_tick_onset + midi_tick_duration);
                         m_midi_sequence.addEvent(message_on);
                         m_midi_sequence.addEvent(message_off);
+                        
+                        previous_note_onset = note_onset;
                     }
                 }
             }
