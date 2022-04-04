@@ -69,7 +69,9 @@ def downdown_song_information(database_soup):
             cols = row.find_all('td')
             song_info.append(cols[1].get_text())
 
-        song_info_to_write = song_info[0] + '\n' + song_info[8] + '\n' + song_info[9] + '\n'
+        song_info_line = file_name.replace('_FINAL.pdf', '')
+
+        song_info_to_write = song_info_line + '\n' + song_info[0] + '\n' + song_info[8] + '\n' + song_info[9] + '\n'
         song_info_file_name = file_name.replace('_FINAL.pdf', '_song_information.txt')
 
         write_text_to_file(song_info_to_write, song_info_file_name, "song_information")
