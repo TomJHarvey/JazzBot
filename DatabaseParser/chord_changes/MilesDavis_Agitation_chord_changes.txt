@@ -1,0 +1,3 @@
+A1: ||Gsus   |Gsus   |Gsus   |Gsus   |Gsus   |Gsus   |Gsus   |Gsus   |Gsus   |Gsus   ||
+B1: ||Ab   |Db Ab |Ab Db |Ab   |Db Ab |Db   |Ab Db |Db Csus |Gsus   ||
+

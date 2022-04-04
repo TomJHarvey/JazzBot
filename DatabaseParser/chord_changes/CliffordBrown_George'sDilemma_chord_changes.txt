@@ -1,0 +1,5 @@
+A1: ||Db-7   |Dj7   |Db-7   |B7   |Db-7   |Db-7   |Eb7 Ab7 |Db-7   ||
+A2: ||Db-7   |Dj7   |Db-7   |B7   |Db-7   |Db-7   |Eb7 Ab7 |Db-7   ||
+B1: ||Gb-7   |B7   |Ab-7 Aj7 |Ab-7 Go |Gb-7   |B7   |Ej7 Aj7 |Dj7 Eb-7Ab7||
+A3: ||Db-7   |Dj7   |Db-7   |B7   |Db-7   |Db-7   |Eb7 Ab7 |Db-7   ||
+

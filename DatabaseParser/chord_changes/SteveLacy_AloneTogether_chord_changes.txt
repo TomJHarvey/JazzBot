@@ -1,0 +1,5 @@
+A1: ||D-6   |Em7b5 A79b |D-6   |Em7b5 A79b |D-6   |Am7b5 D79b |G-7   |G-7   |B-7 E7 |G-7 C7 |Fj7   |Em7b5 A7 |Dj7   |Em7b5 A7 ||
+A2: ||D-6   |Em7b5 A79b |D-6   |Em7b5 A79b |D-6   |Am7b5 D79b |G-7   |G-7   |B-7 E7 |G-7 C7 |Fj7   |Em7b5 A7 |Dj7   |Dj7   ||
+B1: ||Am7b5   |D79b   |G-6   |G-6   |Gm7b5   |C79b   |Fj7   |Em7b5 A79b ||
+A3: ||D-6   |Em7b5 A79b |D-6   |Em7b5 A79b |D-6   |Bb7 A7 |D-6   |Em7b5 A7 ||
+

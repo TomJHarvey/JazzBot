@@ -1,0 +1,5 @@
+A1: ||Bbj7   |Eb7   |Ab7   |G7   |C7   |C7   |C-7   |F7   ||
+A2: ||Bbj7   |Eb7   |Ab7   |G7   |C7   |C-7 F7 |Bb6   |Bb6   ||
+B1: ||Am7b5 D7 |G-6   |G-6 D7 |G-6   |Am7b5 D7 |G-7   |C7   |F7   ||
+A3: ||Bbj7   |Eb7   |Ab7   |G7   |C7   |C-7 F7 |Bb6   |F7   ||
+

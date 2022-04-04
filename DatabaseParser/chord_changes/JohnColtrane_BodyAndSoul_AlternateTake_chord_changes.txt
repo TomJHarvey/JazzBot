@@ -1,0 +1,4 @@
+A1: ||Eb- Eb-j7Eb-7|Ab7   |Eb- Eb-j7Eb-7|Ab7   |Db/Ab   |F+/Ab G+/Ab |F-7/Ab   |E-7 A7 |Absus   |Absus   |Ab7   |B7911#   |F+/Ab G+/Ab |F+/Ab G+/Ab |F+/Ab Ab79b |Db F79b13bBb+7||
+A2: ||Eb- Eb-j7Eb-7|Ab7   |Eb- Eb-j7Eb-7|Ab7   |Db/Ab   |F+/Ab G+/Ab |F-7/Ab   |E-7 A7 |Absus   |Absus   |Ab7   |B7911#   |F+/Ab G+/Ab |F+/Ab G+/Ab |F+/Ab Ab79b |Db E-7A7||
+B1: ||Dj7   |E-7   |D/F#   |G-7 C7 |Dj7 F7 |Bbj7 Db7 |Gbj7 A7 |Dj7   |Dm7b5   |G79b   |Cj7   |Eb7   |Ab7 B7 |Ej7 G7 |Cj7 B7 |Bbsus Bb7 ||
+

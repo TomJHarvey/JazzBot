@@ -1,0 +1,5 @@
+A1: ||G   |C7   |G   |F7 E-7 |A-7   |C#-7 F#7 |G Go |A-7 D7 ||
+A2: ||G   |C7   |G   |F7 E-7 |A-7   |C#-7 F#7 |G Go |A-7 D7 ||
+B1: ||F#-7   |B7   |E-   |F#-7 B7 |E-   |A7   |A-7   |D7   ||
+A3: ||G   |C7   |G   |F7 E7 |Eb7 D7 |A-7 D7 |G   |A-7 D7 |G   |G   |G   ||
+

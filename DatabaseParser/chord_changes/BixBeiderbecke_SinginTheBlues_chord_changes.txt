@@ -1,0 +1,4 @@
+A1: ||F-7   |F-7 Bb7 |Eb   |EbAbEbEbo|Bb7   |Bb7   |Eb   |Eb EboEb||
+B1: ||G7  D-7|G7 CoFo|C7   |C7   |C- C-7 |F7   |Bb7   |Bb7  Ebo||
+C1: ||F-7   |F-7 Bb7 |Eb   |Eb FoEbo|Eo   |Eo C7 |F-  C7|F- C7F-|F-7   |Ebo   |Eb   |Eo C7 |F7   |F7 Bb7 |Eb   |Eb   ||
+

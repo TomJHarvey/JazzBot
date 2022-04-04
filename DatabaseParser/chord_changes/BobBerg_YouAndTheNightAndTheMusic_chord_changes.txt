@@ -1,0 +1,5 @@
+A1: ||C-69   |Dm7b5 G7 |Gm7b5 C79b |F-6   |Dm7b5   |G79b   |Cj7   |Dm7b5 G7 ||
+A2: ||C-69   |Dm7b5 G7 |Gm7b5 C79b |F-6   |Dm7b5   |G79b   |Cj7   |C7   ||
+B1: ||Ab7   |Am7b5 D79b |G7   |G7   |Ab7   |Am7b5 D79b |G7 Ab7 |G7 Db7911# ||
+A3: ||C-69   |Dm7b5 G7 |Gm7b5 C79b |F-6   |Dm7b5 G79b |C-7 Am7b5 |Ab7 G7 |C-69   ||
+

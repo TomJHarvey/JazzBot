@@ -1,0 +1,6 @@
+A1: ||G-79 F-79 |G-79 F-79 |C-79 Bb-79 |Gb79   |G-79 F-79 |G-79 F-79 |C-79 Bb-79 |Gbj79   |Abj79   |Abj79   |Ab-79   |Db79 G7911# |Gbj79   |Gbj79   |B79   |Esus79 E79 ||
+B1: ||C-79 Bb-79 |C-79 Bb-79 |Gbj79 Ej7 |Dj7911#   |C-79 Bb-79 |C-79 Bb-79 |Gbj7 Ej7 |Dj7911#   |Bsus7 Asus7 |Bsus7 Asus7 |Gsus7 Fsus7 |Gsus7 Fsus7 |Bb-7   ||
+C1: ||A-7911   |A-7911   |A-7911 A6 |A6   |A6 Bb79 |Bb79   |Bb6 Ab-7 |Gsus7 Absus7 ||
+A2: ||G-79 F-79 |G-79 F-79 |C-7 Bb-7 |Gbj79   |G-79 F-79 |G-79 F-79 |C-79 Bb-79 |Gbj79   |Abj79   |Abj79   |Ab-79   |Db79 G7911# |Gbj79   |Gbj79   |B79   |E79   |C-79 Bb-79 |C-79 Bb79 |Gbj7 Ej7 |Dj7911#   |C-79 Bb-79 |C-79 Bb-79 |Gbj7 Ej7 |Ej7911#   |Csus7 Absus7 |Absus7   |Csus7 Absus7 |Csus7 Absus7 |Absus7   |Csus7   |Absus7   |Csus7 Absus7 ||
+I1:
+

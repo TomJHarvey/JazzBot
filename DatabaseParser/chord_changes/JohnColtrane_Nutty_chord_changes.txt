@@ -1,0 +1,5 @@
+A1: ||Bbj7 G79b/B |C-7 F7 |Bbj7 G7 |C-7 F7 |Bbj7 G79b/B |C-7 F7 |Bbj7   |C-7 F7 ||
+A2: ||Bbj7 G79b/B |C-7 F7 |Bbj7 G7 |C-7 F7 |Bbj7 G79b/B |C-7 F7 |Bbj7   |F-7 Bb7 ||
+B1: ||Ebj7 C79b |F-7 Bb7 |Ebj7 C7 |F-7 Bb7 |Ebj7 C79b |F-7 Bb7 |Ebj7   |C-7 F7 ||
+A3: ||Bbj7 G79b |C-7 F7 |Bbj7 G7 |C-7 F7 |Bbj7 G79b |C-7 F7 |Bbj7   |Bbj7   ||
+

@@ -1,0 +1,5 @@
+A1: ||D-7   |G7   |Cj7 F7 |E-7 A-7 |C-7   |F7   |Bb7   |B7   ||
+A2: ||D-7   |G7   |Cj7 F7 |E-7 A-7 |C-7   |B7   |Dm7b5   |G79b   ||
+B1: ||Cm7b5   |F7   |D-7   |G79b   |Cm7b5   |F7   |E-7 A-7 |Eb-7 Ab-7 ||
+A3: ||D-7   |G7   |Cj7 F7 |E-7 A-7 |C-7   |F7   |Bb6   |B7913   ||
+

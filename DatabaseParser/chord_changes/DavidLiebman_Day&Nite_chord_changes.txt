@@ -1,0 +1,4 @@
+A1: ||Bj7911#   |Bb79b13b   |Ebj7911#   |Ebj7911#   |Bj7911#   |Bb79b13b   |Ebj7911#   |Ebj7911#   |Am7b5   |Ab-7   |G-7   |Gb-7   |F-7   |Ej7911#   |D/Eb   |D/Eb   ||
+A2: ||Bj7911#   |Bb79b13b   |Ebj7911#   |Ebj7911#   |Bj7911#   |Bb79b13b   |Bb79b13bEbj7911#  |Ebj7911#   |Am7b5   |Ab-7   |G-7   |Gb-7   |F-7   |Ebj7911#   |D/Eb   |D/Eb   ||
+B1: ||Db-7/Gb   |Db-7/Gb   |Bb-7/Eb   |Bb-7/Eb   |Db-7/Gb   |Db-7/Gb   |Bb-7/Eb   |Bb-7/Eb   |Am7b5   |Ab-7   |G-7   |Gb-7   |F-7   |Ej7911#   |D/Eb   |D/Eb   ||
+

@@ -1,0 +1,5 @@
+A1: ||Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   ||
+A2: ||Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   ||
+B1: ||Bb7   |Bb7   |Eb7   |Eb7   |Ab7   |Ab7   |Db7   |Db7   ||
+A3: ||Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus   |Bbsus  ||
+

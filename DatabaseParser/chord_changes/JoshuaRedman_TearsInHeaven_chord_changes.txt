@@ -1,0 +1,4 @@
+A1: ||Bb F/A |G- G-/F |Eb/G Bb/F |F  F7|Bb F/A |G- G-/F |Eb/G Bb/F |F F#o ||
+B1: ||G-   |D/F#   |F-   |G7   |C-   |Fsus   |Bb F/A |G- G-/F |Eb/G FsusF|Bb Absus7Ab7||
+C1: ||Db Co |Bb- Eb/G |Ab Eb/GC|F- Ab |Db Co |Bb- Eb/G |Ab Go |F7   ||
+

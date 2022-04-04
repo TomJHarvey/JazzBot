@@ -1,0 +1,3 @@
+A1: ||Ab   |Ab   |Ab   |Ab   |Ab   |Ab   |Eb7   |Eb7   |Eb7   |Eb7   |Eb7   |Eb7   |Eb7   |Eb7   |Ab   |Ab   ||
+B1: ||Ab   |Ab   |Ab   |Ab   |Ab7   |Ab7   |Db   |Db   |Db   |Db-   |Ab   |F7   |Bb7   |Eb7   |Ab   |Ab   |Ab   |Ab   ||
+

@@ -1,0 +1,4 @@
+A1: ||F6   |Abo   |G-7   |C7   |G-7 G-/F |Gm7b5 C7 |F6   |E7 A7 |D-7   |Bm7b5 E7 |A-7   |Fm7b5 F-7 |E-7 A7 |D-7 G7 |C7   |G-7 C7 ||
+B1: ||F6   |Abo   |G-7   |C7   |G-7 G-7/F |Gm7b5 C7 |F6 D-7 |C-7 F7 |Bbj7   |Em7b5 A79b |D-7   |Bm7b5 Bb-7 |A-7 D7 |G-79b C79b |A-7 D7 |G-7 C7 ||
+I1: ||F6   ||
+
