@@ -173,8 +173,6 @@ MidiFileGenerator::writeSequence(const CsvTable& note_information) // TODO: this
                         if (midi_tick_duration <= 0) // TODO: investiate why this happens for different files each time
                         {
                             std::cout << "Invalid duration: " << midi_tick_duration << " :" << m_output_file_path << std::endl;
-                            std::cout << note_duration << std::endl;
-                            std::cout << note_onset << std::endl;
                             return false;
                         }
 

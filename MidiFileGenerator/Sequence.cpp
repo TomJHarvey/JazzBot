@@ -33,6 +33,13 @@ Sequence::setBeatInformation(const float& bar_onset,
         }
         previous_beat_onset = beat_onset;
     }
+    
+    // make the last bars beats equal to the previous bars beats
+    // this is needed because the information for the next bar onset is not give
+    for (int index = 0 ; index < m_time_signature_quarter_note; index ++)
+    {
+        m_beat_lengths.push_back(m_beat_lengths.back());
+    }
 }
 
 bool

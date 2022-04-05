@@ -40,7 +40,7 @@ generateMidiFiles(const juce::String& project_path,
         }
         else
         {
-            // std::cout << "Failed to set beat information for file: " << output_file_path << std::endl;
+            std::cout << "Failed to set beat information for file: " << output_file_path << std::endl;
         }
     }
 }
