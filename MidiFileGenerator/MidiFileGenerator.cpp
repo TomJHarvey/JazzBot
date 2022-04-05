@@ -17,25 +17,19 @@ static const int note_velocity = 127;
 static const int juce_message_on = 0x90;
 static const int juce_message_off = 0x80;
 
-static const int time_signature_quarter_note = 4; // this will be obtained from file
 
-MidiFileGenerator::MidiFileGenerator(const juce::String& project_path,
-                                     const std::string& bar_onset_file_name,
-                                     const std::string& note_onset_file_name)
-    : m_project_path(project_path)
-    , m_bar_onset_file_name(bar_onset_file_name)
-    , m_note_onset_file_name(note_onset_file_name)
-    , m_sequence(time_signature_quarter_note)
+MidiFileGenerator::MidiFileGenerator(const juce::String& output_directory_path,
+                                     const juce::String& output_file_path,
+                                     const TimeSignature& time_signature)
+    : m_output_directory_path(output_directory_path)
+    , m_output_file_path(output_file_path)
+    , m_sequence(static_cast<int>(time_signature))
 {
-    // TODO: init sequence with the time sig quarter note from file
 }
 
 bool
-MidiFileGenerator::setBeatInformation()
+MidiFileGenerator::setBeatInformation(const CsvTable& bar_information)
 {
-    std::vector<std::vector<std::string>> bar_information =
-        Utility::parseCsvFile(m_bar_onset_file_name);
-
     if (!bar_information.empty())
     {
         float previous_beat_onset = -1.0f;
@@ -125,43 +119,34 @@ MidiFileGenerator::calculateQuarterNoteIncrement(float& quarter_note_increment,
     return true;
 }
 
-void
-MidiFileGenerator::initMidiFile()
-{
-    m_midi_file.setTicksPerQuarterNote(m_sequence.getPpqn());
-    //TODO: this needs to be in an output folder and to override a file with the same name
-    juce::File file_location = m_project_path + juce::String("/test41") + juce::String(".mid");
-    m_midi_file_output = file_location;
-}
-
 bool
-MidiFileGenerator::writeSequence() // TODO: this can return false if something fails in function
+MidiFileGenerator::writeSequence(const CsvTable& note_information) // TODO: this can return false if something fails in function
 {
-    std::vector<std::vector<std::string>> note_information =
-        Utility::parseCsvFile(m_note_onset_file_name);
     if (!note_information.empty())
     {
         float previous_note_onset = -1.0f;
-        for (std::size_t i = 0; i < note_information.size(); i++)
+        for (std::size_t index = 0; index < note_information.size(); index++)
         {
-            if (i != 0) // ignore csv file headings
+            if (index != 0) // ignore csv file headings
             {
-                if (note_information[i].size() == 3)
+                if (note_information[index].size() == 3)
                 {
                     float note_onset = 0.0f;
-                    if (!Utility::validStofConversion(note_information[i][note_onset_index], note_onset))
+                    if (!Utility::validStofConversion(note_information[index][note_onset_index],
+                                                      note_onset))
                     {
                         return false;
                     }
                     if (m_sequence.isNoteBeforeFirstBar(note_onset))
                     {
                         // TODO: store the note values before first bar, just not durations
-                        std::cout << "Notes before first bar will not be included" << std::endl;
+                        //std::cout << "Notes before first bar will not be included" << std::endl;
                     }
                     else
                     {
                         float note_duration = 0.0f;
-                        if (!Utility::validStofConversion(note_information[i][note_duration_index], note_duration))
+                        if (!Utility::validStofConversion(note_information[index][note_duration_index],
+                                                          note_duration))
                         {
                             return false;
                         }
@@ -183,15 +168,18 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
                         
                         float midi_tick_onset = m_sequence.getMidiTickOnset(note_onset);
                         
-                        float midi_tick_duration = m_sequence.getMidiTickDuration(note_duration,note_onset);
-                        if (midi_tick_duration <= 0)
+                        float midi_tick_duration = m_sequence.getMidiTickDuration(note_duration,
+                                                                                  note_onset);
+                        if (midi_tick_duration <= 0) // TODO: investiate why this happens for different files each time
                         {
-                            std::cout << "Invalid duration: " << midi_tick_duration << std::endl;
+                            std::cout << "Invalid duration: " << midi_tick_duration << " :" << m_output_file_path << std::endl;
+                            std::cout << note_duration << std::endl;
+                            std::cout << note_onset << std::endl;
                             return false;
                         }
 
                         int note_value = -1;
-                        if (!Utility::validStoiConversion(note_information[i][note_value_index], note_value))
+                        if (!Utility::validStoiConversion(note_information[index][note_value_index], note_value))
                         {
                             std::cout << "Invalid note: " << midi_tick_duration << std::endl;
                             return false;
@@ -212,6 +200,21 @@ MidiFileGenerator::writeSequence() // TODO: this can return false if something f
         m_midi_file.addTrack(m_midi_sequence);
     }
     return true;
+}
+
+void
+MidiFileGenerator::initMidiFile()
+{
+    m_midi_file.setTicksPerQuarterNote(m_sequence.getPpqn());
+    juce::File output_directory = m_output_directory_path;
+    if (!output_directory.isDirectory())
+    {
+        std::cout << "creating directory " << output_directory.getFileName() << std::endl;
+        output_directory.createDirectory();
+    }
+
+    juce::File file_location = m_output_directory_path + m_output_file_path + juce::String(".mid");
+    m_midi_file_output = file_location;
 }
 
 bool

@@ -10,6 +10,8 @@
 
 #include "Sequence.hpp"
 
+#include "SongInformation.hpp"
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -17,15 +19,19 @@
 #include <juce_core/juce_core.h>
 #include <juce_audio_basics/juce_audio_basics.h>
 
+using CsvTable = std::vector<std::vector<std::string>>;
+
+// This class generates a midi sequence based off a sequence of note durations, onsets and values.
+
 class MidiFileGenerator
 {
 public:
-    MidiFileGenerator(const juce::String& project_path,
-                      const std::string& bar_onset_file_name,
-                      const std::string& note_onset_file_name);
-    bool setBeatInformation();
+    MidiFileGenerator(const juce::String& output_directory_path,
+                      const juce::String& output_file_path,
+                      const TimeSignature& time_signature);
+    bool setBeatInformation(const CsvTable& bar_information);
+    bool writeSequence(const CsvTable& note_information);
     void initMidiFile();
-    bool writeSequence();
     bool writeMidiFile() const;
     
 private:
@@ -40,9 +46,8 @@ private:
     static bool validStofConversion(const std::string& value_to_convert, float& converted_value);
     
 private:
-    juce::String m_project_path;
-    std::string m_bar_onset_file_name;
-    std::string m_note_onset_file_name;
+    juce::String m_output_directory_path;
+    juce::String m_output_file_path;
     juce::MidiFile m_midi_file;
     juce::MidiMessageSequence m_midi_sequence;
     juce::File m_midi_file_output;

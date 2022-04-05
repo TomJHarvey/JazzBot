@@ -62,8 +62,6 @@ def downdown_song_information(database_soup):
 
         table = song_synopsis_soup.find('table')
         rows = table.find_all('tr')
-        print("new")
-        counter = 0
         song_info = []
         for row in rows:
             cols = row.find_all('td')
@@ -71,13 +69,27 @@ def downdown_song_information(database_soup):
 
         song_info_line = file_name.replace('_FINAL.pdf', '')
 
-        song_info_to_write = song_info_line + '\n' + song_info[0] + '\n' + song_info[8] + '\n' + song_info[9] + '\n'
+        instrument = "no_instrument"
+        key = "no_key"
+        time_signature = "no_time_signature"
+
+        if len(song_info[0]) != 0:
+            instrument = song_info[0]
+        else:
+            print(instrument)
+        if len(song_info[8]) != 0:
+            key = song_info[8]
+        else:
+            print(key)
+        if len(song_info[9]) != 0:
+            time_signature = song_info[9]
+        else:
+            print(time_signature)
+
+        song_info_to_write = song_info_line + '\n' + instrument + '\n' + key + '\n' + time_signature + '\n'
         song_info_file_name = file_name.replace('_FINAL.pdf', '_song_information.txt')
 
         write_text_to_file(song_info_to_write, song_info_file_name, "song_information")
-
-
-
 
 
 # def download_midi(database_soup):

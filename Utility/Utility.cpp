@@ -26,14 +26,14 @@ Utility::parseCsvFile(std::string file_name)
     }
     else
     {
-        std::cout << "Could not open the file\n" << std::endl;;
+        std::cout << "Could not open the file: " << file_name << std::endl;;
     }
     return content;
 }
 
 bool
 Utility::validStofConversion(const std::string& value_to_convert,
-                            float& converted_value)
+                             float& converted_value)
 {
     try{
         converted_value = stof(value_to_convert);

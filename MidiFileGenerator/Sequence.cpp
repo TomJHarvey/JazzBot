@@ -20,7 +20,6 @@ Sequence::setBeatInformation(const float& bar_onset,
                              const float& quarter_note_increment,
                              float& previous_beat_onset)
 {
-    
     // set the onset and length for each quarter note in the current bar
     for (int quater_note_index = 0;
          quater_note_index < m_time_signature_quarter_note;

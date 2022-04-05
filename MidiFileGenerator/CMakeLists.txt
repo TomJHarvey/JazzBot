@@ -11,6 +11,7 @@ target_sources(MidiFileGenerator
         Main.cpp
         MidiFileGenerator.cpp
         Sequence.cpp
+        SongInformation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../Utility/Utility.cpp)
 
 target_compile_definitions(MidiFileGenerator
