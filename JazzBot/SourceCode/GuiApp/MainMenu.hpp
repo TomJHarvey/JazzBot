@@ -20,18 +20,19 @@ enum class MenuItem
     view_sequence
 };
 
-class MainMenuListener
-{
-public:
-    virtual void menuItemSelected(const MenuItem& menu_selection) = 0;
-    
-};
-
 class MainMenu: public juce::Component,
                 public juce::Button::Listener
 {
 public:
-    MainMenu(MainMenuListener* menu_listener);
+    
+    class Listener
+    {
+    public:
+        virtual void menuItemSelected(const MenuItem& menu_selection) = 0;
+        
+    };
+    
+    MainMenu(Listener* menu_listener);
     // virtual ~MainMenu();
     void paint (juce::Graphics& g) override;
     void resized() override;
@@ -39,7 +40,7 @@ public:
     
 private:
     juce::TextButton m_menu_items[menu_items_size];
-    MainMenuListener* m_main_menu_listener;
+    Listener* m_main_menu_listener;
 };
 
 

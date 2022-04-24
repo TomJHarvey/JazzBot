@@ -7,6 +7,8 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 
 #include "MainMenu.hpp"
+#include "TrainingDataView.hpp"
+#include "TrainingDataToolBar.hpp"
 
 //==============================================================================
 /*
@@ -14,7 +16,8 @@
     your controls and content.
 */
 class MainComponent : public juce::Component
-                    , public MainMenuListener
+                    , public MainMenu::Listener
+                    , public TrainingDataToolBar::Listener
 {
 public:
     //==============================================================================
@@ -25,11 +28,13 @@ public:
     void resized() override;
     
     void menuItemSelected(const MenuItem& menu_selection) override;
+    void returnToMainMenu() override;
 
 private:
     // juce::TextButton menu_items[
     
     MainMenu m_main_menu;
+    TrainingDataView m_training_data_view;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

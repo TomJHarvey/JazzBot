@@ -7,8 +7,9 @@ static const int main_menu_y_position_scaling = 6;
 //==============================================================================
 MainComponent::MainComponent()
     : m_main_menu(this)
+    , m_training_data_view(this)
 {
-    setSize (window_size, window_size);
+    setSize(window_size, window_size);
     addAndMakeVisible(m_main_menu);
 }
 
@@ -29,14 +30,25 @@ MainComponent::menuItemSelected(const MenuItem& menu_selection)
     removeChildComponent(&m_main_menu);
     switch (menu_selection) {
         case MenuItem::view_test_data:
+            m_training_data_view.setBounds(0, 0, getWidth(), getHeight());
+            addAndMakeVisible(m_training_data_view);
             break;
         case MenuItem::generate_sequence:
+            addAndMakeVisible(m_main_menu); // tmp
             break;
         case MenuItem::view_sequence:
+            addAndMakeVisible(m_main_menu); // tmp
             break;
         default:
             break;
     }
+}
+
+void
+MainComponent::returnToMainMenu()
+{
+    removeChildComponent(&m_training_data_view);
+    addAndMakeVisible(m_main_menu);
 }
 
 void

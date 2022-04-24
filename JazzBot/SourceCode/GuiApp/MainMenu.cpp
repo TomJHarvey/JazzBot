@@ -20,7 +20,7 @@ static const int button_y_spacing = 185;
 static const int button_x_pos = 30;
 static const int button_height = 120;
 
-MainMenu::MainMenu(MainMenuListener* menu_listener)
+MainMenu::MainMenu(Listener* menu_listener)
     : m_main_menu_listener(menu_listener)
 {
     setSize (350, 650);
