@@ -1,12 +1,12 @@
-# Build steps for MidiFileGenerator
+# Build steps for MidiFileBpmCorrector
 
 cmake_minimum_required(VERSION 3.12)
-project(MIDI_FILE_GENERATOR VERSION 0.0.1)
+project(MIDI_FILE_BPM_Corrector VERSION 0.0.1)
 add_subdirectory(JUCE)
-juce_add_console_app(MidiFileGenerator
-    PRODUCT_NAME "Midi File Generator")
+juce_add_console_app(MidiFileBpmCorrector
+    PRODUCT_NAME "Midi File Corrector")
 
-target_sources(MidiFileGenerator
+target_sources(MidiFileBpmCorrector
     PRIVATE
         Main.cpp
         MidiFileGenerator.cpp
@@ -14,12 +14,12 @@ target_sources(MidiFileGenerator
         SongInformation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../Utility/Utility.cpp)
 
-target_compile_definitions(MidiFileGenerator
+target_compile_definitions(MidiFileBpmCorrector
     PRIVATE
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0)
 
-target_link_libraries(MidiFileGenerator
+target_link_libraries(MidiFileBpmCorrector
     PRIVATE   
         juce::juce_core
         juce::juce_audio_basics
