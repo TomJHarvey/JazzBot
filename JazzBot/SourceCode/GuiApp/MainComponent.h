@@ -6,12 +6,15 @@
 // you could `#include <JuceHeader.h>` here instead, to make all your module headers visible.
 #include <juce_gui_extra/juce_gui_extra.h>
 
+#include "MainMenu.hpp"
+
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
 class MainComponent : public juce::Component
+                    , public MainMenuListener
 {
 public:
     //==============================================================================
@@ -20,10 +23,13 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    
+    void menuItemSelected(const MenuItem& menu_selection) override;
 
 private:
-    //==============================================================================
-    // Your private member variables go here...
+    // juce::TextButton menu_items[
+    
+    MainMenu m_main_menu;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
