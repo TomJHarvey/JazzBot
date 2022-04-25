@@ -6,7 +6,6 @@
 //
 
 #include "MainMenu.hpp"
-
 #include <string>
 
 static const char* view_test_data_text = "View Test Data";
@@ -15,6 +14,7 @@ static const char* view_sequence = "View Sequence";
 std::string menu_items_text[menu_items_size] = {view_test_data_text,
                                                 generate_sequence_text,
                                                 view_sequence};
+
 static const int button_y_pos = 60;
 static const int button_y_spacing = 185;
 static const int button_x_pos = 30;
@@ -33,11 +33,6 @@ MainMenu::MainMenu(Listener* menu_listener)
     }
 }
 
-//MainMenu::~MainMenu()
-//{
-//    m_main_menu_listener = nullptr;
-//}
-
 void
 MainMenu::buttonClicked(juce::Button* button)
 {
@@ -53,7 +48,6 @@ MainMenu::buttonClicked(juce::Button* button)
 void
 MainMenu::resized()
 {
-    // fixed size;
 }
 
 void

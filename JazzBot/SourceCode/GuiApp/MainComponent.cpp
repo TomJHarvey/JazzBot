@@ -17,11 +17,7 @@ MainComponent::MainComponent()
 void
 MainComponent::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (juce::Colours::purple);
-    g.setFont (juce::Font (16.0f));
-    g.setColour (juce::Colours::white);
-    g.drawText ("Gui app functionality to be completed", getLocalBounds(), juce::Justification::centred, true);
 }
 
 void
@@ -58,6 +54,7 @@ MainComponent::resized()
                                             getHeight()/main_menu_y_position_scaling,
                                             m_main_menu.getWidth(),
                                             m_main_menu.getHeight());
+    m_training_data_view.setBounds(0, 0, getWidth(), getHeight());
     
     int w = getWidth();
     int h = getHeight();

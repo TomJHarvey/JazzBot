@@ -7,18 +7,16 @@
 
 #include "TrainingDataToolBar.hpp"
 
-static const char* return_to_menu_text = "Main menu";
-
+static const char* return_to_menu_text = "Main Menu";
 
 TrainingDataToolBar::TrainingDataToolBar(Listener* listener)
     : m_listener(listener)
 {
     return_to_menu_button.addListener(this);
-    return_to_menu_button.setBounds(0, 0, 80, 100);
+    return_to_menu_button.setBounds(0, 0, 80, 45);
     return_to_menu_button.setButtonText(return_to_menu_text);
     addAndMakeVisible(return_to_menu_button);
 }
-
 
 void
 TrainingDataToolBar::buttonClicked(juce::Button* button)

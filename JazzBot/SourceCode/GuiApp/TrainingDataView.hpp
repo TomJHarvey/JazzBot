@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <juce_gui_extra/juce_gui_extra.h>
+#include "MidiSequenceView.hpp"
 #include "TrainingDataToolBar.hpp"
 
 class TrainingDataView : public juce::Component
@@ -20,6 +21,8 @@ public:
     void resized() override;
 private:
     TrainingDataToolBar m_toolbar;
+    MidiSequenceView m_original_sequence;
+    MidiSequenceView m_modified_sequence;
 };
 
 #endif /* TrainingDataView_hpp */
