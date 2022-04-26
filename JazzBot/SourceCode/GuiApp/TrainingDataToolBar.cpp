@@ -45,9 +45,9 @@ TrainingDataToolBar::buttonClicked(juce::Button* button)
         juce::FileChooser chooser{"Please load a File", default_file_path};
         if (chooser.browseForFileToOpen())
         {
-            auto file = chooser.getResult();
-            //m_original_sequence
-            
+            auto midi_file = chooser.getResult();
+            // output if not a midifile, needs a check
+            m_original_sequence.loadSequence(midi_file);
         }
     }
 }

@@ -17,8 +17,20 @@ MidiSequenceView::MidiSequenceView()
     m_piano_view_port.setViewedComponent(&m_piano_roll, false);
     m_piano_view_port.setScrollBarsShown(true,true);
     addAndMakeVisible(m_piano_view_port);
-    
 }
+
+void
+MidiSequenceView::loadSequence(const juce::File& midi_file)
+{
+    // Then have the sequence loaded into a data structure, then printed into the piano roll.
+    // If sequence in piano roll, remove all notes, load a new sequence.
+    
+     if (MidiFileUtility::parseMidiFile(midi_file, m_midi_sequence))
+     {
+         // load it into piano roll
+     }
+}
+
 void
 MidiSequenceView::resized()
 {

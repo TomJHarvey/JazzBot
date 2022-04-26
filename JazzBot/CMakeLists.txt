@@ -27,7 +27,7 @@ set(GUI_SOURCES SourceCode/GuiApp/MainComponent.cpp
                 SourceCode/GuiApp/TrainingDataToolBar.cpp
                 SourceCode/GuiApp/TrainingDataView.cpp)
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
-set(COMMON_SOURCES SourceCode/main.cpp)
+set(COMMON_SOURCES SourceCode/main.cpp SourceCode/MidiFileUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 
 #Useful to keep for future on how to include common directories
@@ -72,6 +72,7 @@ target_link_libraries(JazzBotGui
     PRIVATE
         # GuiApp            # If we'd created a binary data target, we'd link to it here
         juce::juce_gui_extra
+        juce::juce_audio_basics
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
@@ -81,7 +82,7 @@ target_link_libraries(JazzBotCommandLine
     PRIVATE
         # CommandLineApp            # If you'd created a binary data target, you'd link to it here
         juce::juce_core
-        #juce::juce_audio_basics
+        juce::juce_audio_basics
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags)
