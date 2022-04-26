@@ -22,7 +22,6 @@ juce_add_console_app(JazzBotCommandLine
 
 set(GUI_SOURCES SourceCode/GuiApp/MainComponent.cpp
                 SourceCode/GuiApp/MainMenu.cpp
-                SourceCode/GuiApp/MidiFileToolBar.cpp
                 SourceCode/GuiApp/PianoRoll.cpp
                 SourceCode/GuiApp/MidiSequenceView.cpp
                 SourceCode/GuiApp/TrainingDataToolBar.cpp
@@ -49,6 +48,7 @@ target_sources(JazzBotCommandLine
             ${COMMON_SOURCES})
 
 set(PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR})
+set(MIDI_FILES_DIRECTORY ${CMAKE_SOURCE_DIR}../)
 
 target_compile_definitions(JazzBotGui
     PRIVATE
@@ -57,7 +57,9 @@ target_compile_definitions(JazzBotGui
         JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
         JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:JazzBotGui,JUCE_PRODUCT_NAME>"
         JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:JazzBotGui,JUCE_VERSION>"
-        GUI_APP=1)
+        GUI_APP=1
+        "PROJECT_DIRECTORY=\"${PROJECT_DIRECTORY}\""
+        "MIDI_FILES_DIRECTORY=\"${MIDI_FILES_DIRECTORY}\"")
         
 target_compile_definitions(JazzBotCommandLine
     PRIVATE

@@ -12,7 +12,7 @@ static const int midi_sequence_view_height = 450;
 
 
 TrainingDataView::TrainingDataView(TrainingDataToolBar::Listener* m_toolbar_listener)
-    : m_toolbar(m_toolbar_listener)
+    : m_toolbar(m_toolbar_listener, &m_original_sequence, &m_modified_sequence)
 {
     addAndMakeVisible(m_original_sequence);
     addAndMakeVisible(m_modified_sequence);

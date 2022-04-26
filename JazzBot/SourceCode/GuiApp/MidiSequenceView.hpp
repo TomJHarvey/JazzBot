@@ -20,9 +20,9 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
 private:
-    MidiFileToolBar m_tool_bar;
     PianoRoll m_piano_roll;
     juce::Viewport m_piano_view_port;
+    int m_piano_roll_width;
 };
 
 #endif /* MidiSequenceView_hpp */
