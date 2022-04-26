@@ -17,9 +17,9 @@
 // if scaling were to come into play it may be slightly harder as some of these are ints and not floats.
 static const int number_of_piano_keys = 88;
 static const int grid_line_height = 15;
-static const std::size_t default_number_of_bars = 8;
 static const int keyboard_width = 50;
 static const int bar_line_width = 480;
+static const std::size_t default_number_of_bars = 8;
 
 class PianoRoll : public juce::Component
 {
@@ -45,7 +45,6 @@ private:
     std::size_t m_number_of_bars;
     MidiSequence m_current_sequence;
     Listener* m_listener;
-    
 };
 
 

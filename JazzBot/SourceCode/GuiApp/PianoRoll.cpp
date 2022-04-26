@@ -9,11 +9,10 @@
 #include <unordered_set>
 
 static const int number_of_notes = 12;
-// static const float beat_line_width = 480; // todo
 static const int bar_line_height =  number_of_piano_keys *  grid_line_height;
 static const std::unordered_set<int> black_keys = {0,2,5,7,10};
-
 static const std::size_t m_midi_bar_length = 960;
+// static const float beat_line_width = 480; // todo
 
 PianoRoll::PianoRoll(Listener* listener)
     : m_number_of_bars(default_number_of_bars)
@@ -43,7 +42,7 @@ PianoRoll::drawVerticalLines(const std::size_t& number_of_bars,const std::size_t
 {
     // this needs own function, it can change. change default value
     m_piano_grid_bar_lines.resize(m_number_of_bars); // is this resize safe, does it just chop off the end values?
-    int line_width = keyboard_width + (bar_line_width * (static_cast<int>(index) +1));
+    std::size_t line_width = keyboard_width + (bar_line_width * (index +1));
     for (std::size_t count = index; count < number_of_bars; count ++)
     {
         m_piano_grid_bar_lines[count].startNewSubPath(line_width, 0);
@@ -57,15 +56,14 @@ void
 PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
 {
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
-    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
+    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length)/ 10;
     m_piano_grid_bar_lines.resize(number_of_bars);
-    if (number_of_bars > m_number_of_bars)
-    {
-        drawVerticalLines(number_of_bars, m_number_of_bars);
-    }
-    m_listener->resizeViewPort(getPianoRollWidth(static_cast<int>(number_of_bars)));
+    drawVerticalLines(number_of_bars, m_number_of_bars);
+    m_piano_roll_width = getPianoRollWidth(static_cast<int>(number_of_bars));
+    m_listener->resizeViewPort(m_piano_roll_width);
     m_number_of_bars = number_of_bars;
-    m_piano_roll_width = getPianoRollWidth(m_number_of_bars); // dont need to call twice, sort out all these casts.
+    drawHorizontalLines();
+    repaint();
 }
 
 int
