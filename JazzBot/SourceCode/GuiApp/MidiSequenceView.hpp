@@ -14,12 +14,14 @@
 #include "../MidiFileUtility.hpp"
 
 class MidiSequenceView : public juce::Component
+                       , public PianoRoll::Listener
 {
 public:
     MidiSequenceView();
     void paint(juce::Graphics& g) override;
     void resized() override;
     void loadSequence(const juce::File& midi_file);
+    void resizeViewPort(const int& piano_roll_width) override;
 private:
     PianoRoll m_piano_roll;
     juce::Viewport m_piano_view_port;

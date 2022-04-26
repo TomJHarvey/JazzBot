@@ -11,13 +11,15 @@
 static const int number_of_notes = 12;
 // static const float beat_line_width = 480; // todo
 static const int bar_line_height =  number_of_piano_keys *  grid_line_height;
-
 static const std::unordered_set<int> black_keys = {0,2,5,7,10};
 
-PianoRoll::PianoRoll()
-    : m_piano_roll_width(default_piano_roll_width)
-    , m_number_of_bars(default_number_of_bars)
+static const std::size_t m_midi_bar_length = 960;
+
+PianoRoll::PianoRoll(Listener* listener)
+    : m_number_of_bars(default_number_of_bars)
+    , m_listener(listener)
 {
+    m_piano_roll_width = getPianoRollWidth(default_number_of_bars);
     drawHorizontalLines();
     drawVerticalLines(m_number_of_bars);
 }
@@ -37,18 +39,39 @@ PianoRoll::drawHorizontalLines()
 }
 
 void
-PianoRoll::drawVerticalLines(const std::size_t& number_of_bars)
+PianoRoll::drawVerticalLines(const std::size_t& number_of_bars,const std::size_t& index)
 {
     // this needs own function, it can change. change default value
-    m_piano_grid_bar_lines.resize(number_of_bars); // is this resize safe, does it just chop off the end values?
-    int line_width = keyboard_width;
-    for (std::size_t count = 0; count < number_of_bars; count ++)
+    m_piano_grid_bar_lines.resize(m_number_of_bars); // is this resize safe, does it just chop off the end values?
+    int line_width = keyboard_width + (bar_line_width * (static_cast<int>(index) +1));
+    for (std::size_t count = index; count < number_of_bars; count ++)
     {
         m_piano_grid_bar_lines[count].startNewSubPath(line_width, 0);
         m_piano_grid_bar_lines[count].lineTo(line_width, bar_line_height);
         m_piano_grid_bar_lines[count].closeSubPath();
         line_width += bar_line_width;
     }
+}
+
+void
+PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
+{
+    m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
+    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
+    m_piano_grid_bar_lines.resize(number_of_bars);
+    if (number_of_bars > m_number_of_bars)
+    {
+        drawVerticalLines(number_of_bars, m_number_of_bars);
+    }
+    m_listener->resizeViewPort(getPianoRollWidth(static_cast<int>(number_of_bars)));
+    m_number_of_bars = number_of_bars;
+    m_piano_roll_width = getPianoRollWidth(m_number_of_bars); // dont need to call twice, sort out all these casts.
+}
+
+int
+PianoRoll::getPianoRollWidth(const int &number_of_bars)
+{
+    return (number_of_bars * bar_line_width) + keyboard_width;
 }
 
 void
