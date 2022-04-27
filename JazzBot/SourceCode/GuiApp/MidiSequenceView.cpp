@@ -28,13 +28,42 @@ MidiSequenceView::loadSequence(const juce::File& midi_file)
     
      if (MidiFileUtility::parseMidiFile(midi_file, m_midi_sequence))
      {
-         m_piano_roll.setCurrentSequence(m_midi_sequence);
+         displaySequence();
      }
+}
+
+void
+MidiSequenceView::displaySequence()
+{
+    if (!m_midi_sequence.empty())
+    {
+        m_piano_roll.setCurrentSequence(m_midi_sequence);
+    }
+}
+
+void
+MidiSequenceView::setSequence(const MidiSequence& midi_sequence)
+{
+    m_midi_sequence = midi_sequence;
+}
+
+bool
+MidiSequenceView::getCurrentSequence(MidiSequence& midi_sequence) const
+{
+    if (!m_midi_sequence.empty())
+    {
+        midi_sequence = m_midi_sequence;
+    }
+    return (!midi_sequence.empty());
 }
 
 void
 MidiSequenceView::resizeViewPort(const int& piano_roll_width)
 {
+    int num = m_piano_roll.getNumChildComponents();
+    m_piano_roll.removeAllChildren();
+    m_piano_roll.deleteAllChildren();
+    num = m_piano_roll.getNumChildComponents();
     m_piano_roll_width = piano_roll_width;
     resized();
 }

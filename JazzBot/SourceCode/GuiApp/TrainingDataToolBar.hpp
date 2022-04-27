@@ -35,6 +35,7 @@ private:
     Listener* m_listener;
     juce::TextButton m_return_to_menu_button;
     juce::TextButton m_load_file_button;
+    juce::TextButton display_modified_sequence_button;
     MidiSequenceView& m_original_sequence;
     MidiSequenceView& m_modified_sequence;
 };

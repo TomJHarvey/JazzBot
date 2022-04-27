@@ -32,6 +32,7 @@ public:
     };
     
     PianoRoll(Listener* listener);
+    virtual ~PianoRoll();
     void setCurrentSequence(const MidiSequence& midi_sequence);
     static int getPianoRollWidth(const int& number_of_bars);
     void paint(juce::Graphics& g) override;
@@ -47,8 +48,8 @@ private:
     std::size_t m_number_of_bars;
     MidiSequence m_current_sequence;
     Listener* m_listener;
-    //juce::OwnedArray<GuiNote> m_gui_notes;
-    std::list<GuiNote*> m_gui_notes;
+    juce::OwnedArray<GuiNote> m_gui_notes;
+    //std::list<GuiNote*> m_gui_notes;
     
     GuiNote test_array[3000];
     

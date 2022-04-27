@@ -8,7 +8,6 @@
 #include "PianoRoll.hpp"
 #include <unordered_set>
 
-
 static const int number_of_notes = 12;
 static const int bar_line_height =  number_of_piano_keys *  grid_line_height;
 static const std::unordered_set<int> black_keys = {0,2,5,7,10};
@@ -23,7 +22,18 @@ PianoRoll::PianoRoll(Listener* listener)
     m_piano_roll_width = getPianoRollWidth(default_number_of_bars);
     drawHorizontalLines();
     drawVerticalLines(m_number_of_bars);
+//    test_gui.setBounds(0, 50, 400, 700);
+//    addAndMakeVisible(test_gui);
+}
 
+PianoRoll::~PianoRoll()
+{
+//    for (auto& gui_note: m_gui_notes)
+//    {
+//        removeChildComponent(gui_note);
+//        delete gui_note;
+//    }
+    m_gui_notes.clearQuick(true);
 }
 
 void
@@ -83,59 +93,57 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
 //void
 //PianoRoll::initialiseNotes()
 //{
-//    if (test_counter == 1)
+//    for (auto& gui_note: m_gui_notes)
 //    {
-//
-//        for (auto& gui_note: m_gui_notes)
-//        {
-//            removeChildComponent(gui_note);
-//        }
-//
-//        for (int i = 0; i < num_gui_notes; i++)
-//        {
-//            removeChildComponent(m_gui_notes[i]);
-//            m_gui_notes.remove(i);
-//        }
-//        m_gui_notes.clear();
+//        removeChildComponent(gui_note);
+//        gui_note->setVisible(false);
+//        delete gui_note;
 //    }
-//    test_counter ++;
+//
+////    repaint();
+////    removeChildComponent(&test_gui);
+////    removeAllChildren();
+////    deleteAllChildren();
+//
+//    m_gui_notes.clear();
+//    std::list<GuiNote*>::iterator gui_note_iterator = m_gui_notes.begin();
 //
 //    for (std::size_t index = 0; index < m_current_sequence.size(); index++)
 //    {
-//        m_gui_notes.add(new GuiNote);
+//        m_gui_notes.push_back(new GuiNote);
+//        gui_note_iterator++;
 //        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
 //        int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
-//        int y_pos = (grid_line_height*number_of_midi_note_values) - (grid_line_height * m_current_sequence[index].note_value);
-//        m_gui_notes[static_cast<int>(index)]->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
-//        addAndMakeVisible(m_gui_notes[static_cast<int>(index)]);
+//        int y_pos = (grid_line_height*number_of_midi_note_values) -
+//                    (grid_line_height * m_current_sequence[index].note_value);
+//        (*gui_note_iterator)->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
+//        addAndMakeVisible((*gui_note_iterator));
 //    }
 //}
+
 
 void
 PianoRoll::initialiseNotes()
 {
     for (auto& gui_note: m_gui_notes)
     {
+        gui_note->setVisible(false);
         removeChildComponent(gui_note);
-        delete gui_note;
     }
+    m_gui_notes.clearQuick(true);
+    m_gui_notes.remove(0);
     
-//    removeAllChildren();
-//    deleteAllChildren();
-    
-    m_gui_notes.clear();
-    std::list<GuiNote*>::iterator gui_note_iterator = m_gui_notes.begin();
+    int num = this->getNumChildComponents();
     
     for (std::size_t index = 0; index < m_current_sequence.size(); index++)
     {
-        m_gui_notes.push_back(new GuiNote);
-        gui_note_iterator++;
+        m_gui_notes.add(std::make_unique<GuiNote>());
         int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
         int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
         int y_pos = (grid_line_height*number_of_midi_note_values) -
                     (grid_line_height * m_current_sequence[index].note_value);
-        (*gui_note_iterator)->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
-        addAndMakeVisible((*gui_note_iterator));
+        m_gui_notes[static_cast<int>(index)]->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
+        addAndMakeVisible(m_gui_notes[static_cast<int>(index)]);
     }
 }
 

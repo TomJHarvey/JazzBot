@@ -9,6 +9,7 @@
 
 static const char* return_to_menu_text = "Main Menu";
 static const char* load_file_text = "Load file";
+static const char* modified_sequence_text = "Modified Sequence"; // rename
 
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
@@ -23,7 +24,7 @@ TrainingDataToolBar::TrainingDataToolBar(Listener* listener,
     , m_modified_sequence(*modified_sequence)
 {
     m_return_to_menu_button.addListener(this);
-    m_return_to_menu_button.setBounds(0, 0, 80, 45);
+    m_return_to_menu_button.setBounds(0, 0, 80, 45); // constants when i haev the spacing sorted
     m_return_to_menu_button.setButtonText(return_to_menu_text);
     addAndMakeVisible(m_return_to_menu_button);
     
@@ -31,6 +32,11 @@ TrainingDataToolBar::TrainingDataToolBar(Listener* listener,
     m_load_file_button.setBounds(160, 0, 80, 45);
     m_load_file_button.setButtonText(load_file_text);
     addAndMakeVisible(m_load_file_button);
+    
+    display_modified_sequence_button.addListener(this);
+    display_modified_sequence_button.setBounds(320, 0, 80, 45);
+    display_modified_sequence_button.setButtonText(modified_sequence_text);
+    addAndMakeVisible(display_modified_sequence_button);
 }
 
 void
@@ -48,6 +54,20 @@ TrainingDataToolBar::buttonClicked(juce::Button* button)
             auto midi_file = chooser.getResult();
             // output if not a midifile, needs a check
             m_original_sequence.loadSequence(midi_file);
+        }
+    }
+    else if (button == &display_modified_sequence_button)
+    {
+        MidiSequence original_sequence;
+        if (m_original_sequence.getCurrentSequence(original_sequence))
+        {
+            // this sets it now i can use it in the midi view
+            m_modified_sequence.setSequence(original_sequence);
+            
+            // then there could be another functino to apply the algorithm to the sequence
+            
+            // then it can display the sequence as it is
+            m_modified_sequence.displaySequence();
         }
     }
 }

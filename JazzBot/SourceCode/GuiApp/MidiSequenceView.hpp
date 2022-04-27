@@ -21,6 +21,9 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
     void loadSequence(const juce::File& midi_file);
+    void displaySequence();
+    void setSequence(const MidiSequence& midi_sequence);
+    bool getCurrentSequence(MidiSequence& midi_sequence) const;
     void resizeViewPort(const int& piano_roll_width) override;
 private:
     PianoRoll m_piano_roll;
