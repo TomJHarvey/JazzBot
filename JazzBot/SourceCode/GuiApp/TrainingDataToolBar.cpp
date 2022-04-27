@@ -64,6 +64,7 @@ TrainingDataToolBar::buttonClicked(juce::Button* button)
             // call to a function that searches
             // this will apply the process highlightEigthNoteGroups()
             
+            modified_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(modified_sequence);
             
             // this sets it now i can use it in the midi view
             m_modified_sequence.setSequence(modified_sequence);
