@@ -58,13 +58,15 @@ TrainingDataToolBar::buttonClicked(juce::Button* button)
     }
     else if (button == &display_modified_sequence_button)
     {
-        MidiSequence original_sequence;
-        if (m_original_sequence.getCurrentSequence(original_sequence))
+        MidiSequence modified_sequence;
+        if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            // this sets it now i can use it in the midi view
-            m_modified_sequence.setSequence(original_sequence);
+            // call to a function that searches
+            // this will apply the process highlightEigthNoteGroups()
             
-            // then there could be another functino to apply the algorithm to the sequence
+            
+            // this sets it now i can use it in the midi view
+            m_modified_sequence.setSequence(modified_sequence);
             
             // then it can display the sequence as it is
             m_modified_sequence.displaySequence();

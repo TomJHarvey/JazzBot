@@ -26,8 +26,10 @@ public:
     bool getCurrentSequence(MidiSequence& midi_sequence) const;
     void resizeViewPort(const int& piano_roll_width) override;
 private:
-    PianoRoll m_piano_roll;
-    juce::Viewport m_piano_view_port;
+//    PianoRoll m_piano_roll;
+    std::unique_ptr<PianoRoll> m_piano_roll;
+//    juce::Viewport m_piano_view_port;
+    std::unique_ptr<juce::Viewport> m_piano_view_port;
     int m_piano_roll_width;
     MidiSequence m_midi_sequence;
 };

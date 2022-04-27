@@ -68,6 +68,7 @@ PianoRoll::drawVerticalLines(const std::size_t& number_of_bars,const std::size_t
 void
 PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
 {
+    m_current_sequence.clear();
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
     std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
     
@@ -87,7 +88,7 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     m_piano_roll_width = getPianoRollWidth(static_cast<int>(number_of_bars));
     m_listener->resizeViewPort(m_piano_roll_width);
     initialiseNotes();
-    repaint();
+    //repaint();
 }
 
 //void

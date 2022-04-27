@@ -10,6 +10,8 @@
 #include "TrainingDataView.hpp"
 #include "TrainingDataToolBar.hpp"
 
+#include "PianoRoll.hpp"
+
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -35,6 +37,8 @@ private:
     
     MainMenu m_main_menu;
     TrainingDataView m_training_data_view;
+    
+    //juce::OwnedArray<GuiNote> m_gui_notes;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
