@@ -20,7 +20,8 @@ juce_add_gui_app(JazzBotGui
 juce_add_console_app(JazzBotCommandLine
     PRODUCT_NAME "Console App Example")     # The name of the final executable, which can differ from the target name
 
-set(GUI_SOURCES SourceCode/GuiApp/MainComponent.cpp
+set(GUI_SOURCES SourceCode/GuiApp/GuiNote.cpp
+                SourceCode/GuiApp/MainComponent.cpp
                 SourceCode/GuiApp/MainMenu.cpp
                 SourceCode/GuiApp/PianoRoll.cpp
                 SourceCode/GuiApp/MidiSequenceView.cpp

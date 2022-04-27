@@ -30,6 +30,7 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
             if (midi_event_holder->message.isNoteOn())
             {
                 const double note_on_timestamp = midi_event_holder->message.getTimeStamp();
+
                 current_note_ons.insert(std::make_pair(midi_event_holder->message.getNoteNumber(),
                                                        note_on_timestamp));
             }
@@ -39,12 +40,14 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
                 
                 // retrieve the current notes corresponding note on value
                 double note_on_timestamp = current_note_ons[note_number];
-                
-                double note_off_timestamp = midi_event_holder->message.getTimeStamp();
-                
-                midi_events.push_back({note_number, note_on_timestamp, note_off_timestamp});
-                
-                // erase the note as its no longer being played
+                if (note_on_timestamp != 0)
+                {
+                    double note_off_timestamp = midi_event_holder->message.getTimeStamp();
+                    
+                    midi_events.push_back({note_number, note_on_timestamp, note_off_timestamp});
+                    
+                    // erase the note as its no longer being played
+                }
                 current_note_ons.erase(note_number);
             }
         }

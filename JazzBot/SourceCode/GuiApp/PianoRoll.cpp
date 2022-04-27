@@ -8,10 +8,12 @@
 #include "PianoRoll.hpp"
 #include <unordered_set>
 
+
 static const int number_of_notes = 12;
 static const int bar_line_height =  number_of_piano_keys *  grid_line_height;
 static const std::unordered_set<int> black_keys = {0,2,5,7,10};
-static const std::size_t m_midi_bar_length = 960;
+static const std::size_t m_midi_bar_length = 1920;
+static const int number_of_midi_note_values = 127;
 // static const float beat_line_width = 480; // todo
 
 PianoRoll::PianoRoll(Listener* listener)
@@ -21,6 +23,7 @@ PianoRoll::PianoRoll(Listener* listener)
     m_piano_roll_width = getPianoRollWidth(default_number_of_bars);
     drawHorizontalLines();
     drawVerticalLines(m_number_of_bars);
+
 }
 
 void
@@ -56,14 +59,84 @@ void
 PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
 {
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
-    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length)/ 10;
+    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
+    
     m_piano_grid_bar_lines.resize(number_of_bars);
-    drawVerticalLines(number_of_bars, m_number_of_bars);
-    m_piano_roll_width = getPianoRollWidth(static_cast<int>(number_of_bars));
-    m_listener->resizeViewPort(m_piano_roll_width);
+    if (number_of_bars > m_number_of_bars)
+    {
+        drawVerticalLines(number_of_bars, m_number_of_bars);
+    }
+    else
+    {
+        drawVerticalLines(number_of_bars);
+    }
+    // last bar sometimes cut off, investigate later
     m_number_of_bars = number_of_bars;
     drawHorizontalLines();
+    
+    m_piano_roll_width = getPianoRollWidth(static_cast<int>(number_of_bars));
+    m_listener->resizeViewPort(m_piano_roll_width);
+    initialiseNotes();
     repaint();
+}
+
+//void
+//PianoRoll::initialiseNotes()
+//{
+//    if (test_counter == 1)
+//    {
+//
+//        for (auto& gui_note: m_gui_notes)
+//        {
+//            removeChildComponent(gui_note);
+//        }
+//
+//        for (int i = 0; i < num_gui_notes; i++)
+//        {
+//            removeChildComponent(m_gui_notes[i]);
+//            m_gui_notes.remove(i);
+//        }
+//        m_gui_notes.clear();
+//    }
+//    test_counter ++;
+//
+//    for (std::size_t index = 0; index < m_current_sequence.size(); index++)
+//    {
+//        m_gui_notes.add(new GuiNote);
+//        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
+//        int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
+//        int y_pos = (grid_line_height*number_of_midi_note_values) - (grid_line_height * m_current_sequence[index].note_value);
+//        m_gui_notes[static_cast<int>(index)]->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
+//        addAndMakeVisible(m_gui_notes[static_cast<int>(index)]);
+//    }
+//}
+
+void
+PianoRoll::initialiseNotes()
+{
+    for (auto& gui_note: m_gui_notes)
+    {
+        removeChildComponent(gui_note);
+        delete gui_note;
+    }
+    
+//    removeAllChildren();
+//    deleteAllChildren();
+    
+    m_gui_notes.clear();
+    std::list<GuiNote*>::iterator gui_note_iterator = m_gui_notes.begin();
+    
+    for (std::size_t index = 0; index < m_current_sequence.size(); index++)
+    {
+        m_gui_notes.push_back(new GuiNote);
+        gui_note_iterator++;
+        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
+        int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
+        int y_pos = (grid_line_height*number_of_midi_note_values) -
+                    (grid_line_height * m_current_sequence[index].note_value);
+        (*gui_note_iterator)->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
+        addAndMakeVisible((*gui_note_iterator));
+    }
 }
 
 int
@@ -75,7 +148,7 @@ PianoRoll::getPianoRollWidth(const int &number_of_bars)
 void
 PianoRoll::resized()
 {
-    // set size of child components
+
 }
 
 void

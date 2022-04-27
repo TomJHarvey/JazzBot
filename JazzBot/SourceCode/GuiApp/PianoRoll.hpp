@@ -11,6 +11,7 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 #include <stdio.h>
 
+#include "GuiNote.hpp"
 #include "../MidiFileUtility.hpp"
 
 // Might be better to put these in a constants file specifically for Piano roll and midiSequenceView
@@ -35,6 +36,7 @@ public:
     static int getPianoRollWidth(const int& number_of_bars);
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void initialiseNotes();
 private:
     void drawHorizontalLines();
     void drawVerticalLines(const std::size_t& number_of_bars, const std::size_t& index = 0);
@@ -45,6 +47,13 @@ private:
     std::size_t m_number_of_bars;
     MidiSequence m_current_sequence;
     Listener* m_listener;
+    //juce::OwnedArray<GuiNote> m_gui_notes;
+    std::list<GuiNote*> m_gui_notes;
+    
+    GuiNote test_array[3000];
+    
+    GuiNote test_gui;
+    
 };
 
 
