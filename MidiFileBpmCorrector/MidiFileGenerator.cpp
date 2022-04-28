@@ -10,6 +10,7 @@
 
 static const std::size_t note_information_csv_row_size = 3;
 static const std::size_t bar_onset_index = 2;
+static const std::size_t bar_number_index = 0;
 static const std::size_t note_duration_index = 0;
 static const std::size_t note_onset_index = 1;
 static const std::size_t note_value_index = 2;
@@ -35,6 +36,7 @@ MidiFileGenerator::setBeatInformation(const CsvTable& bar_information)
         float previous_beat_onset = -1.0f;
         float next_bar_onset = -1.0f;
         float previous_bar_onset = -1.0f;
+        bool found_first_bar = false;
         for(std::size_t current_bar = 0; current_bar < bar_information.size(); current_bar++)
         {
             if (bar_information[current_bar].size() == note_information_csv_row_size)
@@ -49,38 +51,55 @@ MidiFileGenerator::setBeatInformation(const CsvTable& bar_information)
                     else
                     {
                         // if first time it will need to convert
+                        float bar_num = 0.0f;
+
                         if (!Utility::validStofConversion(bar_information[current_bar][bar_onset_index],
-                                                          bar_onset))
+                                                          bar_onset) ||
+                            !Utility::validStofConversion(bar_information[current_bar][bar_number_index],
+                                                          bar_num))
+               
                         {
                             return false;
                         }
+                        else if (bar_num <= 0)
+                        {
+                            //std::cout << "pre bar songs " << m_output_file_path << std::endl;
+                            bar_onset = 0.0f;
+                        }
+                        else
+                        {
+                            found_first_bar = true;
+                        }
                     }
-                    if (previous_beat_onset > bar_onset)
+                    if (found_first_bar)
                     {
-                        std::cout << "Non sequential data, current bar onset: " << bar_onset
-                                  << " is bigger than previous beat onset: "
-                                  << previous_beat_onset << std::endl;
-                        return false;
+                        if (previous_beat_onset > bar_onset)
+                        {
+                            std::cout << "Non sequential data, current bar onset: " << bar_onset
+                                      << " is bigger than previous beat onset: "
+                                      << previous_beat_onset << std::endl;
+                            return false;
+                        }
+                        
+                        // calculate the length of a quarter note in the current bar
+                        float quarter_note_increment = 0.0f;
+                        if (!calculateQuarterNoteIncrement(quarter_note_increment,
+                                                           current_bar,
+                                                           bar_information,
+                                                           bar_onset,
+                                                           next_bar_onset,
+                                                           previous_bar_onset))
+                        {
+                            return false;
+                        }
+                        else // set the beat information internally for the sequence for this bar
+                        {
+                            m_sequence.setBeatInformation(bar_onset,
+                                                          quarter_note_increment,
+                                                          previous_beat_onset);
+                        }
+                        previous_bar_onset = bar_onset;
                     }
-                    
-                    // calculate the length of a quarter note in the current bar
-                    float quarter_note_increment = 0.0f;
-                    if (!calculateQuarterNoteIncrement(quarter_note_increment,
-                                                       current_bar,
-                                                       bar_information,
-                                                       bar_onset,
-                                                       next_bar_onset,
-                                                       previous_bar_onset))
-                    {
-                        return false;
-                    }
-                    else // set the beat information internally for the sequence for this bar
-                    {
-                        m_sequence.setBeatInformation(bar_onset,
-                                                      quarter_note_increment,
-                                                      previous_beat_onset);
-                    }
-                    previous_bar_onset = bar_onset;
                 }
             }
         }
