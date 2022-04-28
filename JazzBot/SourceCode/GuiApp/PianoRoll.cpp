@@ -72,6 +72,8 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
     std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
     
+    
+    
     m_piano_grid_bar_lines.resize(number_of_bars);
     if (number_of_bars > m_number_of_bars)
     {

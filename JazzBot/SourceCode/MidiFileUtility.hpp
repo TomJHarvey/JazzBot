@@ -20,7 +20,7 @@ struct MidiNoteEvent
     double duration;
 };
 
-using MidiSequence = std::deque<MidiNoteEvent>;
+using MidiSequence = std::vector<MidiNoteEvent>;
 using BeatMarkers = std::pair<double, bool>;
 
 class MidiFileUtility
@@ -32,12 +32,13 @@ public:
     static MidiSequence getOnlyEigthNoteGroupings(const MidiSequence& midi_events);
     
 private:
-    static std::size_t findEigthNoteGrouping(std::size_t increment,
-                                      const std::size_t& index,
+    static std::size_t findEigthNoteGrouping(std::size_t& increment,
+                                             const std::size_t& index,
                                       const MidiSequence& midi_events,
                                       BeatMarkers& beat_marker_1,
                                       BeatMarkers& beat_marker_2,
-                                      MidiSequence& eigth_notes_midi_sequence);
+                                      MidiSequence& eigth_notes_midi_sequence,
+                                      const bool& first_time); // maybe a better way to do this
 };
 
 #endif /* MidiFileUtility_hpp */
