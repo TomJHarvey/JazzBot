@@ -43,20 +43,16 @@ private:
     void drawHorizontalLines();
     void drawVerticalLines(const std::size_t& number_of_bars, const std::size_t& index = 0);
 
-    juce::Path m_piano_grid_horizontal_lines[number_of_piano_keys];
-    std::vector<juce::Path> m_piano_grid_bar_lines;
-    std::vector<juce::Path> m_piano_grid_beat_lines;
-    int m_piano_roll_width; // might be resizeable.
     std::size_t m_number_of_bars;
+    juce::Path m_piano_grid_horizontal_lines[number_of_piano_keys];
+    std::vector<juce::Path> m_piano_grid_bar_lines; // do we need a vector?
+    std::vector<juce::Path> m_piano_grid_beat_lines;
+    int m_piano_roll_width;
+    juce::OwnedArray<juce::Label> m_bar_number_labels;
+
     MidiSequence m_current_sequence;
-    Listener* m_listener;
     juce::OwnedArray<GuiNote> m_gui_notes;
-    //std::list<GuiNote*> m_gui_notes;
-    
-    GuiNote test_array[3000];
-    
-    GuiNote test_gui;
-    
+    Listener* m_listener;
 };
 
 
