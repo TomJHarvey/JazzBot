@@ -20,6 +20,7 @@ static const int number_of_piano_keys = 88;
 static const int grid_line_height = 15;
 static const int keyboard_width = 50;
 static const int bar_line_width = 480;
+static const int beat_line_width = 120;
 static const std::size_t default_number_of_bars = 8;
 
 class PianoRoll : public juce::Component
@@ -44,6 +45,7 @@ private:
 
     juce::Path m_piano_grid_horizontal_lines[number_of_piano_keys];
     std::vector<juce::Path> m_piano_grid_bar_lines;
+    std::vector<juce::Path> m_piano_grid_beat_lines;
     int m_piano_roll_width; // might be resizeable.
     std::size_t m_number_of_bars;
     MidiSequence m_current_sequence;

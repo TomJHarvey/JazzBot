@@ -72,32 +72,6 @@ MidiFileUtility::getOnlyEigthNoteGroupings(const MidiSequence& midi_events)
     // so like if it finds the note and sees its note on is jsut before a bar (say 50 away) then it will set the marker from that point until beat_marker-second - 50;
     
     BeatMarkers beat_markers[2];
-//
-//    beat_markers[0].first = 0;
-//    beat_markers[1].first = beat_length;
-    
-    
-    // get the current note on timestamp
-    // we will find the closest 8th note beat marker before it.
-    // it wil then set the first one to that. If its an offbeat it will set its member to offbeat
-    // then will set the second to onbeat, and vice versa
-    
-    // it will then say if the current note on and the second note on are smaller than the second beat marker.
-    // and if they're both smaller that 3 * 16th notes
-    // and if the distance between the two note ons is smaller than 3* 16th notes
-    // then we have a pair
-    
-    // it is then incremented by one beat across to check for the second note and to see if there is a note following.
-    // if there is the process continues
-    // if there isn't then it will check if its too long.
-    // if its too long then it will add it to the end of the eigth note vector but shorten the duration.
-    // it will then push back to the midiSequene vector all the eigth notes its found
-    // then it will increment the index by the amount of notes pushed back
-    // if there's no note there it will also push back the vector and increment the index
-    // but in this case it will need to search along for the next note to set the beat markers.
-    
-    // i think it should extend the beat length by like half a sixtennth note to help catch when its really being played behind the bar
-    
     MidiSequence eigth_notes_midi_sequence;
     std::size_t midi_events_size = midi_events.size();
     
@@ -109,14 +83,13 @@ MidiFileUtility::getOnlyEigthNoteGroupings(const MidiSequence& midi_events)
         beat_markers[0].first = closet_eith_note;
         beat_markers[1].first = closet_eith_note + beat_length;
         
-        // Need to make sure 
+        // Need to make sure
         
         if (closest_eigth_note_multiplier % 2 == 0)
         {
             // its on an onbeat
             beat_markers[0].second = true;
             beat_markers[1].second = false;
-            
         }
         else
         {
@@ -201,13 +174,14 @@ MidiFileUtility::findEigthNoteGrouping(std::size_t& increment, const std::size_t
         
         // if its in the first loop and some have been added. Then it will need to push back at the size - minus the increment
         
-            if (increment > 1 && first_time)
-            {
-                std::cout << "First midi event = " << midi_events[index].note_value << std::endl;
-                auto it = eigth_notes_midi_sequence.end() - (increment - 1);
-                std::cout << "Position to increment = "<< it->note_value << std::endl;
-                eigth_notes_midi_sequence.insert(eigth_notes_midi_sequence.end() - (increment - 1),midi_events[index] );
-            }
+        if (increment > 1 && first_time)
+        {
+            std::cout << "First midi event = " << midi_events[index].note_value << std::endl;
+            auto it = eigth_notes_midi_sequence.end() - (increment - 1);
+            std::cout << "Position to increment = "<< it->note_value << std::endl;
+            // check the duration here too.
+            eigth_notes_midi_sequence.insert(eigth_notes_midi_sequence.end() - (increment - 1),midi_events[index] );
+        }
 
         
         return (increment);

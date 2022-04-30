@@ -15,6 +15,8 @@ static const std::size_t m_midi_bar_length = 1920;
 static const int number_of_midi_note_values = 127;
 // static const float beat_line_width = 480; // todo
 
+static const int time_signature = 4; // in future this will be got from the song information file, along with artists title to display
+
 PianoRoll::PianoRoll(Listener* listener)
     : m_number_of_bars(default_number_of_bars)
     , m_listener(listener)
@@ -22,17 +24,10 @@ PianoRoll::PianoRoll(Listener* listener)
     m_piano_roll_width = getPianoRollWidth(default_number_of_bars);
     drawHorizontalLines();
     drawVerticalLines(m_number_of_bars);
-//    test_gui.setBounds(0, 50, 400, 700);
-//    addAndMakeVisible(test_gui);
 }
 
 PianoRoll::~PianoRoll()
 {
-//    for (auto& gui_note: m_gui_notes)
-//    {
-//        removeChildComponent(gui_note);
-//        delete gui_note;
-//    }
     m_gui_notes.clearQuick(true);
 }
 
@@ -55,13 +50,23 @@ PianoRoll::drawVerticalLines(const std::size_t& number_of_bars,const std::size_t
 {
     // this needs own function, it can change. change default value
     m_piano_grid_bar_lines.resize(m_number_of_bars); // is this resize safe, does it just chop off the end values?
-    std::size_t line_width = keyboard_width + (bar_line_width * (index +1));
+    m_piano_grid_beat_lines.resize(m_number_of_bars * time_signature);
+    std::size_t line_position = keyboard_width + (bar_line_width * (index + 1)); // time sig would also affect this
     for (std::size_t count = index; count < number_of_bars; count ++)
     {
-        m_piano_grid_bar_lines[count].startNewSubPath(line_width, 0);
-        m_piano_grid_bar_lines[count].lineTo(line_width, bar_line_height);
+        m_piano_grid_bar_lines[count].startNewSubPath(line_position, 0);
+        m_piano_grid_bar_lines[count].lineTo(line_position, bar_line_height);
         m_piano_grid_bar_lines[count].closeSubPath();
-        line_width += bar_line_width;
+        line_position += bar_line_width;
+    }
+    
+    line_position = keyboard_width + (bar_line_width * (index));
+    for (std::size_t count = index; count < number_of_bars * time_signature; count ++)
+    {
+        m_piano_grid_beat_lines[count].startNewSubPath(line_position, 0);
+        m_piano_grid_beat_lines[count].lineTo(line_position, bar_line_height);
+        m_piano_grid_beat_lines[count].closeSubPath();
+        line_position += beat_line_width;
     }
 }
 
@@ -73,8 +78,8 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
     
     
-    
     m_piano_grid_bar_lines.resize(number_of_bars);
+    m_piano_grid_beat_lines.resize(number_of_bars * time_signature);
     if (number_of_bars > m_number_of_bars)
     {
         drawVerticalLines(number_of_bars, m_number_of_bars);
@@ -92,38 +97,6 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     initialiseNotes();
     //repaint();
 }
-
-//void
-//PianoRoll::initialiseNotes()
-//{
-//    for (auto& gui_note: m_gui_notes)
-//    {
-//        removeChildComponent(gui_note);
-//        gui_note->setVisible(false);
-//        delete gui_note;
-//    }
-//
-////    repaint();
-////    removeChildComponent(&test_gui);
-////    removeAllChildren();
-////    deleteAllChildren();
-//
-//    m_gui_notes.clear();
-//    std::list<GuiNote*>::iterator gui_note_iterator = m_gui_notes.begin();
-//
-//    for (std::size_t index = 0; index < m_current_sequence.size(); index++)
-//    {
-//        m_gui_notes.push_back(new GuiNote);
-//        gui_note_iterator++;
-//        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
-//        int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
-//        int y_pos = (grid_line_height*number_of_midi_note_values) -
-//                    (grid_line_height * m_current_sequence[index].note_value);
-//        (*gui_note_iterator)->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
-//        addAndMakeVisible((*gui_note_iterator));
-//    }
-//}
-
 
 void
 PianoRoll::initialiseNotes()
@@ -186,6 +159,12 @@ PianoRoll::paint(juce::Graphics & g)
             g.fillRect(keyboard_width, line_height , m_piano_roll_width - keyboard_width, grid_line_height -2);
             g.setColour(juce::Colours::darkgrey);
         }
+    }
+    
+    g.setColour(juce::Colours::darkslategrey);
+    for (std::size_t count = 0; count < m_number_of_bars * time_signature; count ++)
+    {
+        g.strokePath(m_piano_grid_beat_lines[count], juce::PathStrokeType (0.5f));
     }
     
     g.setColour(juce::Colours::black);
