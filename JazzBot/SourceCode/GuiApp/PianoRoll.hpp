@@ -29,7 +29,9 @@ public:
     class Listener
     {
     public:
+        virtual ~Listener() {}
         virtual void resizeViewPort(const int& piano_roll_width) = 0;
+        virtual void updateBarLabels(const std::size_t& number_of_bars) = 0;
     };
     
     PianoRoll(Listener* listener);
@@ -39,17 +41,17 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
     void initialiseNotes();
+    std::size_t getNumberOfBars() const;
+    
 private:
     void drawHorizontalLines();
     void drawVerticalLines(const std::size_t& number_of_bars, const std::size_t& index = 0);
 
     std::size_t m_number_of_bars;
     juce::Path m_piano_grid_horizontal_lines[number_of_piano_keys];
-    std::vector<juce::Path> m_piano_grid_bar_lines; // do we need a vector?
+    std::vector<juce::Path> m_piano_grid_bar_lines; // do we need a vector as the data structure?
     std::vector<juce::Path> m_piano_grid_beat_lines;
     int m_piano_roll_width;
-    juce::OwnedArray<juce::Label> m_bar_number_labels;
-
     MidiSequence m_current_sequence;
     juce::OwnedArray<GuiNote> m_gui_notes;
     Listener* m_listener;

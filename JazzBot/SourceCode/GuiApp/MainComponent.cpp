@@ -11,11 +11,6 @@ MainComponent::MainComponent()
 {
     setSize(window_size, window_size);
     addAndMakeVisible(m_main_menu);
-    
-    
-//    m_gui_notes.add(std::make_unique<GuiNote>());
-//    m_gui_notes[0]->setBounds(0, 50 ,300, 900);
-//    addAndMakeVisible(m_gui_notes[0]);
 }
 
 //==============================================================================
@@ -31,12 +26,6 @@ MainComponent::menuItemSelected(const MenuItem& menu_selection)
     removeChildComponent(&m_main_menu);
     switch (menu_selection) {
         case MenuItem::view_test_data:
-//            for (auto& gui_note: m_gui_notes)
-//            {
-//                gui_note->setVisible(false);
-//                removeChildComponent(gui_note);
-//            }
-//            m_gui_notes.clearQuick(true);
             m_training_data_view.setBounds(0, 0, getWidth(), getHeight());
             addAndMakeVisible(m_training_data_view);
             break;

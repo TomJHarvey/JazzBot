@@ -15,7 +15,7 @@ class GuiNote: public juce::Component
 {
 public:
     GuiNote(juce::Colour colour = juce::Colours::orange);
-    GuiNote( const GuiNote &obj){this->m_colour = obj.m_colour;};
+    GuiNote( const GuiNote &obj){this->m_colour = obj.m_colour;} // is this needed?
     void paint(juce::Graphics& g) override;
 private:
     juce::Colour m_colour;

@@ -28,6 +28,7 @@ public:
     class Listener
     {
     public:
+        virtual ~Listener() {}
         virtual void menuItemSelected(const MenuItem& menu_selection) = 0;
         
     };

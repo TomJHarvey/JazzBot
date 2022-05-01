@@ -8,10 +8,8 @@
 #include "PianoRoll.hpp"
 #include <unordered_set>
 
-static const int tool_bar_height = 20;
-
 static const int number_of_notes = 12;
-static const int bar_line_height =  (number_of_piano_keys *  grid_line_height) + tool_bar_height;
+static const int bar_line_height =  (number_of_piano_keys *  grid_line_height);
 static const std::unordered_set<int> black_keys = {1,4,6,9,11};
 static const std::size_t m_midi_bar_length = 1920;
 static const int number_of_midi_note_values = 127;
@@ -26,18 +24,6 @@ PianoRoll::PianoRoll(Listener* listener)
     m_piano_roll_width = getPianoRollWidth(default_number_of_bars);
     drawHorizontalLines();
     drawVerticalLines(m_number_of_bars);
-    
-    int bar_number_position = keyboard_width;
-    for (int i = 0; i < static_cast<int>(m_number_of_bars); i++)
-    {
-        //m_bar_number_labels.add(new juce::Label({} "fd" + juce::String(i)));
-        
-        m_bar_number_labels.add(new juce::Label({}, "Label Number " + juce::String(i)));
-        m_bar_number_labels[i]->setText(std::to_string(i),juce::dontSendNotification);
-        m_bar_number_labels[i]->setBounds(bar_number_position, 0, 50, 20);
-        addAndMakeVisible(m_bar_number_labels[i]);
-        bar_number_position += bar_line_width;
-    }
 }
 
 PianoRoll::~PianoRoll()
@@ -48,7 +34,7 @@ PianoRoll::~PianoRoll()
 void
 PianoRoll::drawHorizontalLines()
 {
-    int grid_line_position = grid_line_height + tool_bar_height;
+    int grid_line_position = grid_line_height;
     
     for (int count = 0; count < number_of_piano_keys; count ++)
     {
@@ -91,7 +77,6 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
     std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
     
-    
     m_piano_grid_bar_lines.resize(number_of_bars);
     m_piano_grid_beat_lines.resize(number_of_bars * time_signature);
     if (number_of_bars > m_number_of_bars)
@@ -102,14 +87,11 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
     {
         drawVerticalLines(number_of_bars);
     }
-    // last bar sometimes cut off, investigate later
     m_number_of_bars = number_of_bars;
     drawHorizontalLines();
-    
     m_piano_roll_width = getPianoRollWidth(static_cast<int>(number_of_bars));
     m_listener->resizeViewPort(m_piano_roll_width);
     initialiseNotes();
-    //repaint();
 }
 
 void
@@ -123,18 +105,22 @@ PianoRoll::initialiseNotes()
     m_gui_notes.clearQuick(true);
     m_gui_notes.remove(0);
     
-    int num = this->getNumChildComponents();
-    
     for (std::size_t index = 0; index < m_current_sequence.size(); index++)
     {
         m_gui_notes.add(std::make_unique<GuiNote>());
         int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
         int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
         int y_pos = (grid_line_height*number_of_midi_note_values) -
-                    (grid_line_height * m_current_sequence[index].note_value) + tool_bar_height;
+                    (grid_line_height * m_current_sequence[index].note_value);
         m_gui_notes[static_cast<int>(index)]->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
         addAndMakeVisible(m_gui_notes[static_cast<int>(index)]);
     }
+}
+
+std::size_t
+PianoRoll::getNumberOfBars() const
+{
+    return m_number_of_bars;
 }
 
 int
@@ -157,10 +143,6 @@ PianoRoll::paint(juce::Graphics & g)
     g.drawRect(0, 0, keyboard_width, getHeight());
     g.fillRect(0, 0, keyboard_width, getHeight());
     
-    g.setColour(juce::Colours::slateblue);
-    g.drawRect(0, 0, getWidth(), tool_bar_height);
-    g.fillRect(0, 0, getWidth(), tool_bar_height);
-    
     g.setColour(juce::Colours::darkgrey);
     
     for (int count = 0; count < number_of_piano_keys; count ++)
@@ -169,7 +151,7 @@ PianoRoll::paint(juce::Graphics & g)
         if (black_keys.find(count % number_of_notes) != black_keys.end())
         {
             g.setColour(juce::Colours::black);
-            int line_height = (grid_line_height * count) + 1 + tool_bar_height;
+            int line_height = (grid_line_height * count) + 1;
             g.drawRect(0, line_height , keyboard_width, grid_line_height -2);
             g.fillRect(0, line_height , keyboard_width, grid_line_height -2);
             g.setColour(juce::Colours::darkgrey);
