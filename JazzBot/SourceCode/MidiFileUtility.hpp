@@ -23,6 +23,8 @@ struct MidiNoteEvent
 using MidiSequence = std::vector<MidiNoteEvent>;
 using BeatMarkers = std::pair<double, bool>;
 
+
+// Might be better name midiSequenceUtility
 class MidiFileUtility
 {
 public:

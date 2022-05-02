@@ -97,22 +97,12 @@ MidiFileUtility::getOnlyEigthNoteGroupings(const MidiSequence& midi_events)
             beat_markers[0].second = false;
             beat_markers[1].second = true;
         }
-        std::cout << "Finding 8th note grouping " << std::endl;
+
         std::size_t increment = 1;
         increment = findEigthNoteGrouping(increment, i, midi_events, beat_markers[0], beat_markers[1], eigth_notes_midi_sequence, true);
         if (increment > 1)
         {
             i += increment - 1;
-        }
-        
-        
-        std::cout << "Amount of notes analysed: " << i << std::endl;
-        std::cout << "First 8th note grouping " << std::endl;
-        for (auto& note : eigth_notes_midi_sequence)
-        {
-            std::cout << "Note on: " << note.note_value << std::endl;
-//            std::cout << "Note off: " << note.note_off << std::endl;
-//            std::cout << "Note value: " << note.note_value << std::endl;
         }
     }
     return eigth_notes_midi_sequence;
@@ -125,34 +115,19 @@ MidiFileUtility::findEigthNoteGrouping(std::size_t& increment, const std::size_t
     if (index + increment < midi_events.size())
     {
         std::size_t first_index = index + increment - 1;
-        // shouldn't need to check first marker
-        
-        std::cout << "If next midi event(" << midi_events[index + increment].note_value <<  ") note on: " << midi_events[index + increment].note_on << " is smaller than the second beat marker: " << beat_marker_2.first << std::endl;
-        std::cout << "If current midi event(" << midi_events[first_index].note_value <<  ") duration: " << midi_events[first_index].duration << " Is smaller than 720 " << std::endl;
-        //std::cout << "if next notes duration: " <<  midi_events[index + increment].duration << " is smaller than 720 " << std::endl;
-        std::cout << "Next note on(" << midi_events[index + increment].note_value <<  ") minus current note on(" << midi_events[first_index].note_value <<  ") is smaller than 720: " <<  midi_events[index + increment].note_on - midi_events[first_index].note_on  << std::endl;
-        
+
         if (midi_events[index + increment].note_on < (beat_marker_2.first+20) &&
             (midi_events[first_index].duration < dotted_quaver ) &&
-            //(midi_events[index + increment].duration < dotted_quaver) &&
             midi_events[index + increment].note_on - midi_events[first_index].note_on < dotted_quaver &&
             (beat_marker_1.second == false ||
              (beat_marker_1.second == true &&
              midi_events[index + increment].note_on - midi_events[first_index].note_on > dotted_semi)))
         {
-            
-            // print out all these comparisons and compare with midi file.
-            // shame i can't debug the actual note events, maybe restart computer...
-            
-            // found pair? i++
             double duration = midi_events[index+increment].duration;
-            
-            std::cout << "Next (" << midi_events[index+increment].note_value <<") note duration = " << duration << std::endl;
-            
             if (duration > dotted_quaver)
             {
                 duration = 240; // swung eigth
-                double note_off = midi_events[index + increment].note_on + 240;
+                double note_off = midi_events[index + increment].note_on + 120;
                 
                 eigth_notes_midi_sequence.push_back({midi_events[index + increment].note_value,
                                                      midi_events[index + increment].note_on,
@@ -169,22 +144,16 @@ MidiFileUtility::findEigthNoteGrouping(std::size_t& increment, const std::size_t
 
             std::size_t new_increment = increment + 1;
             increment = findEigthNoteGrouping(new_increment, index, midi_events, beat_marker_1, beat_marker_2, eigth_notes_midi_sequence, false);
-            // eigth_notes_midi_sequence.push_front(midi_events[first_index]); // the beat_markers will be used here when setting the eigth note, so it knows whether its on offbeat or not
         }
         
         // if its in the first loop and some have been added. Then it will need to push back at the size - minus the increment
         
         if (increment > 1 && first_time)
         {
-            std::cout << "First midi event = " << midi_events[index].note_value << std::endl;
             auto it = eigth_notes_midi_sequence.end() - (increment - 1);
-            std::cout << "Position to increment = "<< it->note_value << std::endl;
-            // check the duration here too.
             eigth_notes_midi_sequence.insert(eigth_notes_midi_sequence.end() - (increment - 1),midi_events[index] );
         }
-
-        
-        return (increment);
+        return increment;
     }
     return 0;
 }

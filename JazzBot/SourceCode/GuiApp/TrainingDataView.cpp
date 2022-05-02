@@ -82,26 +82,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            // call to a function that searches
-            // this will apply the process highlightEigthNoteGroups()
-            
-//            std::cout << "first sequence " << std::endl;
-//            for (auto& note : modified_sequence)
-//            {
-//                std::cout << "Note on: " << note.note_on << std::endl;
-//                std::cout << "Note off: " << note.note_off << std::endl;
-//                std::cout << "Note value: " << note.note_value << std::endl;
-//            }
-            
             modified_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(modified_sequence);
-            
-//            std::cout << "Modified sequence " << std::endl;
-//            for (auto& note : modified_sequence)
-//            {
-//                std::cout << "Note on: " << note.note_on << std::endl;
-//                std::cout << "Note off: " << note.note_off << std::endl;
-//                std::cout << "Note value: " << note.note_value << std::endl;
-//            }
             
             // this sets it now i can use it in the midi view
             m_modified_sequence.setSequence(modified_sequence);
@@ -111,7 +92,6 @@ TrainingDataView::buttonClicked(juce::Button* button)
         }
     }
 }
-
 
 void
 TrainingDataView::updateViewPort(const MidiSequenceView* const changed_view, const int& x_posistion, const int& y_posistion)
