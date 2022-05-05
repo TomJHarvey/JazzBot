@@ -30,7 +30,7 @@ class MidiFileUtility
 public:
     // maybe not vector...
     // have different data structures it can load it into perhaps
-    static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events);
+    static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test = false);
     static MidiSequence getOnlyEigthNoteGroupings(const MidiSequence& midi_events);
     
 private:
@@ -40,7 +40,8 @@ private:
                                              BeatMarkers& beat_marker_1,
                                              BeatMarkers& beat_marker_2,
                                              MidiSequence& eigth_notes_midi_sequence,
-                                             const bool& first_time); // maybe a better way to do this
+                                             const bool& first_time,
+                                             bool& found_grouping); // maybe a better way to do this
 };
 
 #endif /* MidiFileUtility_hpp */

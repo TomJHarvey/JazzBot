@@ -87,3 +87,18 @@ target_link_libraries(JazzBotCommandLine
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags)
+        
+        
+        
+find_package(Catch2 3 REQUIRED)
+add_executable(tests tests/EighthNoteGroupingTests.cpp
+                     SourceCode/MidiFileUtility.cpp)
+
+target_link_libraries(tests
+    PRIVATE
+        Catch2::Catch2WithMain
+        juce::juce_core
+        juce::juce_audio_basics
+    PUBLIC
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_warning_flags)
