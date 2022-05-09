@@ -50,9 +50,9 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
                 // retrieve the current notes corresponding note on value
                 double note_on_timestamp = current_note_ons[note_number];
                 
-                // if they're overlapping but the same note, i can fix this later if i really want
-//                if (note_on_timestamp != 0) // fix this // do a first time variable or something like that
-//                {
+                // this is to handle instances where the note of the same value overlaps
+                if (note_on_timestamp != 0 || midi_events.size() == 0)
+                {
                     double note_off_timestamp = midi_event_holder->message.getTimeStamp();
                     double duration = note_off_timestamp - note_on_timestamp;
                     if (!test)
@@ -62,18 +62,19 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
                             note_off_timestamp,
                             duration});
                     }
-                    else // i feel like this is the only way...
+                    else // the test files are written in ableton where the midi tick value is different
                     {
                         midi_events.push_back({note_number,
                                                (note_on_timestamp/test_divison_scaling)*test_scaling,
                                                (note_off_timestamp/test_divison_scaling)*test_scaling,
                                                (duration/test_divison_scaling)*test_scaling});
                     }
+            }
                 current_note_ons.erase(note_number);
             }
         }
     }
-    return (!midi_events.empty());
+    return !midi_events.empty();
 }
 
 MidiSequence
