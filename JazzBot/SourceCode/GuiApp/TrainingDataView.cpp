@@ -29,9 +29,8 @@ TrainingDataView::TrainingDataView(Listener* listener)
     addAndMakeVisible(&m_modified_sequence);
     
     // Different buttons will be shown depending on what mode it is, some will always be there. Like these ones here
-    
     m_return_to_menu_button.addListener(this);
-    m_return_to_menu_button.setBounds(0, 0, 80, 45); // constants when i haev the spacing sorted
+    m_return_to_menu_button.setBounds(0, 0, 80, 45); // constants when i have the spacing sorted
     m_return_to_menu_button.setButtonText(return_to_menu_text);
     addAndMakeVisible(m_return_to_menu_button);
     
@@ -73,7 +72,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
         if (chooser.browseForFileToOpen())
         {
             auto midi_file = chooser.getResult();
-            // output if not a midifile, needs a check
+            // debug output if not a midifile
             m_original_sequence.loadSequence(midi_file);
         }
     }

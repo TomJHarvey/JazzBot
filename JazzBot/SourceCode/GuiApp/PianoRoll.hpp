@@ -57,6 +57,4 @@ private:
     Listener* m_listener;
 };
 
-
-
 #endif /* PianoRoll_hpp */

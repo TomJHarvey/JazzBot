@@ -11,21 +11,22 @@
 static const char* view_test_data_text = "View Test Data";
 static const char* generate_sequence_text = "Generate Sequence";
 static const char* view_sequence = "View Sequence";
-std::string menu_items_text[menu_items_size] = {view_test_data_text,
-                                                generate_sequence_text,
-                                                view_sequence};
-
+static const std::string menu_items_text[menu_items_size] = {view_test_data_text,
+                                         generate_sequence_text,
+                                         view_sequence};
 static const int button_y_pos = 60;
 static const int button_y_spacing = 185;
 static const int button_x_pos = 30;
 static const int button_height = 120;
+static const int menu_width = 350;
+static const int menu_height = 650;
 
 MainMenu::MainMenu(Listener* menu_listener)
     : m_main_menu_listener(menu_listener)
 {
-    setSize (350, 650);
-    
-    for (std::size_t index = 0; index < menu_items_size; index ++)
+    setSize (menu_width, menu_height);
+
+    for (std::size_t index = 0; index < menu_items_size; index++)
     {
         m_menu_items[index].setButtonText(menu_items_text[index]);
         addAndMakeVisible(m_menu_items[index]);

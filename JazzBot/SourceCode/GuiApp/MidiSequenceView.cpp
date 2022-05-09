@@ -74,7 +74,10 @@ MidiSequenceView::setBarLabels()
     {
         m_bar_number_labels.add(new juce::Label({}, "Label Number " + juce::String(i)));
         m_bar_number_labels[i]->setText(std::to_string(i),juce::dontSendNotification);
-        m_bar_number_labels[i]->setBounds(bar_number_position - m_piano_view_port->getViewPositionX(), 0, 50, 20);
+        m_bar_number_labels[i]->setBounds(bar_number_position - m_piano_view_port->getViewPositionX(),
+                                          0,
+                                          keyboard_width,
+                                          tool_bar_height);
         addAndMakeVisible(m_bar_number_labels[i]);
         bar_number_position += bar_line_width;
     }
@@ -84,6 +87,7 @@ void
 MidiSequenceView::viewportAreaChanged(juce::Viewport* viewport,
                                       const juce::Rectangle<int>& newVisibleArea)
 {
+    juce::ignoreUnused(newVisibleArea);
     updateBarLabels(m_piano_roll->getNumberOfBars());
     m_listener->updateViewPort(this, viewport->getViewPositionX(), viewport->getViewPositionY());
 }

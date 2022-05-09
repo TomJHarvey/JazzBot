@@ -1,5 +1,3 @@
-// Comments will make this look better with a bit of extra formatting too
-
 #ifdef GUI_APP
 
 #include "GuiApp/MainGuiApp.hpp"
@@ -9,12 +7,11 @@ START_JUCE_APPLICATION (MainGuiApp)
 #else
 
 #include <juce_core/juce_core.h>
-#include "CommandLineApp/CommandLineApplication.hpp"
 
 int main (int argc, char* argv[])
 {
     juce::ignoreUnused(argc,argv);
-    CommandLineApplication command_line_app; // need to pass in the args
+    // CommandLineApplication command_line_app; // TODO
     return 0;
 }
 

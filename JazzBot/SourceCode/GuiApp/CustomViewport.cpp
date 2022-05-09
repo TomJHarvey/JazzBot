@@ -10,7 +10,6 @@
 CustomViewport::CustomViewport(const juce::String& componentName)
     : juce::Viewport(componentName)
 {
-    
 }
 
 void

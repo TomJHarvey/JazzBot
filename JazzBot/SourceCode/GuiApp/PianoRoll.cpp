@@ -13,7 +13,7 @@ static const int bar_line_height =  (number_of_piano_keys *  grid_line_height);
 static const std::unordered_set<int> black_keys = {1,4,6,9,11};
 static const std::size_t m_midi_bar_length = 1920;
 static const int number_of_midi_note_values = 127;
-// static const float beat_line_width = 480; // todo
+static const int gui_note_scaling = 4;
 
 static const int time_signature = 4; // in future this will be got from the song information file, along with artists title to display
 
@@ -48,7 +48,6 @@ PianoRoll::drawHorizontalLines()
 void
 PianoRoll::drawVerticalLines(const std::size_t& number_of_bars,const std::size_t& index)
 {
-    // this needs own function, it can change. change default value
     m_piano_grid_bar_lines.resize(m_number_of_bars); // is this resize safe, does it just chop off the end values?
     m_piano_grid_beat_lines.resize(m_number_of_bars * time_signature);
     std::size_t line_position = keyboard_width + (bar_line_width * (index + 1)); // time sig would also affect this
@@ -75,7 +74,8 @@ PianoRoll::setCurrentSequence(const MidiSequence& midi_sequence)
 {
     m_current_sequence.clear();
     m_current_sequence = midi_sequence; // think a copy is okay, other option probably isnt needed or as safe.
-    std::size_t number_of_bars = (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
+    std::size_t number_of_bars =
+        (static_cast<std::size_t>(m_current_sequence[m_current_sequence.size()-1].note_off) / m_midi_bar_length);
     
     m_piano_grid_bar_lines.resize(number_of_bars);
     m_piano_grid_beat_lines.resize(number_of_bars * time_signature);
@@ -108,8 +108,8 @@ PianoRoll::initialiseNotes()
     for (std::size_t index = 0; index < m_current_sequence.size(); index++)
     {
         m_gui_notes.add(std::make_unique<GuiNote>());
-        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/4;
-        int width = (static_cast<int>(m_current_sequence[index].note_off)/4) - x_pos;
+        int x_pos = static_cast<int>(m_current_sequence[index].note_on)/gui_note_scaling;
+        int width = (static_cast<int>(m_current_sequence[index].note_off)/gui_note_scaling) - x_pos;
         int y_pos = (grid_line_height*number_of_midi_note_values) -
                     (grid_line_height * m_current_sequence[index].note_value);
         m_gui_notes[static_cast<int>(index)]->setBounds(x_pos + keyboard_width, y_pos ,width, grid_line_height);
