@@ -6,6 +6,7 @@
 //
 
 #include "TrainingDataView.hpp"
+#include "../SequenceUtility.hpp"
 
 static const int training_data_tool_bar_height = 50;
 static const int midi_sequence_view_height = 450;
@@ -58,12 +59,14 @@ TrainingDataView::resized()
                                   midi_sequence_view_height);
 }
 
-
 void
 TrainingDataView::buttonClicked(juce::Button* button)
 {
     if (button == &m_return_to_menu_button)
     {
+        SequenceUtility::generateAllSequenceObjects(); // need to make own button
+        // A Sequence object will now hold all the info. Then the database needs to be filled from this info.
+        
         m_listener->returnToMainMenu();
     }
     else if (button == &m_load_file_button)
@@ -81,7 +84,8 @@ TrainingDataView::buttonClicked(juce::Button* button)
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            modified_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(modified_sequence);
+            MidiSequence eighth_note_groupings = MidiFileUtility::getOnlyEighthNotes(modified_sequence);
+            modified_sequence = MidiFileUtility::getOnlyEighthNotes(eighth_note_groupings);
             
             // this sets it now i can use it in the midi view
             m_modified_sequence.setSequence(modified_sequence);
@@ -90,6 +94,10 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
+    // else if generate 8th note groupings
+    
+    // m_sequences = generateAllSequenceObjects(); // can be reused for other functions
+    // generate all eigth note groupings for each Sequence; - this will save each one to a db
 }
 
 void

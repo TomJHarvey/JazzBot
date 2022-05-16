@@ -28,7 +28,9 @@ set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
                 SourceCode/GuiApp/MidiSequenceView.cpp
                 SourceCode/GuiApp/TrainingDataView.cpp)
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
-set(COMMON_SOURCES SourceCode/main.cpp SourceCode/MidiFileUtility.cpp)
+set(COMMON_SOURCES SourceCode/main.cpp
+                   SourceCode/MidiFileUtility.cpp
+                   SourceCode/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 
 #Useful to keep for future on how to include common directories
@@ -49,7 +51,9 @@ target_sources(JazzBotCommandLine
             ${COMMON_SOURCES})
 
 set(PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR})
-set(MIDI_FILES_DIRECTORY ${CMAKE_SOURCE_DIR}../)
+set(MIDI_FILES_DIRECTORY ${CMAKE_SOURCE_DIR}../midi_files)
+set(CHORD_CHANGES_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/chord_changes)
+set(SONG_INFORMATION_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/song_information)
 
 target_compile_definitions(JazzBotGui
     PRIVATE
@@ -60,7 +64,9 @@ target_compile_definitions(JazzBotGui
         JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:JazzBotGui,JUCE_VERSION>"
         GUI_APP=1
         "PROJECT_DIRECTORY=\"${PROJECT_DIRECTORY}\""
-        "MIDI_FILES_DIRECTORY=\"${MIDI_FILES_DIRECTORY}\"")
+        "MIDI_FILES_DIRECTORY=\"${MIDI_FILES_DIRECTORY}\""
+        "CHORD_CHANGES_DIRECTORY=\"${CHORD_CHANGES_DIRECTORY}\""
+        "SONG_INFORMATION_DIRECTORY=\"${SONG_INFORMATION_DIRECTORY}\"")
         
 target_compile_definitions(JazzBotCommandLine
     PRIVATE
@@ -91,8 +97,10 @@ target_link_libraries(JazzBotCommandLine
         
         
 find_package(Catch2 3 REQUIRED)
-add_executable(tests tests/EighthNoteGroupingTests.cpp
-                     SourceCode/MidiFileUtility.cpp)
+add_executable(tests # tests/EighthNoteGroupingTests.cpp
+                     tests/ChordSequenceTests.cpp
+                     SourceCode/MidiFileUtility.cpp
+                     SourceCode/SequenceUtility.cpp)
 
 target_link_libraries(tests
     PRIVATE

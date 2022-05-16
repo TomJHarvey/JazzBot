@@ -28,10 +28,9 @@ using BeatMarkers = std::pair<double, bool>;
 class MidiFileUtility
 {
 public:
-    // maybe not vector...
-    // have different data structures it can load it into perhaps
     static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test = false);
-    static MidiSequence getOnlyEigthNoteGroupings(const MidiSequence& midi_events);
+    static MidiSequence getOnlyEighthNotes(const MidiSequence& midi_events);
+    //static MidiSequence getOnlyEighthNotes(const MidiSequence& midi_events);
     
 private:
     static std::size_t findEigthNoteGrouping(std::size_t& increment,

@@ -8,7 +8,7 @@ static juce::String test_file_dir = "../../Tests/TestFiles/";
 // TODO: redo these test cases, might be better to a have a form of error handling thats more verbose.
 // returning false could happen for a number of reasons, it would be better to check its false for the right reason.
 
-TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
+TEST_CASE("EighthNoteGroupingTests", "[eighth_note_grouping_tests]")
 {
     MidiSequence midi_sequence;
     MidiSequence output_sequence;
@@ -19,7 +19,7 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "eight_notes.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 8);
         output_sequence.clear();
     }
@@ -27,7 +27,7 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "eight_notes_offset.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 8);
         output_sequence.clear();
     }
@@ -35,7 +35,7 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "eight_notes_1_quarter.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 5);
         REQUIRE(output_sequence[3].note_value == 72);
         output_sequence.clear();
@@ -44,7 +44,7 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "sixteenth_trip_1.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 5);
         REQUIRE(output_sequence[4].note_value == 75);
         output_sequence.clear();
@@ -53,7 +53,7 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "sixteenth_trip_2.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 5);
         REQUIRE(output_sequence[0].note_value == 72);
         output_sequence.clear();
@@ -63,12 +63,10 @@ TEST_CASE("MidiFileGeneratorTests", "[midi_file_generator_tests]")
     {
         test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "benny_carter_just_friends_bar_9.mid");
         REQUIRE(MidiFileUtility::parseMidiFile(test_file, midi_sequence, true));
-        output_sequence = MidiFileUtility::getOnlyEigthNoteGroupings(midi_sequence);
+        output_sequence = MidiFileUtility::getOnlyEighthNotes(midi_sequence);
         REQUIRE(output_sequence.size() == 6);
         REQUIRE(output_sequence[0].note_value == 70);
         REQUIRE(output_sequence[5].note_value == 72);
         output_sequence.clear();
     }
 }
-
-

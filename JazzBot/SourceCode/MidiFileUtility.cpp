@@ -77,11 +77,11 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
     return !midi_events.empty();
 }
 
-MidiSequence
-MidiFileUtility::getOnlyEigthNoteGroupings(const MidiSequence& midi_events)
+MidiSequence // Template Function?
+MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
 {
     BeatMarkers beat_markers[2];
-    MidiSequence eigth_notes_midi_sequence;
+    MidiSequence eighth_note_groupings;
     std::size_t midi_events_size = midi_events.size();
     
     for (std::size_t i = 0; i < midi_events_size; i++)
@@ -108,20 +108,27 @@ MidiFileUtility::getOnlyEigthNoteGroupings(const MidiSequence& midi_events)
 
         std::size_t increment = 1;
         bool found_grouping = false;
+        MidiSequence eighth_note_grouping;
         increment = findEigthNoteGrouping(increment,
                                           i,
                                           midi_events,
                                           beat_markers[0],
                                           beat_markers[1],
-                                          eigth_notes_midi_sequence,
+                                          eighth_note_grouping,
                                           true,
                                           found_grouping);
+        
+        // if template, could change this into a function which returns an object of type T MidSequence or EighthNoteGrouping
+        eighth_note_groupings.insert(eighth_note_groupings.end(),
+                                     eighth_note_grouping.begin(),
+                                     eighth_note_grouping.end());
+
         if (increment > 1)
         {
             i += increment - 1;
         }
     }
-    return eigth_notes_midi_sequence;
+    return eighth_note_groupings;
 }
 
 std::size_t
@@ -198,13 +205,9 @@ MidiFileUtility::findEigthNoteGrouping(std::size_t& increment,
                                               false,
                                               found_grouping);
         }
-
-        // if its in the first loop and some have been added.
-        // Then it will need to push back at the size - minus the increment
         if (first_time && found_grouping)
         {
-            eigth_notes_midi_sequence.insert(eigth_notes_midi_sequence.end() -
-                                             static_cast<long>(increment - 1),midi_events[index]);
+            eigth_notes_midi_sequence.insert(eigth_notes_midi_sequence.begin() ,midi_events[index]);
         }
         return increment;
     }
