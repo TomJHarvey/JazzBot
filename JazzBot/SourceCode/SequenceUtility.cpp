@@ -30,7 +30,7 @@ SequenceUtility::generateAllSequenceObjects()
     std::vector<Sequence> sequence;
     for (const auto& file : juce::File(midi_files_directory).findChildFiles (2, false))
     {
-        //std::cout << file.getFileName() << std::endl;
+        std::cout << file.getFileName() << std::endl;
         juce::File song_info_file(song_information_directory +
                                   "/" +
                                   file.getFileName().replace(".mid", "_song_information.txt"));
@@ -126,7 +126,7 @@ SequenceUtility::convertStringToTimeSignature(const std::string& time_signature_
     }
     else
     {
-        std::cout << "new time sig not handled " << std::endl;
+        std::cout << "Time signature " << time_signature_string <<  " not handled " << std::endl;
     }
     return time_signature;
 }
@@ -143,7 +143,7 @@ SequenceUtility::parseChordSequence(const juce::File& file,
     
     std::string chord_sequence_str = file.loadFileAsString().toStdString();
     chord_sequence_str.erase(std::remove(chord_sequence_str.begin(), chord_sequence_str.end(), '\n'), chord_sequence_str.end());
-    std::cout << file.getFileName() << std::endl;
+    //std::cout << file.getFileName() << std::endl;
     
     // Get characters between the pipes , split the string between each pipe
     std::string delimiter = "|";
@@ -164,6 +164,11 @@ SequenceUtility::parseChordSequence(const juce::File& file,
             {
                 found_chord = true;
             }
+            else if (current_bar[0] == 'N')
+            {
+                //std::cout << file.getFileName() << ": Does not handle N.C chord at bar number " << bar_number << std::endl;
+                return false;
+            }
             else
             {
                 std::cout << "Rest before chord" << std::endl;
@@ -172,7 +177,13 @@ SequenceUtility::parseChordSequence(const juce::File& file,
             // this for loop can also go in a functino
             for (std::size_t i = 0; i < current_bar.length(); i++)
             {
-                if (isupper(current_bar[i]))
+                if (current_bar[i] == 'N')
+                {
+                    //std::cout << file.getFileName() << ": Does not handle N.C chord at bar number " << bar_number << std::endl;
+                    chord_sequence.clear();
+                    return false;
+                }
+                else if (isupper(current_bar[i]))
                 {
                     if (found_chord)
                     {
@@ -213,7 +224,7 @@ SequenceUtility::parseChordSequence(const juce::File& file,
             }
             if (total_beats != static_cast<std::size_t>(time_signature))
             {
-                std::cout << "Incorrect number of beats in bar " << std::endl;
+               // std::cout << file.getFileName() << ": Has incorrect number of beats at bar number " << bar_number << std::endl;
                 chord_sequence.clear();
                 return false;
             }
@@ -248,7 +259,7 @@ SequenceUtility::findChord(const std::string& current_bar, std::size_t& bar_posi
             }
             else
             {
-                std::cout << "whats going on here" << std::endl;
+                std::cout << "Invalid Slash chord format " << std::endl;
             }
         }
         bar_position ++;
