@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <vector>
 #include <juce_core/juce_core.h>
+#include <map>
+
+struct Sequence;
 
 struct MidiNoteEvent
 {
@@ -23,15 +26,13 @@ struct MidiNoteEvent
 using MidiSequence = std::vector<MidiNoteEvent>;
 using BeatMarkers = std::pair<double, bool>;
 
-
-// Might be better name midiSequenceUtility
+// Would be better name midiSequenceUtility
 class MidiFileUtility
 {
 public:
     static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test = false);
     static MidiSequence getOnlyEighthNotes(const MidiSequence& midi_events);
-    //static MidiSequence getOnlyEighthNotes(const MidiSequence& midi_events);
-    
+    static void calculateEighthNoteGroupingKeys(const std::vector<Sequence>& sequence);
 private:
     static std::size_t findEigthNoteGrouping(std::size_t& increment,
                                              const std::size_t& index,

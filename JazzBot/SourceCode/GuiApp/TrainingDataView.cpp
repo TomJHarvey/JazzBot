@@ -13,7 +13,8 @@ static const int midi_sequence_view_height = 450;
 
 static const char* return_to_menu_text = "Main Menu";
 static const char* load_file_text = "Load file";
-static const char* modified_sequence_text = "Modified Sequence"; // rename
+static const char* modified_sequence_text = "View modified Sequence"; // rename
+static const char* generate_sequence_text = "Generate Sequence"; // rename
 
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
@@ -44,6 +45,11 @@ TrainingDataView::TrainingDataView(Listener* listener)
     display_modified_sequence_button.setBounds(320, 0, 80, 45);
     display_modified_sequence_button.setButtonText(modified_sequence_text);
     addAndMakeVisible(display_modified_sequence_button);
+    
+    generate_sequence_button.addListener(this);
+    generate_sequence_button.setBounds(480, 0, 80, 45);
+    generate_sequence_button.setButtonText(generate_sequence_text);
+    addAndMakeVisible(generate_sequence_button);
 }
 
 void
@@ -64,9 +70,6 @@ TrainingDataView::buttonClicked(juce::Button* button)
 {
     if (button == &m_return_to_menu_button)
     {
-        SequenceUtility::generateAllSequenceObjects(); // need to make own button
-        // A Sequence object will now hold all the info. Then the database needs to be filled from this info.
-        
         m_listener->returnToMainMenu();
     }
     else if (button == &m_load_file_button)
@@ -94,7 +97,12 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    // else if generate 8th note groupings
+    else if (button == &generate_sequence_button)
+    {
+        std::vector<Sequence> sequence = SequenceUtility::generateAllSequenceObjects();
+        MidiFileUtility::calculateEighthNoteGroupingKeys(sequence);
+        
+    }
     
     // m_sequences = generateAllSequenceObjects(); // can be reused for other functions
     // generate all eigth note groupings for each Sequence; - this will save each one to a db

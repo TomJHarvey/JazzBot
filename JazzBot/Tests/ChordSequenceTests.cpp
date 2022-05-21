@@ -221,8 +221,20 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
     }
     SECTION("Whole sequences")
     {
-        // Do two sequences? And just make sure the bar numbers are correct.
-        
+        // Again this could be more thourough, i can come back to if there are issues.
+        SECTION("Just friends")
+        {
+            test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "just_friends_sequence.txt");
+            ChordSequence chord_sequence;
+            SequenceUtility::parseChordSequence(test_file, chord_sequence, TimeSignature::four_four);
+            REQUIRE(chord_sequence.size() == 36);
+            REQUIRE(chord_sequence[16].m_chord == "B7");
+            REQUIRE(chord_sequence[16].m_bar_number == 15);
+            REQUIRE(chord_sequence[20].m_chord == "Eb7");
+            REQUIRE(chord_sequence[20].m_bar_number == 19);
+            REQUIRE(chord_sequence[34].m_chord == "C-7");
+            REQUIRE(chord_sequence[34].m_bar_number == 31);
+        }
         
     }
     

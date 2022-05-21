@@ -38,6 +38,7 @@ private:
     juce::TextButton m_return_to_menu_button;
     juce::TextButton m_load_file_button;
     juce::TextButton display_modified_sequence_button;
+    juce::TextButton generate_sequence_button;
 
 };
 

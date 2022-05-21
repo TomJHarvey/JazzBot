@@ -6,13 +6,15 @@
 //
 
 #include "MidiFileUtility.hpp"
+#include "ChordUtility.hpp"
+#include "SequenceUtility.hpp"
 #include <juce_audio_basics/juce_audio_basics.h>
 
 static const int beat_length = 480;
 static const int quaver_length = 240;
 static const double dotted_quaver = 360;
 static const double dotted_semi = 180;
-static const double offbeat_dotted_semi = 150; // this value is more leniant if its on an offbeat.
+static const double offbeat_dotted_semi = 150; // this value is more leniant if its on an offbeat. Not really a dotted semi then is it
 static const int test_scaling = 10;
 static const int test_divison_scaling = 2;
 
@@ -69,7 +71,7 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
                                                (note_off_timestamp/test_divison_scaling)*test_scaling,
                                                (duration/test_divison_scaling)*test_scaling});
                     }
-            }
+                }
                 current_note_ons.erase(note_number);
             }
         }
@@ -77,7 +79,7 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
     return !midi_events.empty();
 }
 
-MidiSequence // Template Function?
+MidiSequence // It would be good if this also returns a sequence as i could then display this information when looking in the output. And it would further help with refactoring
 MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
 {
     BeatMarkers beat_markers[2];
@@ -117,8 +119,8 @@ MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
                                           eighth_note_grouping,
                                           true,
                                           found_grouping);
-        
-        // if template, could change this into a function which returns an object of type T MidSequence or EighthNoteGrouping
+
+        // this and the return is what is different
         eighth_note_groupings.insert(eighth_note_groupings.end(),
                                      eighth_note_grouping.begin(),
                                      eighth_note_grouping.end());
@@ -131,6 +133,114 @@ MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
     return eighth_note_groupings;
 }
 
+// This is the same as the above function except for a few minor changes, if possible it should be refactored.
+void
+MidiFileUtility::calculateEighthNoteGroupingKeys(const std::vector<Sequence>& sequence)
+{
+    BeatMarkers beat_markers[2];
+    
+    for (std::size_t j = 0; j < sequence.size(); j++)
+    {
+        std::size_t midi_events_size = sequence[j].m_midi_sequence.size();
+        // the following bit should go in a function
+        // i think in chord utility too, just passing in a sequence object.
+        // its aim is to return the struct with ticks and the chord type
+        
+        // Set the chords in key
+        // all this stuff will be used by other algorithms ( not just for eigth note)
+        // maybe put it in a chordUtility?
+        ChordRoot key = ChordUtility::getKey(sequence[j].m_song_information.m_key);
+        if (key != ChordRoot::Invalid)
+        {
+            ChordsInKey chords_in_key = ChordUtility::getChordsInKey(key);
+            
+            for (auto& chord : sequence[j].m_chord_sequence)
+            {
+                std::string converted_chord = ChordUtility::convertChordNameToDegree(chords_in_key, chord.m_chord);
+                std::cout << "Chord = " << converted_chord << " Position = " << chord.m_chord_position << std::endl;
+            }
+            
+            
+            // now when checking the chords it needs to convert them too
+            
+            // I now have a list of all the chords that are in key.
+            // It will then get the current chords chord type abd simplify it where possible (so Ab7b9 becomes Dom7)
+
+        }
+        
+        // Now it has a reference point to check if its in key.
+        
+        for (std::size_t i = 0; i < midi_events_size; i++)
+        {
+            double note_on_timestamp = sequence[j].m_midi_sequence[i].note_on;
+            // early version of function, can be improed
+            int closest_eigth_note_multiplier = static_cast<int>(note_on_timestamp/quaver_length);
+            double closet_eith_note = quaver_length * closest_eigth_note_multiplier;
+            beat_markers[0].first = closet_eith_note;
+            beat_markers[1].first = closet_eith_note + beat_length;
+            
+            if (closest_eigth_note_multiplier % 2 == 0)
+            {
+                // its on an onbeat
+                beat_markers[0].second = true;
+                beat_markers[1].second = false;
+            }
+            else
+            {
+                // offbeat
+                beat_markers[0].second = false;
+                beat_markers[1].second = true;
+            }
+            // Put this above beat marker thing in a function just to tidy it up a little bit.
+
+            std::size_t increment = 1;
+            bool found_grouping = false;
+            MidiSequence eighth_note_grouping;
+            increment = findEigthNoteGrouping(increment,
+                                              i,
+                                              sequence[j].m_midi_sequence,
+                                              beat_markers[0],
+                                              beat_markers[1],
+                                              eighth_note_grouping,
+                                              true,
+                                              found_grouping);
+            
+            // make a vector containing a pair with the eighth note grouping and its coressponding chords
+            
+
+            
+            
+ 
+            
+            // it will search backwards starting from the last grouping to the first
+            // so in a 6 note grouping it would be 5-4, 5-3, 5-2, 5-1, 5-0
+            // this would mean the beat type will change each time and the stopping note remains consistent.
+            // each time it loops through it will flip the offbeat variable
+            // it will calcuate the change in semitone by doing the last note minus the first
+            
+            // when indexing the array it will index the pair so that it can access the chord type.
+            // the group size needs to be set depending ont he chord type, so itwill need to do this calculation each time
+            // or if its two chords (and &) it can just move down the (&)
+            
+            // once its reached the end of the loop it will remove the last element, or set a variable to have a cap on the index.
+            
+            // the next time it enters the loop it will count back from 4-3,4-2,4-1,4-0
+            // then it will repeat the same process
+
+            // for each grouping it will add to the main vector of pairs of keys and notes
+            
+            // this will be returned from the function.
+            
+            // a function will then input that into a database
+            
+            //
+            if (increment > 1)
+            {
+                i += increment - 1;
+            }
+        }
+    }
+}
 std::size_t
 MidiFileUtility::findEigthNoteGrouping(std::size_t& increment,
                                        const std::size_t& index,

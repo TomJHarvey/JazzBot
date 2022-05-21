@@ -33,8 +33,9 @@ struct SongInformation
 struct Chord
 {
     std::string m_chord;
-    std::size_t m_number_of_beats; // as a decimal percentage of the bar, 1= whole bar, 0.5 = half bar 0.25 = quarter
+    int m_chord_position;
     std::size_t m_bar_number;
+    // Position in ticks?
 };
 
 using ChordSequence = std::vector<Chord>;
@@ -54,7 +55,7 @@ public:
     static bool parseSongInformation(const juce::File& file, SongInformation& song_information);
     static bool parseChordSequence(const juce::File& file,
                                    ChordSequence& chord_sequence,
-                                   const TimeSignature& time_signature); // this should be private, made public for tests
+                                   const TimeSignature& time_signature); // i'll say it again, this really needs a refactor. Some amy go in chord utility.
     static std::size_t findChord(const std::string& current_bar, std::size_t& bar_position);
 };
 

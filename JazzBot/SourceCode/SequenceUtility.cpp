@@ -24,6 +24,8 @@ static const std::string nine_four_string = "9/4";
 
 static const std::size_t num_sequence_elements = 4;
 
+static const int beat_length = 480; // repeated definition
+
 std::vector<Sequence>
 SequenceUtility::generateAllSequenceObjects()
 {
@@ -85,7 +87,12 @@ SequenceUtility::parseSongInformation(const juce::File& file, SongInformation& s
     else
     {
         TimeSignature time_signature = convertStringToTimeSignature(sequence_elements[3]);
-        if (time_signature != TimeSignature::not_set)
+        if (time_signature != TimeSignature::not_set &&
+            sequence_elements[2] != "no_key" &&
+            sequence_elements[2].find("dor") == std::string::npos &&
+            sequence_elements[2].find("mix") == std::string::npos &&
+            sequence_elements[2].find("-chrom") == std::string::npos &&
+            sequence_elements[2].find("-blues") == std::string::npos)
         {
             song_information = {sequence_elements[0],
                                 sequence_elements[1],
@@ -134,7 +141,7 @@ SequenceUtility::convertStringToTimeSignature(const std::string& time_signature_
 bool
 SequenceUtility::parseChordSequence(const juce::File& file,
                                     ChordSequence& chord_sequence,
-                                    const TimeSignature& time_signature)
+                                    const TimeSignature& time_signature) // Refactor this bad boy, its way too big.
 {
     if (!file.existsAsFile())
     {
@@ -150,6 +157,7 @@ SequenceUtility::parseChordSequence(const juce::File& file,
     size_t pos = 0;
     std::string current_bar;
     std::size_t bar_number = 0;
+    const int bar_length = static_cast<int>(time_signature) * beat_length;
     while ((pos = chord_sequence_str.find(delimiter)) != std::string::npos)
     {
         current_bar = chord_sequence_str.substr(0, pos);
@@ -174,6 +182,8 @@ SequenceUtility::parseChordSequence(const juce::File& file,
                 std::cout << "Rest before chord" << std::endl;
             }
             
+            int previous_number_of_beats = 0;
+            int total_beats = 0;
             // this for loop can also go in a functino
             for (std::size_t i = 0; i < current_bar.length(); i++)
             {
@@ -199,9 +209,17 @@ SequenceUtility::parseChordSequence(const juce::File& file,
                         {
                             chord = current_bar.substr(current_chord_position, bar_position - current_chord_position);
                         }
+                        
 
+                        int chord_position = (bar_number * bar_length) + (previous_number_of_beats * beat_length);
+                        previous_number_of_beats = number_of_beats;
+                        std::cout << "Bar number = " << bar_number << " - Position = " << chord_position << " chord = " << chord <<std::endl;
+
+                        // chord position is what i should push back
+                        
                         number_of_beats += 1;
-                        chord_sequence.push_back({chord, number_of_beats, bar_number});
+                        total_beats += number_of_beats;
+                        chord_sequence.push_back({chord, chord_position, bar_number});
                         current_chord_position = bar_position;
                         i = bar_position - 1;
                     }
@@ -213,24 +231,39 @@ SequenceUtility::parseChordSequence(const juce::File& file,
                     }
                 }
             }
-            // this can go in a function
-            std::size_t total_beats = 0; // maybe this should just be an int. And just static cast for comparrisons with size
-            for (int index = static_cast<int>(chord_sequence.size()) -1; index >=0; index--) // this casting is a mess, is it a problem if it reaches below 0?
+            if (total_beats != static_cast<int>(time_signature))
             {
-                if (chord_sequence[static_cast<std::size_t>(index)].m_bar_number == bar_number)
-                {
-                    total_beats += chord_sequence[static_cast<std::size_t>(index)].m_number_of_beats;
-                }
-            }
-            if (total_beats != static_cast<std::size_t>(time_signature))
-            {
-               // std::cout << file.getFileName() << ": Has incorrect number of beats at bar number " << bar_number << std::endl;
+                std::cout << file.getFileName() << ": Has incorrect number of beats at bar number " << bar_number << std::endl;
                 chord_sequence.clear();
                 return false;
             }
             bar_number ++;
         }
         chord_sequence_str.erase(0, pos + delimiter.length());
+    }
+    
+    if (chord_sequence.size() > 1)
+    {
+        std::size_t last_bar_position = 0;
+        for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
+        {
+            if (chord_sequence[index].m_bar_number != (bar_number - 1))
+            {
+                last_bar_position = index +1;
+                break;
+            }
+        }
+        
+         //checks to see if the midi tick values line up with the amount of bars.
+         //There is still a chance that they're misaallihned and realligned in the middle,
+         // however that is a very small chance, so this test will suffice.
+        if ((chord_sequence[last_bar_position].m_chord_position != 0) &&
+            (chord_sequence[last_bar_position].m_chord_position / chord_sequence[last_bar_position].m_bar_number) != bar_length) // don't use this variable.
+        {
+            chord_sequence.clear();
+            std::cout << "Midi tick values for chords mis alligned" << std::endl;
+            return false;
+        }
     }
     return true;
 }
