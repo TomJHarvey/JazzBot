@@ -212,12 +212,12 @@ SequenceUtility::parseChordSequence(const juce::File& file,
                         
 
                         int chord_position = (bar_number * bar_length) + (previous_number_of_beats * beat_length);
-                        previous_number_of_beats = number_of_beats;
                         std::cout << "Bar number = " << bar_number << " - Position = " << chord_position << " chord = " << chord <<std::endl;
 
                         // chord position is what i should push back
                         
                         number_of_beats += 1;
+                        previous_number_of_beats += number_of_beats;
                         total_beats += number_of_beats;
                         chord_sequence.push_back({chord, chord_position, bar_number});
                         current_chord_position = bar_position;
@@ -242,9 +242,10 @@ SequenceUtility::parseChordSequence(const juce::File& file,
         chord_sequence_str.erase(0, pos + delimiter.length());
     }
     
-    if (chord_sequence.size() > 1)
+    std::size_t last_bar_position = 0;
+    if (chord_sequence.size() > 1 &&
+        chord_sequence[0].m_bar_number != chord_sequence[chord_sequence.size()-1].m_bar_number)
     {
-        std::size_t last_bar_position = 0;
         for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
         {
             if (chord_sequence[index].m_bar_number != (bar_number - 1))
