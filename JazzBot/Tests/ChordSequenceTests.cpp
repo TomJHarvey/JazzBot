@@ -10,6 +10,15 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
     {
         SECTION("Test one normal chord")
         {
+            
+            
+//            std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
+//            if (ChordUtility::parseChordSequence(chord_sequence_string,
+//                                   chord_sequence,
+//                                   song_information.m_time_signature,
+//                                   key,
+//                                   chord_changes_file.getFileName()
+            
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "chord_first_beat.txt");
             ChordSequence chord_sequence;
             SequenceUtility::parseChordSequence(test_file, chord_sequence, TimeSignature::four_four, ChordRoot::Db);

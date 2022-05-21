@@ -11,52 +11,36 @@
 #include <stdio.h>
 #include <string>
 #include <map>
+#include <juce_core/juce_core.h>
 
-enum class ChordRoot
-{
-    A = 0,
-    Bb,
-    B,
-    C,
-    Db,
-    D,
-    Eb,
-    E,
-    F,
-    Gb,
-    G,
-    Ab,
-    Invalid = -1
-};
+#include "SequenceTypes.h"
 
-//struct Chord
-//{
-//    std::string m_chord;
-//    std::size_t m_number_of_beats;
-//    std::size_t m_bar_number;
-//    // Position in ticks?
-//};
-//
-//using ChordSequence = std::vector<Chord>;
-
-using ChordsInKey = std::map<ChordRoot, std::string>;
-
-struct ChordPosition
-{
-    std::string m_chord_type;
-    double m_time_stamp;
-};
-
-
-// Might be better name midiSequenceUtility
 class ChordUtility
 {
 public:
     static ChordsInKey getChordsInKey(const ChordRoot& key);
     static ChordRoot getKey(const std::string& key);
+    static std::string convertChordNameToDegree(const ChordsInKey& chords_in_key,
+                                                const std::string& chord); // don't really like this name
+    static bool parseChordSequence(std::string& chord_sequence_str,
+                                   ChordSequence& chord_sequence,
+                                   const TimeSignature& time_signature,
+                                   const ChordRoot& key,
+                                   const juce::String& file_name);
+private:
     static ChordRoot convertStringToChordRoot(const std::string& key, const bool& is_minor_key);
-    static std::string convertChordNameToDegree(const ChordsInKey& chords_in_key, const std::string& chord); // don't really like this name
     static std::string getSimplifiedChordType(const std::string& chord_type);
+    static bool setChordsInCurrentBar(const std::string& current_bar,
+                                      ChordSequence& chord_sequence,
+                                      const bool& found_chord,
+                                      const ChordsInKey& chords_in_key,
+                                      const int& bar_length,
+                                      std::size_t& bar_number,
+                                      int& total_beats);
+    static std::size_t findChord(const std::string& current_bar, std::size_t& bar_position);
+    static bool checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
+                                                    const std::size_t& bar_number,
+                                                    const int& bar_length);
 };
 
 #endif /* ChordUtility_hpp */

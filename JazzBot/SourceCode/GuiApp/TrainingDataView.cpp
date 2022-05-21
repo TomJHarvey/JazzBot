@@ -87,8 +87,8 @@ TrainingDataView::buttonClicked(juce::Button* button)
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            MidiSequence eighth_note_groupings = MidiFileUtility::getOnlyEighthNotes(modified_sequence);
-            modified_sequence = MidiFileUtility::getOnlyEighthNotes(eighth_note_groupings);
+            MidiSequence eighth_note_groupings = MidiSequenceUtility::getOnlyEighthNotes(modified_sequence);
+            modified_sequence = MidiSequenceUtility::getOnlyEighthNotes(eighth_note_groupings);
             
             // this sets it now i can use it in the midi view
             m_modified_sequence.setSequence(modified_sequence);
@@ -100,7 +100,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
     else if (button == &generate_sequence_button)
     {
         std::vector<Sequence> sequence = SequenceUtility::generateAllSequenceObjects();
-        MidiFileUtility::calculateEighthNoteGroupingKeys(sequence);
+        MidiSequenceUtility::calculateEighthNoteGroupingKeys(sequence);
         
     }
     

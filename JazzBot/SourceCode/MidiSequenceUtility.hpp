@@ -1,33 +1,21 @@
 //
-//  MidiFileReader.hpp
+//  MidiSequenceUtility.hpp
 //  JazzBotGui
 //
 //  Created by Tom Harvey on 26/04/2022.
 //
 
-#ifndef MidiFileUtility_hpp
-#define MidiFileUtility_hpp
+#ifndef MidiSequenceUtility_hpp
+#define MidiSequenceUtility_hpp
 
 #include <stdio.h>
 #include <vector>
 #include <juce_core/juce_core.h>
 #include <map>
 
-struct Sequence;
+#include "SequenceTypes.h"
 
-struct MidiNoteEvent
-{
-    int note_value;
-    double note_on;
-    double note_off;
-    double duration;
-};
-
-using MidiSequence = std::vector<MidiNoteEvent>;
-using BeatMarkers = std::pair<double, bool>;
-
-// Would be better name midiSequenceUtility
-class MidiFileUtility
+class MidiSequenceUtility
 {
 public:
     static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test = false);
@@ -42,6 +30,9 @@ private:
                                              MidiSequence& eigth_notes_midi_sequence,
                                              const bool& first_time,
                                              bool& found_grouping); // maybe a better way to do this
+    
+    static std::array<BeatMarkers, 2> getBeatMarkers(const std::size_t& note_index,
+                                                     const MidiSequence& midi_events);
 };
 
 #endif /* MidiFileUtility_hpp */

@@ -5,7 +5,7 @@
 //  Created by Tom Harvey on 26/04/2022.
 //
 
-#include "MidiFileUtility.hpp"
+#include "MidiSequenceUtility.hpp"
 #include "ChordUtility.hpp"
 #include "SequenceUtility.hpp"
 #include <juce_audio_basics/juce_audio_basics.h>
@@ -19,7 +19,7 @@ static const int test_scaling = 10;
 static const int test_divison_scaling = 2;
 
 bool
-MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test)
+MidiSequenceUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test)
 {
     juce::MidiFile midi_file;
     juce::FileInputStream fi_stream(file);
@@ -79,35 +79,40 @@ MidiFileUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
     return !midi_events.empty();
 }
 
-MidiSequence // It would be good if this also returns a sequence as i could then display this information when looking in the output. And it would further help with refactoring
-MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
+std::array<BeatMarkers, 2>
+MidiSequenceUtility::getBeatMarkers(const std::size_t& note_index, const MidiSequence& midi_events)
 {
-    BeatMarkers beat_markers[2];
-    MidiSequence eighth_note_groupings;
-    std::size_t midi_events_size = midi_events.size();
+    std::array<BeatMarkers, 2> beat_markers;
+    double note_on_timestamp = midi_events[note_index].note_on;
+    // early version of function, can be improed
+    int closest_eigth_note_multiplier = static_cast<int>(note_on_timestamp/quaver_length);
+    double closet_eith_note = quaver_length * closest_eigth_note_multiplier;
+    beat_markers[0].first = closet_eith_note;
+    beat_markers[1].first = closet_eith_note + beat_length;
     
-    for (std::size_t i = 0; i < midi_events_size; i++) // maybe use an iterator and check its not at the end? Indexing would be hard though.
+    if (closest_eigth_note_multiplier % 2 == 0)
     {
-        double note_on_timestamp = midi_events[i].note_on;
-        // early version of function, can be improed
-        int closest_eigth_note_multiplier = static_cast<int>(note_on_timestamp/quaver_length);
-        double closet_eith_note = quaver_length * closest_eigth_note_multiplier;
-        beat_markers[0].first = closet_eith_note;
-        beat_markers[1].first = closet_eith_note + beat_length;
-        
-        if (closest_eigth_note_multiplier % 2 == 0)
-        {
-            // its on an onbeat
-            beat_markers[0].second = true;
-            beat_markers[1].second = false;
-        }
-        else
-        {
-            // offbeat
-            beat_markers[0].second = false;
-            beat_markers[1].second = true;
-        }
+        // its on an onbeat
+        beat_markers[0].second = true;
+        beat_markers[1].second = false;
+    }
+    else
+    {
+        // offbeat
+        beat_markers[0].second = false;
+        beat_markers[1].second = true;
+    }
+    return beat_markers;
+}
 
+MidiSequence // It would be good if this also returns a sequence as i could then display this information when looking in the output. And it would further help with refactoring
+MidiSequenceUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
+{
+    std::array<BeatMarkers,2> beat_markers;
+    MidiSequence eighth_note_groupings;
+    for (std::size_t i = 0; i < midi_events.size(); i++)
+    {
+        beat_markers = getBeatMarkers(i, midi_events);
         std::size_t increment = 1;
         bool found_grouping = false;
         MidiSequence eighth_note_grouping;
@@ -135,50 +140,29 @@ MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
 
 // This is the same as the above function except for a few minor changes, if possible it should be refactored.
 void
-MidiFileUtility::calculateEighthNoteGroupingKeys(const std::vector<Sequence>& sequence)
+MidiSequenceUtility::calculateEighthNoteGroupingKeys(const std::vector<Sequence>& sequence)
 {
-    BeatMarkers beat_markers[2];
-    
-    for (std::size_t j = 0; j < sequence.size(); j++)
+    for (std::size_t sequence_index = 0; sequence_index < sequence.size(); sequence_index++)
     {
-        std::size_t midi_events_size = sequence[j].m_midi_sequence.size();
-        
-        for (std::size_t i = 0; i < midi_events_size; i++)
+        std::array<BeatMarkers,2> beat_markers;
+        for (std::size_t midi_sequence_index = 0;
+             midi_sequence_index < sequence[sequence_index].m_midi_sequence.size();
+             midi_sequence_index++)
         {
-            double note_on_timestamp = sequence[j].m_midi_sequence[i].note_on;
-            // early version of function, can be improed
-            int closest_eigth_note_multiplier = static_cast<int>(note_on_timestamp/quaver_length);
-            double closet_eith_note = quaver_length * closest_eigth_note_multiplier;
-            beat_markers[0].first = closet_eith_note;
-            beat_markers[1].first = closet_eith_note + beat_length;
-            
-            if (closest_eigth_note_multiplier % 2 == 0)
-            {
-                // its on an onbeat
-                beat_markers[0].second = true;
-                beat_markers[1].second = false;
-            }
-            else
-            {
-                // offbeat
-                beat_markers[0].second = false;
-                beat_markers[1].second = true;
-            }
-            // Put this above beat marker thing in a function just to tidy it up a little bit.
-
+            beat_markers = getBeatMarkers(midi_sequence_index, sequence[sequence_index].m_midi_sequence);
             std::size_t increment = 1;
             bool found_grouping = false;
             MidiSequence eighth_note_grouping;
             increment = findEigthNoteGrouping(increment,
-                                              i,
-                                              sequence[j].m_midi_sequence,
+                                              midi_sequence_index,
+                                              sequence[sequence_index].m_midi_sequence,
                                               beat_markers[0],
                                               beat_markers[1],
                                               eighth_note_grouping,
                                               true,
                                               found_grouping);
             
-            // make a vector containing a pair with the eighth note grouping and its coressponding chords
+            
             
 
             
@@ -209,13 +193,13 @@ MidiFileUtility::calculateEighthNoteGroupingKeys(const std::vector<Sequence>& se
             //
             if (increment > 1)
             {
-                i += increment - 1;
+                midi_sequence_index += increment - 1;
             }
         }
     }
 }
 std::size_t
-MidiFileUtility::findEigthNoteGrouping(std::size_t& increment,
+MidiSequenceUtility::findEigthNoteGrouping(std::size_t& increment,
                                        const std::size_t& index,
                                        const MidiSequence& midi_events,
                                        BeatMarkers& beat_marker_1,

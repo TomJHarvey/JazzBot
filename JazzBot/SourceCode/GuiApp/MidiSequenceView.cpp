@@ -21,7 +21,7 @@ void
 MidiSequenceView::loadSequence(const juce::File& midi_file)
 {
     m_midi_sequence.clear();
-    if (MidiFileUtility::parseMidiFile(midi_file, m_midi_sequence))
+    if (MidiSequenceUtility::parseMidiFile(midi_file, m_midi_sequence))
     {
         displaySequence();
     }
