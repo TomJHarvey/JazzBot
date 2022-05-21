@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <juce_core/juce_core.h>
 #include "MidiFileUtility.hpp"
+#include "ChordUtility.hpp"
 
 enum class TimeSignature
 {
@@ -35,7 +36,7 @@ struct Chord
     std::string m_chord;
     int m_chord_position;
     std::size_t m_bar_number;
-    // Position in ticks?
+    std::string m_chord_degree;
 };
 
 using ChordSequence = std::vector<Chord>;
@@ -55,7 +56,8 @@ public:
     static bool parseSongInformation(const juce::File& file, SongInformation& song_information);
     static bool parseChordSequence(const juce::File& file,
                                    ChordSequence& chord_sequence,
-                                   const TimeSignature& time_signature); // i'll say it again, this really needs a refactor. Some amy go in chord utility.
+                                   const TimeSignature& time_signature,
+                                   const ChordRoot& key); // i'll say it again, this really needs a refactor. Some amy go in chord utility.
     static std::size_t findChord(const std::string& current_bar, std::size_t& bar_position);
 };
 

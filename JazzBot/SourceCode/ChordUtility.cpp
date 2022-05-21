@@ -224,15 +224,19 @@ ChordUtility::getSimplifiedChordType(const std::string& chord_type)
     {
         if (chord_type ==  "-" ||
             chord_type ==  "-7" ||
-            chord_type ==  "-6" ||
             chord_type ==  "-7911" ||
             chord_type ==  "-79" ||
             chord_type ==  "-7913" ||
-            chord_type ==  "-79b" ||
-            chord_type ==  "-69")
+            chord_type ==  "-79b")
         {
             chord = "-7";
         }
+        else if (chord_type ==  "-6" ||
+                 chord_type ==  "-69")
+        {
+            chord = "-6";
+        }
+                 
         else if (chord_type == "-j7" ||
                  chord_type == "-j7913" ||
                  chord_type == "-j7911#")
@@ -314,23 +318,7 @@ ChordUtility::getSimplifiedChordType(const std::string& chord_type)
         if (chord_type ==  "6" ||
             chord_type ==  "69")
         {
-            chord = "+";
-        }
-        else if (chord_type ==  "6911#")
-        {
-            chord = "j7#11";
-        }
-        else
-        {
-            std::cout << "Chord type not handled " << chord_type << std::endl;
-        }
-    }
-    else if (chord_type[0] == '6')
-    {
-        if (chord_type ==  "6" ||
-            chord_type ==  "69")
-        {
-            chord = "+";
+            chord = "6"; // could try maj7 too lets see with time
         }
         else if (chord_type ==  "6911#")
         {

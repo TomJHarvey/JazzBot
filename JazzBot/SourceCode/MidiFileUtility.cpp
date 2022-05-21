@@ -86,7 +86,7 @@ MidiFileUtility::getOnlyEighthNotes(const MidiSequence& midi_events)
     MidiSequence eighth_note_groupings;
     std::size_t midi_events_size = midi_events.size();
     
-    for (std::size_t i = 0; i < midi_events_size; i++)
+    for (std::size_t i = 0; i < midi_events_size; i++) // maybe use an iterator and check its not at the end? Indexing would be hard though.
     {
         double note_on_timestamp = midi_events[i].note_on;
         // early version of function, can be improed
@@ -142,33 +142,6 @@ MidiFileUtility::calculateEighthNoteGroupingKeys(const std::vector<Sequence>& se
     for (std::size_t j = 0; j < sequence.size(); j++)
     {
         std::size_t midi_events_size = sequence[j].m_midi_sequence.size();
-        // the following bit should go in a function
-        // i think in chord utility too, just passing in a sequence object.
-        // its aim is to return the struct with ticks and the chord type
-        
-        // Set the chords in key
-        // all this stuff will be used by other algorithms ( not just for eigth note)
-        // maybe put it in a chordUtility?
-        ChordRoot key = ChordUtility::getKey(sequence[j].m_song_information.m_key);
-        if (key != ChordRoot::Invalid)
-        {
-            ChordsInKey chords_in_key = ChordUtility::getChordsInKey(key);
-            
-            for (auto& chord : sequence[j].m_chord_sequence)
-            {
-                std::string converted_chord = ChordUtility::convertChordNameToDegree(chords_in_key, chord.m_chord);
-                std::cout << "Chord = " << converted_chord << " Position = " << chord.m_chord_position << std::endl;
-            }
-            
-            
-            // now when checking the chords it needs to convert them too
-            
-            // I now have a list of all the chords that are in key.
-            // It will then get the current chords chord type abd simplify it where possible (so Ab7b9 becomes Dom7)
-
-        }
-        
-        // Now it has a reference point to check if its in key.
         
         for (std::size_t i = 0; i < midi_events_size; i++)
         {
