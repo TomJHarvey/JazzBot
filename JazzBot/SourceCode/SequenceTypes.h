@@ -8,12 +8,9 @@
 #ifndef SequenceTypes_h
 #define SequenceTypes_h
 
-enum class ChordRoot
+enum class RootNote
 {
-    A = 0,
-    Bb,
-    B,
-    C,
+    C = 0,
     Db,
     D,
     Eb,
@@ -22,10 +19,13 @@ enum class ChordRoot
     Gb,
     G,
     Ab,
+    A,
+    Bb,
+    B,
     Invalid = -1
 };
 
-using ChordsInKey = std::map<ChordRoot, std::string>;
+using ChordsInKey = std::map<RootNote, std::string>;
 
 
 struct Chord
@@ -52,7 +52,7 @@ struct SongInformation
 {
     std::string m_title;
     std::string m_instrument;
-    ChordRoot m_key; // this should be
+    RootNote m_key; // this should be
     TimeSignature m_time_signature;
 };
 

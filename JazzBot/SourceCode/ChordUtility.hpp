@@ -18,19 +18,25 @@
 class ChordUtility
 {
 public:
-    static ChordsInKey getChordsInKey(const ChordRoot& key);
-    static ChordRoot getKey(const std::string& key);
+    static ChordsInKey getChordsInKey(const RootNote& key);
+    static RootNote getKey(const std::string& key);
     static std::string convertChordNameToDegree(const ChordsInKey& chords_in_key,
                                                 const std::string& chord); // don't really like this name
     static bool parseChordSequence(std::string& chord_sequence_str,
                                    ChordSequence& chord_sequence,
                                    const TimeSignature& time_signature,
-                                   const ChordRoot& key,
+                                   const RootNote& key,
                                    const juce::String& file_name);
     static std::string findChordForNote(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord);
+    static RootNote findRootNoteForChord(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord);
     static std::size_t findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number);
+    static RootNote convertNoteValueToRootNote(const int& note_value);
+    static int calculateRootNoteDifference(const RootNote& note_1, const RootNote& note_2);
+    
+    static RootNote getChordLetter(const std::string& chord_str);
+    
 private:
-    static ChordRoot convertStringToChordRoot(const std::string& key, const bool& is_minor_key);
+    static RootNote convertStringToRootNote(const std::string& key, const bool& is_minor_key);
     static std::string getSimplifiedChordType(const std::string& chord_type);
     static bool setChordsInCurrentBar(const std::string& current_bar,
                                       ChordSequence& chord_sequence,

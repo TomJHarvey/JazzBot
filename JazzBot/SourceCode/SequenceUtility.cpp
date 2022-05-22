@@ -96,9 +96,9 @@ SequenceUtility::parseSongInformation(const juce::File& file, SongInformation& s
     else
     {
         TimeSignature time_signature = convertStringToTimeSignature(sequence_elements[3]);
-        ChordRoot key = ChordUtility::getKey(sequence_elements[2]);
+        RootNote key = ChordUtility::getKey(sequence_elements[2]);
         if (time_signature != TimeSignature::not_set &&
-            key != ChordRoot::Invalid)
+            key != RootNote::Invalid)
         {
             song_information = {sequence_elements[0],
                                 sequence_elements[1],

@@ -14,7 +14,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "chord_first_beat.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Db, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Db, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Eb-");
             REQUIRE(chord_sequence[0].m_chord_degree == "II-7");
@@ -25,7 +25,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "two_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Db, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Db, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Eb-");
             REQUIRE(chord_sequence[0].m_chord_degree == "II-7");
@@ -40,7 +40,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "slash_chord_first_beat.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Eb, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Eb, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Eb6/Bb");
             REQUIRE(chord_sequence[0].m_chord_degree == "I6");
@@ -50,7 +50,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "two_slash_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Eb, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Eb, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Eb6/Bb");
             REQUIRE(chord_sequence[0].m_chord_degree == "I6");
@@ -64,7 +64,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "normal_and_slash.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Eb, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Eb, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "I6");
@@ -78,7 +78,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "slash_and_normal.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::Eb, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Eb, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Cj7/E");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIj7");
@@ -92,7 +92,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "four_normal.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::D, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::D, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Dbm7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -111,7 +111,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "four_slash.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Eb6/D");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -131,7 +131,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "two_slash_two_normal.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Eb6/D");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -151,7 +151,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "two_normal_two_slash.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -171,7 +171,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "slash_normal_alternate.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Eb6/D");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -191,7 +191,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "normal_slash_alternate.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 4);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -211,7 +211,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "one_three.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -225,7 +225,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "three_one.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Eb/A");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIIImaj");
@@ -239,7 +239,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "one_one_two.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 3);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -256,7 +256,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "two_one_one.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 3);
             REQUIRE(chord_sequence[0].m_chord == "Eb6");
             REQUIRE(chord_sequence[0].m_chord_degree == "bIII6");
@@ -273,7 +273,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "too_many_beats_1.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::C, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::C, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 0);
         }
     }
@@ -286,7 +286,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "just_friends_sequence.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 36);
             REQUIRE(chord_sequence[16].m_chord == "B7");
             REQUIRE(chord_sequence[16].m_chord_degree == "bV7");
@@ -311,7 +311,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "six_four_one_chord.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::six_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::six_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -323,7 +323,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "six_four_two_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::six_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::six_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -340,7 +340,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "five_four_one_chord.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::five_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::five_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -352,7 +352,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "five_four_two_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::five_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::five_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -369,7 +369,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "three_four_one_chord.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::three_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::three_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -381,7 +381,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "three_four_two_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::three_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::three_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -398,7 +398,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "nine_four_one_chord.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::nine_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::nine_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 1);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");
@@ -410,7 +410,7 @@ TEST_CASE("ChordSequenceTests", "[chord_sequence_tests]")
             test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "nine_four_two_chords.txt");
             std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
             ChordSequence chord_sequence;
-            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::nine_four, ChordRoot::F, test_file.getFileName());
+            ChordUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::nine_four, RootNote::F, test_file.getFileName());
             REQUIRE(chord_sequence.size() == 2);
             REQUIRE(chord_sequence[0].m_chord == "Em7b5");
             REQUIRE(chord_sequence[0].m_chord_degree == "VIIm7b5");

@@ -163,12 +163,15 @@ MidiSequenceUtility::getEighthNoteGroupingKeys(const std::vector<Sequence>& sequ
                                               found_grouping);
             
             std::size_t index = 0;
-            calculateEighthNoteGroupingKeys(eighth_note_grouping,
-                                            index,
-                                            beat_markers[0].second,
-                                            sequence[sequence_index].m_chord_sequence,
-                                            eighth_note_data,
-                                            sequence[sequence_index].m_song_information.m_title);
+            if (eighth_note_grouping.size() > 2)
+            {
+                calculateEighthNoteGroupingKeys(eighth_note_grouping,
+                                                index,
+                                                beat_markers[0].second,
+                                                sequence[sequence_index].m_chord_sequence,
+                                                eighth_note_data,
+                                                sequence[sequence_index].m_song_information.m_title);
+            }
 
             if (increment > 1)
             {
@@ -187,10 +190,16 @@ MidiSequenceUtility::calculateEighthNoteGroupingKeys(MidiSequence& grouping,
                                                      EighthNoteGroupingData& eighth_note_data,
                                                      const std::string& file_name) // think i also need chords in key.
 {
+
+//
+
+    
     // This could be done more effeciently, by working out the key once then changing the values of the key
     // Instead it loops through multiple times to create the key.
     // Looking at how long it takes, i think it would be worth trying to change the performance of this
     
+    // this and the utility functions all really need a clean up, some repeated code etc. Its nearlyt there just needs a tidy.
+
     // This could do with a small refactor first i should check that it actually works.
     if (index != grouping.size()) // we don't need these massive groupings, figure out how not to do it.
     {
@@ -206,12 +215,21 @@ MidiSequenceUtility::calculateEighthNoteGroupingKeys(MidiSequence& grouping,
             {
                 std::cout << "New grouping " << std::endl;
                 std::string beat_type_str = (beat_type ? "D" : "O");
-                std::string starting_note_str = std::to_string(grouping[increment].note_value);
+            
+    
                 std::string direction_str = std::to_string(grouping[grouping.size() -1].note_value -
                                                            grouping[increment].note_value);
+                // this function needs changing, it should return the root
+                std::string next_chord_str = ChordUtility::findChordForNote(grouping[index-1].note_on, chord_sequence, true); // is this correct, why -1
                 
-                std::string next_chord_str = "";
-                next_chord_str = ChordUtility::findChordForNote(grouping[index-1].note_on, chord_sequence, true);
+                RootNote first_note = ChordUtility::convertNoteValueToRootNote(grouping[increment].note_value);
+                RootNote chord_root_key = ChordUtility::findRootNoteForChord(grouping[increment].note_on, chord_sequence, false);
+                
+                // I need to get the root key from find chord for note.
+                
+                std::string starting_note_str = std::to_string(ChordUtility::calculateRootNoteDifference(chord_root_key, first_note));
+                
+                
                 std::vector<std::string> chords;
                 std::vector<int> notes;
                 // Find the next chord by getting the last note and finding out the chord of the next bar
@@ -225,7 +243,7 @@ MidiSequenceUtility::calculateEighthNoteGroupingKeys(MidiSequence& grouping,
                         notes.push_back(grouping[i].note_value - grouping[i-1].note_value);
                     }
                 }
-                
+
                 std::size_t current_chord_counter = 0;
                 std::string current_chord = chords[0];
                 std::string chords_str;
@@ -255,18 +273,21 @@ MidiSequenceUtility::calculateEighthNoteGroupingKeys(MidiSequence& grouping,
                     chords_str.pop_back();
                     group_size_str.pop_back();
                 }
-                
+
                 EighthNoteGroupingKey grouping_key = {chords_str,
                                                       beat_type_str,
-                                                      starting_note_str,
+                                                      "starting_note_str",
                                                       group_size_str,
                                                       direction_str,
                                                       next_chord_str,
                                                       file_name};
-                
+
                 eighth_note_data.push_back({grouping_key, notes});
-                    
+
                 std::cout << "C=" << chords_str << "B=" << beat_type_str << "SN=" << starting_note_str << "GS=" << group_size_str << "D=" << direction_str << "NC=" << next_chord_str << "FN=" << file_name << std::endl;
+                for (auto& note : notes) {
+                    std::cout << note << std::endl;
+                }
                 beat_type = !beat_type;
                 increment ++;
             }
@@ -356,3 +377,84 @@ MidiSequenceUtility::findEigthNoteGrouping(std::size_t& increment,
     }
     return increment;
 }
+
+
+
+//void
+//MidiSequenceUtility::calculateEighthNoteGroupingKeys(MidiSequence& grouping,
+//                                                     std::size_t& index,
+//                                                     const bool& starting_beat_type,
+//                                                     const ChordSequence& chord_sequence,
+//                                                     EighthNoteGroupingData& eighth_note_data,
+//                                                     const std::string& file_name)
+//{
+// bool beat_type = starting_beat_type;
+//    std::string beat_type_str = (beat_type ? "D" : "O");
+//    std::string starting_note_str = std::to_string(grouping[0].note_value);
+//    std::string direction_str = std::to_string(grouping[grouping.size() -1].note_value -
+//                                               grouping[0].note_value);
+//
+//    std::string next_chord_str = "";
+//    next_chord_str = ChordUtility::findChordForNote(grouping[index-1].note_on, chord_sequence, true);
+//    std::vector<std::string> chords;
+//    std::vector<int> notes;
+//
+//    for (std::size_t i = 0; i < grouping.size() ; i++)
+//    {
+//        // Find the chord for this note
+//        std::string chord_degree = ChordUtility::findChordForNote(grouping[i].note_on, chord_sequence, false);
+//        chords.push_back(chord_degree);
+//        if (i != 0)
+//        {
+//            notes.push_back(grouping[i].note_value - grouping[i-1].note_value);
+//        }
+//    }
+//
+//    std::size_t current_chord_counter = 0;
+//    std::string current_chord = chords[0];
+//    std::string chords_str;
+//    std::string group_size_str;
+//    bool found_second_chord = false;
+//    for (auto& chord : chords)
+//    {
+//        if (chord == current_chord)
+//        {
+//            current_chord_counter ++;
+//        }
+//        else
+//        {
+//            found_second_chord = true;
+//            chords_str += chord + "&";
+//            group_size_str += std::to_string(current_chord_counter) + "&";
+//            current_chord = chord;
+//        }
+//    }
+//    if (!found_second_chord)
+//    {
+//        chords_str = chords[0];
+//        group_size_str = std::to_string(current_chord_counter);
+//    }
+//    else // remove trailing &
+//    {
+//        chords_str.pop_back();
+//        group_size_str.pop_back();
+//    }
+//
+//    EighthNoteGroupingKey grouping_key = {chords_str,
+//                                          beat_type_str,
+//                                          starting_note_str,
+//                                          group_size_str,
+//                                          direction_str,
+//                                          next_chord_str,
+//                                          file_name};
+//
+//    eighth_note_data.push_back({grouping_key, notes});
+//
+//    std::cout << "C=" << chords_str << "B=" << beat_type_str << "SN=" << starting_note_str << "GS=" << group_size_str << "D=" << direction_str << "NC=" << next_chord_str << std::endl;
+//    for (auto& note : notes) {
+//        std::cout << note << std::endl;
+//    }
+//
+//    // Here it would need to loop through, the things that are strings shouldn't be so they can be manipulated.
+//    // For now i will stick with the slow function as it works
+//}
