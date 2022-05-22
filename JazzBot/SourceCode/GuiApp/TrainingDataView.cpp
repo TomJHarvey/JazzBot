@@ -7,6 +7,7 @@
 
 #include "TrainingDataView.hpp"
 #include "../SequenceUtility.hpp"
+#include <sqlite3.h>
 
 static const int training_data_tool_bar_height = 50;
 static const int midi_sequence_view_height = 450;
@@ -14,13 +15,12 @@ static const int midi_sequence_view_height = 450;
 static const char* return_to_menu_text = "Main Menu";
 static const char* load_file_text = "Load file";
 static const char* modified_sequence_text = "View modified Sequence"; // rename
-static const char* generate_sequence_text = "Generate Sequence"; // rename
+static const char* generate_sequence_text = "Generate Eighth Note Groupings"; // rename
 
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
 
 static const juce::File default_file_path(midi_files_directory);
-
 
 TrainingDataView::TrainingDataView(Listener* listener)
     : m_original_sequence(this)
@@ -97,7 +97,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &generate_sequence_button)
+    else if (button == &generate_sequence_button) // re name
     {
         std::vector<Sequence> sequence = SequenceUtility::generateAllSequenceObjects();
         EighthNoteGroupingData data =  MidiSequenceUtility::getEighthNoteGroupingKeys(sequence);

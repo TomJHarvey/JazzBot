@@ -30,7 +30,7 @@ static const std::size_t num_sequence_elements = 4;
 std::vector<Sequence>
 SequenceUtility::generateAllSequenceObjects()
 {
-    std::vector<Sequence> sequence;
+    std::vector<Sequence> sequences;
     for (const auto& file : juce::File(midi_files_directory).findChildFiles (2, false))
     {
         std::cout << file.getFileName() << std::endl;
@@ -46,29 +46,42 @@ SequenceUtility::generateAllSequenceObjects()
             
             if (chord_changes_file.exists())
             {
-                
-                // Put this into a function as generate Seuqence object which can be tested.
-                SongInformation song_information;
-                ChordSequence chord_sequence;
-                MidiSequence midi_sequence;
-
-                if (parseSongInformation(song_info_file, song_information))
+                Sequence sequence;
+                if (generateSequenceObject(song_info_file, chord_changes_file, file, sequence))
                 {
-                    std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
-                    if (ChordUtility::parseChordSequence(chord_sequence_string,
-                                           chord_sequence,
-                                           song_information.m_time_signature,
-                                           song_information.m_key, // get song information key
-                                           chord_changes_file.getFileName()) &&
-                        MidiSequenceUtility::parseMidiFile(file, midi_sequence))
-                    {
-                        sequence.push_back({song_information, chord_sequence, midi_sequence});
-                    }
+                    sequences.push_back(sequence);
                 }
             }
         }
     }
-    return sequence;
+    return sequences;
+}
+bool
+SequenceUtility::generateSequenceObject(const juce::File& song_info_file,
+                                        const juce::File& chord_changes_file,
+                                        const juce::File& midi_file,
+                                        Sequence& sequence)
+{
+    // Put this into a function as generate Seuqence object which can be tested.
+    SongInformation song_information;
+    ChordSequence chord_sequence;
+    MidiSequence midi_sequence;
+
+    if (parseSongInformation(song_info_file, song_information))
+    {
+        std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
+        if (ChordUtility::parseChordSequence(chord_sequence_string,
+                               chord_sequence,
+                               song_information.m_time_signature,
+                               song_information.m_key, // get song information key
+                               chord_changes_file.getFileName()) &&
+            MidiSequenceUtility::parseMidiFile(midi_file, midi_sequence))
+        {
+            sequence = {song_information, chord_sequence, midi_sequence};
+            return true;
+        }
+    }
+    return false;
 }
 
 bool

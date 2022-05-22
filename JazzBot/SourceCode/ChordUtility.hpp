@@ -15,6 +15,12 @@
 
 #include "SequenceTypes.h"
 
+
+// Some of these functions are used when parsing the file
+// Some are used in the eigth note grouping stage
+// I think if possible i should make sure the ones in the 8th note grouping stage go into a seprate place.
+// We'll see, doesn't feel quite right having this many static methods.
+
 class ChordUtility
 {
 public:

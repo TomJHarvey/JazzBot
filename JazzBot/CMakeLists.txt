@@ -75,6 +75,15 @@ target_compile_definitions(JazzBotCommandLine
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_console_app` call
         JUCE_USE_CURL=0    # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_console_app` call
         "PROJECT_DIRECTORY=\"${PROJECT_DIRECTORY}\"")
+        
+        
+        
+set (LIB_DIR_LOCATION ${NAME}/lib)
+find_library(SQLite3 NAMES sqlite3 PATHS ${LIB_DIR_LOCATION})
+set(INCLUDE_DIRS ${NAME}/include)
+ 
+target_include_directories(JazzBotGui PRIVATE ${INCLUDE_DIRS})
+        
 
 target_link_libraries(JazzBotGui
     PRIVATE
@@ -84,7 +93,8 @@ target_link_libraries(JazzBotGui
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+        juce::juce_recommended_warning_flags
+        SQLite3)
         
 target_link_libraries(JazzBotCommandLine
     PRIVATE
@@ -94,7 +104,7 @@ target_link_libraries(JazzBotCommandLine
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags)
-        
+    
         
         
 find_package(Catch2 3 REQUIRED)
