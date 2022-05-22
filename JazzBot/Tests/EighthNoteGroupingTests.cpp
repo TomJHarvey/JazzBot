@@ -69,4 +69,11 @@ TEST_CASE("EighthNoteGroupingTests", "[eighth_note_grouping_tests]")
         REQUIRE(output_sequence[5].note_value == 72);
         output_sequence.clear();
     }
+    
+//    SECTION ("8th Note grouping keys tests")
+//    {
+//        MidiSequence grouping;
+//        std::size_t index = 0;
+//        MidiSequenceUtility::calculateEighthNoteGroupingKeys(grouping, index);
+//    }
 }

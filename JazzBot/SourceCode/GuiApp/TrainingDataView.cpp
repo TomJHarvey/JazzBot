@@ -100,10 +100,10 @@ TrainingDataView::buttonClicked(juce::Button* button)
     else if (button == &generate_sequence_button)
     {
         std::vector<Sequence> sequence = SequenceUtility::generateAllSequenceObjects();
-        MidiSequenceUtility::calculateEighthNoteGroupingKeys(sequence);
+        EighthNoteGroupingData data =  MidiSequenceUtility::getEighthNoteGroupingKeys(sequence);
+        std::cout << data.size() << std::endl;
         
     }
-    
     // m_sequences = generateAllSequenceObjects(); // can be reused for other functions
     // generate all eigth note groupings for each Sequence; - this will save each one to a db
 }

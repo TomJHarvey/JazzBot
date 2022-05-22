@@ -27,11 +27,6 @@ enum class ChordRoot
 
 using ChordsInKey = std::map<ChordRoot, std::string>;
 
-struct ChordPosition
-{
-    std::string m_chord_type;
-    double m_time_stamp;
-};
 
 struct Chord
 {
@@ -57,7 +52,7 @@ struct SongInformation
 {
     std::string m_title;
     std::string m_instrument;
-    std::string m_key;
+    ChordRoot m_key; // this should be
     TimeSignature m_time_signature;
 };
 
@@ -70,7 +65,6 @@ struct MidiNoteEvent
 };
 
 using MidiSequence = std::vector<MidiNoteEvent>;
-using BeatMarkers = std::pair<double, bool>;
 
 struct Sequence
 {
@@ -78,5 +72,18 @@ struct Sequence
     ChordSequence m_chord_sequence;
     MidiSequence m_midi_sequence;
 };
+
+struct EighthNoteGroupingKey
+{
+    std::string m_chord;
+    std::string m_beat;
+    std::string m_starting_note;
+    std::string m_group_size;
+    std::string m_direction;
+    std::string m_next_chord;
+    std::string m_file_name;
+};
+
+using EighthNoteGroupingData = std::vector<std::pair<EighthNoteGroupingKey, std::vector<int>>>;
 
 #endif /* SequenceTypes_h */

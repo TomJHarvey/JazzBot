@@ -15,12 +15,21 @@
 
 #include "SequenceTypes.h"
 
+using BeatMarkers = std::pair<double, bool>;
+
 class MidiSequenceUtility
 {
 public:
     static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, bool test = false);
     static MidiSequence getOnlyEighthNotes(const MidiSequence& midi_events);
-    static void calculateEighthNoteGroupingKeys(const std::vector<Sequence>& sequence);
+    static EighthNoteGroupingData getEighthNoteGroupingKeys(const std::vector<Sequence>& sequence);
+    static void calculateEighthNoteGroupingKeys(MidiSequence& grouping,
+                                                std::size_t& index,
+                                                const bool& starting_beat_type,
+                                                const ChordSequence& chord_sequence,
+                                                EighthNoteGroupingData& eighth_note_data,
+                                                const std::string& file_name);
+   // static void calculateEighthNoteGroupingKeys(std::vector<int>& grouping, std::size_t index);
 private:
     static std::size_t findEigthNoteGrouping(std::size_t& increment,
                                              const std::size_t& index,

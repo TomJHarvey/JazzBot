@@ -10,7 +10,6 @@
 
 #include <iostream>
 
-
 static const std::string minor_key = "-min";
 static const std::string major_key = "-maj";
 
@@ -19,27 +18,25 @@ static const int number_of_notes = 12;
 static const int beat_length = 480; // repeated definition
 
 std::string chord_degrees[12] = {"I",
-                               "bII",
-                               "II",
-                               "bIII",
-                               "III",
-                               "IV",
-                               "bV",
-                               "V",
-                               "bVI",
-                               "VI",
-                               "bVII",
-                               "VII"};
+                                 "bII",
+                                 "II",
+                                 "bIII",
+                                 "III",
+                                 "IV",
+                                 "bV",
+                                 "V",
+                                 "bVI",
+                                 "VI",
+                                 "bVII",
+                                 "VII"};
 
 ChordRoot
 ChordUtility::getKey(const std::string& key)
 {
-    // Set a bool to test if the key is minor or major.
     ChordRoot chord_type = ChordRoot::Invalid;
     bool is_minor_key = false;
     std::string key_str;
     std::size_t found = key.find(minor_key);
-
     if (found != std::string::npos)
     {
         is_minor_key = true;
@@ -61,7 +58,6 @@ ChordRoot
 ChordUtility::convertStringToChordRoot(const std::string& key, const bool& is_minor_key)
 {
     ChordRoot chord_type = ChordRoot::Invalid;
-    // Strip the key to remove minor or major so its just left with the notes.
     if (key == "A")
     {
         chord_type = ChordRoot::A;
@@ -123,7 +119,7 @@ ChordUtility::convertStringToChordRoot(const std::string& key, const bool& is_mi
         chord_type = ChordRoot::Invalid;
     }
     
-    if (is_minor_key)
+    if (is_minor_key) // add three semi tones so the relative major key is now used
     {
         int chord = static_cast<int>(chord_type) + 3;
         if (chord > 11)
@@ -167,10 +163,7 @@ ChordUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const s
         chord_str = chord_str.substr(0, slash_index);
     } // else exit?
     
-    
-    // What about Cb how is that dealt with.
-    
-    std::string chord_root_str; // this bit could maybe be further split into functions, lets see.
+    std::string chord_root_str;
     std::string chord_type;
     
     bool sharp_to_flat = false;
@@ -190,11 +183,9 @@ ChordUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const s
         chord_root_str = chord_str.substr(0, 1);
         chord_type = chord_str.substr(1, chord_str.size()-1);
     }
-
-    // sharp_to_flat
     ChordRoot chord_root = convertStringToChordRoot(chord_root_str, false);
-    
     std::string simplified_chord_type;
+   
     if (chord_root != ChordRoot::Invalid)
     {
         auto it = chords_in_key.find(chord_root);
@@ -371,10 +362,10 @@ ChordUtility::getSimplifiedChordType(const std::string& chord_type)
 
 bool
 ChordUtility::parseChordSequence(std::string& chord_sequence_str,
-                                    ChordSequence& chord_sequence,
-                                    const TimeSignature& time_signature,
-                                    const ChordRoot& key,
-                                    const juce::String& file_name)
+                                 ChordSequence& chord_sequence,
+                                 const TimeSignature& time_signature,
+                                 const ChordRoot& key,
+                                 const juce::String& file_name)
 {
     ChordsInKey chords_in_key = ChordUtility::getChordsInKey(key);
     std::string current_bar;
@@ -425,6 +416,7 @@ ChordUtility::parseChordSequence(std::string& chord_sequence_str,
         }
         chord_sequence_str.erase(0, pos + delimiter.length());
     }
+    bar_number --; // it is increased at the end of the above loop, so needs to be set back down
     return (checkLastBarHasCorrectMidiTickValue(chord_sequence, bar_number, bar_length));
 }
 
@@ -487,18 +479,11 @@ ChordUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
     // Checks to see if the midi tick values line up with the amount of bars.
     // There is still a chance that they're misaallihned and realligned in the middle,
     // however that is a very small chance, so this test will suffice.
-    std::size_t last_bar_position = 0;
+    
     if (chord_sequence.size() > 1 &&
         chord_sequence[0].m_bar_number != chord_sequence[chord_sequence.size()-1].m_bar_number)
     {
-        for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
-        {
-            if (chord_sequence[index].m_bar_number != (bar_number - 1))
-            {
-                last_bar_position = index +1;
-                break;
-            }
-        }
+        std::size_t last_bar_position = findLastBar(chord_sequence, bar_number);
         if ((chord_sequence[last_bar_position].m_chord_position != 0) &&
             (chord_sequence[last_bar_position].m_chord_position /
              chord_sequence[last_bar_position].m_bar_number) != bar_length)
@@ -509,6 +494,19 @@ ChordUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
         }
     }
     return true;
+}
+
+std::size_t
+ChordUtility::findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number)
+{
+    for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
+    {
+        if (chord_sequence[index].m_bar_number != bar_number) // we don't want - 1, we will do that before entering function in this case
+        {
+            return (index +1);
+        }
+    }
+    return 0;
 }
 
 std::size_t
@@ -531,7 +529,7 @@ ChordUtility::findChord(const std::string& current_bar, std::size_t& bar_positio
             if (isupper(current_bar[bar_position+1]))
             {
                 bar_position +=2;
-                return findChord(current_bar, bar_position);
+                return findChord(current_bar, bar_position); // ignore slash enter function again
             }
             else
             {
@@ -541,4 +539,40 @@ ChordUtility::findChord(const std::string& current_bar, std::size_t& bar_positio
         bar_position ++;
     }
     return number_of_beats;
+}
+
+std::string
+ChordUtility::findChordForNote(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord)
+{
+    std::size_t last_bar =
+        findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
+    
+    // if the current note is not in the first time round of the chord sequence
+    if (note_on > chord_sequence[last_bar].m_chord_position) // changed type
+    {
+        // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
+        // if round up -
+        double sequence_positioner = sequence_positioner= chord_sequence[last_bar].m_chord_position * std::floor(note_on/chord_sequence[last_bar].m_chord_position);
+        note_on -= sequence_positioner;
+    }
+    
+    auto it = std::find_if(chord_sequence.begin(),
+                           chord_sequence.end(),
+                           [&note_on](const Chord& chord){return chord.m_chord_position > note_on;});
+    // what happens if it reaches the end?
+    
+    
+    
+    if (!next_chord)
+    {
+        --it;
+    }
+    if (it != chord_sequence.end())
+    {
+        return it->m_chord_degree;
+    }
+    else
+    {
+        return "NOCHORDDEGREE";
+    }
 }

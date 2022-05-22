@@ -46,25 +46,23 @@ SequenceUtility::generateAllSequenceObjects()
             
             if (chord_changes_file.exists())
             {
+                
+                // Put this into a function as generate Seuqence object which can be tested.
                 SongInformation song_information;
                 ChordSequence chord_sequence;
                 MidiSequence midi_sequence;
 
                 if (parseSongInformation(song_info_file, song_information))
                 {
-                    ChordRoot key = ChordUtility::getKey(song_information.m_key);
-                    if (key != ChordRoot::Invalid)
+                    std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
+                    if (ChordUtility::parseChordSequence(chord_sequence_string,
+                                           chord_sequence,
+                                           song_information.m_time_signature,
+                                           song_information.m_key, // get song information key
+                                           chord_changes_file.getFileName()) &&
+                        MidiSequenceUtility::parseMidiFile(file, midi_sequence))
                     {
-                        std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
-                        if (ChordUtility::parseChordSequence(chord_sequence_string,
-                                               chord_sequence,
-                                               song_information.m_time_signature,
-                                               key,
-                                               chord_changes_file.getFileName()) &&
-                            MidiSequenceUtility::parseMidiFile(file, midi_sequence))
-                        {
-                            sequence.push_back({song_information, chord_sequence, midi_sequence});
-                        }
+                        sequence.push_back({song_information, chord_sequence, midi_sequence});
                     }
                 }
             }
@@ -98,16 +96,13 @@ SequenceUtility::parseSongInformation(const juce::File& file, SongInformation& s
     else
     {
         TimeSignature time_signature = convertStringToTimeSignature(sequence_elements[3]);
+        ChordRoot key = ChordUtility::getKey(sequence_elements[2]);
         if (time_signature != TimeSignature::not_set &&
-            sequence_elements[2] != "no_key" &&
-            sequence_elements[2].find("dor") == std::string::npos &&
-            sequence_elements[2].find("mix") == std::string::npos &&
-            sequence_elements[2].find("-chrom") == std::string::npos &&
-            sequence_elements[2].find("-blues") == std::string::npos)
+            key != ChordRoot::Invalid)
         {
             song_information = {sequence_elements[0],
                                 sequence_elements[1],
-                                sequence_elements[2],
+                                key,
                                 time_signature};
             return true;
         }

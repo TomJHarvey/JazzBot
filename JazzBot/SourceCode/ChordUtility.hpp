@@ -27,6 +27,8 @@ public:
                                    const TimeSignature& time_signature,
                                    const ChordRoot& key,
                                    const juce::String& file_name);
+    static std::string findChordForNote(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord);
+    static std::size_t findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number);
 private:
     static ChordRoot convertStringToChordRoot(const std::string& key, const bool& is_minor_key);
     static std::string getSimplifiedChordType(const std::string& chord_type);
