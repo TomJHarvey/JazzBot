@@ -8,6 +8,10 @@
 #ifndef SequenceTypes_h
 #define SequenceTypes_h
 
+#include <map>
+#include <string>
+#include <vector>
+
 enum class RootNote
 {
     C = 0,
@@ -73,7 +77,7 @@ struct Sequence
     MidiSequence m_midi_sequence;
 };
 
-struct EighthNoteGroupingKey
+struct NoteGroupingKey // used to hold the data for various note groupings for the database entry
 {
     std::string m_chord;
     std::string m_beat;
@@ -84,6 +88,6 @@ struct EighthNoteGroupingKey
     std::string m_file_name;
 };
 
-using EighthNoteGroupingData = std::vector<std::pair<EighthNoteGroupingKey, std::vector<int>>>;
+using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<int>>>;
 
 #endif /* SequenceTypes_h */

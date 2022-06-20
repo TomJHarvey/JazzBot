@@ -33,8 +33,8 @@ public:
                                    const TimeSignature& time_signature,
                                    const RootNote& key,
                                    const juce::String& file_name);
-    static std::string findChordForNote(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord);
-    static RootNote findRootNoteForChord(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord);
+    static std::string findChordForNote(const double& note_on, const ChordSequence& chord_sequence, const bool& next_chord, const TimeSignature& time_signature);
+    static RootNote findRootNoteForChord(const double& note_on, const ChordSequence& chord_sequence, const TimeSignature& time_signature);
     static std::size_t findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number);
     static RootNote convertNoteValueToRootNote(const int& note_value);
     static int calculateRootNoteDifference(const RootNote& note_1, const RootNote& note_2);

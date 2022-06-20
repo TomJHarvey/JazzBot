@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 #include <juce_core/juce_core.h>
-#include "MidiSequenceUtility.hpp"
 #include "SequenceTypes.h"
 
 class SequenceUtility
@@ -22,7 +21,9 @@ public:
     static bool generateSequenceObject(const juce::File& song_info_file,
                                        const juce::File& chord_changes_file,
                                        const juce::File& midi_file,
-                                       Sequence& sequence);
+                                       Sequence& sequence,
+                                       const bool& ppq_is_480);
+    static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, const bool& ppq_is_480);
 private:
     static TimeSignature convertStringToTimeSignature(const std::string& time_signature_string);
 

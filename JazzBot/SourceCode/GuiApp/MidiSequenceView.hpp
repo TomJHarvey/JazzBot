@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "CustomViewport.hpp"
 #include "PianoRoll.hpp"
-#include "../MidiSequenceUtility.hpp"
 
 class MidiSequenceView : public juce::Component
                        , public PianoRoll::Listener

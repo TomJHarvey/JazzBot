@@ -8,10 +8,10 @@
 #include "MainMenu.hpp"
 #include <string>
 
-static const char* view_test_data_text = "View Test Data";
+static const char* generate_sequence_data_text = "Generate Sequence Data";
 static const char* generate_sequence_text = "Generate Sequence";
 static const char* view_sequence = "View Sequence";
-static const std::string menu_items_text[menu_items_size] = {view_test_data_text,
+static const std::string menu_items_text[menu_items_size] = {generate_sequence_data_text,
                                          generate_sequence_text,
                                          view_sequence};
 static const int button_y_pos = 60;

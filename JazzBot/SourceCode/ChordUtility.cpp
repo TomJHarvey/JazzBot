@@ -578,63 +578,86 @@ ChordUtility::findChord(const std::string& current_bar, std::size_t& bar_positio
 }
 
 std::string
-ChordUtility::findChordForNote(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord)
+ChordUtility::findChordForNote(const double& note_on, const ChordSequence& chord_sequence, const bool& next_chord, const TimeSignature& time_signature)
 {
     std::size_t last_bar =
         findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
     
+    const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
+    
+    double number_of_run_throughs = 0.0f;
+    double sequence_positioner = 0.0f;
+    
+    double new_note_on = note_on;
+    
     // if the current note is not in the first time round of the chord sequence
-    if (note_on > chord_sequence[last_bar].m_chord_position) // changed type
+    if (new_note_on >= (chord_sequence[last_bar].m_chord_position) + bar_length) // changed type
     {
         // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
-        // if round up -
-        double sequence_positioner = sequence_positioner= chord_sequence[last_bar].m_chord_position * std::floor(note_on/chord_sequence[last_bar].m_chord_position);
-        note_on -= sequence_positioner;
+        
+        number_of_run_throughs = std::floor(note_on/(chord_sequence[last_bar].m_chord_position + bar_length));
+        sequence_positioner = number_of_run_throughs * (chord_sequence[last_bar].m_bar_number + 1) * bar_length; // maybe we want bar number + 1... 
+        new_note_on = new_note_on - sequence_positioner;
+        //std::cout << "new note on = " << new_note_on << " note on = " << note_on << "sp = " << sequence_positioner << std::endl;
     }
     
     auto it = std::find_if(chord_sequence.begin(),
                            chord_sequence.end(),
-                           [&note_on](const Chord& chord){return chord.m_chord_position > note_on;});
-    // what happens if it reaches the end?
+                           [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});
     
-    
-    
-    if (!next_chord)
+    std::cout << "New note on = " << new_note_on << std::endl;
+    if (!next_chord) // commented out for testing if find if is the cause of error
     {
-        --it;
+        --it; // At this stage if its at the last chord it will be = to nothing, then it goes back, which takes us to the last bar.
     }
     if (it != chord_sequence.end())
     {
         return it->m_chord_degree;
     }
-    else
+    else // if its at the end that means it should wrap around to the first chord
     {
-        return "NOCHORDDEGREE";
+        return chord_sequence[0].m_chord_degree;
     }
+    
+   // return chord_sequence[0].m_chord_degree; // here for testing
 }
 
 RootNote
-ChordUtility::findRootNoteForChord(double& note_on, const ChordSequence& chord_sequence, const bool& next_chord)
+ChordUtility::findRootNoteForChord(const double& note_on, const ChordSequence& chord_sequence, const TimeSignature& time_signature) // function needs a refactor into one above
 {
     std::size_t last_bar =
         findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
     
+    
+    const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
+    
+    double new_note_on = note_on;
+    
+    // this should be last bar + bar length
+    
+    double last_bar_position = chord_sequence[last_bar].m_chord_position + bar_length;
+    
+    
+    
     // if the current note is not in the first time round of the chord sequence
-    if (note_on > chord_sequence[last_bar].m_chord_position) // changed type
+    if (new_note_on > chord_sequence[last_bar].m_chord_position) // changed type
     {
         // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
         // if round up -
-        double sequence_positioner = sequence_positioner= chord_sequence[last_bar].m_chord_position * std::floor(note_on/chord_sequence[last_bar].m_chord_position);
-        note_on -= sequence_positioner;
+        
+        // s = last_bar_position *
+        double sequence_positioner = last_bar_position * std::floor(note_on/(last_bar_position));
+        new_note_on -= sequence_positioner;
     }
     
     auto it = std::find_if(chord_sequence.begin(),
                            chord_sequence.end(),
-                           [&note_on](const Chord& chord){return chord.m_chord_position > note_on;});
+                           [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});
     // what happens if it reaches the end?
     it --;
     
-    return ChordUtility::getChordLetter(it->m_chord);
+    return ChordUtility::getChordLetter(it->m_chord); // commented out for test.
+    //return RootNote::A;
 }
 
 RootNote

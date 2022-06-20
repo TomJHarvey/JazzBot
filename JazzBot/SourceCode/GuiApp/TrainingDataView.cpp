@@ -14,8 +14,8 @@ static const int midi_sequence_view_height = 450;
 
 static const char* return_to_menu_text = "Main Menu";
 static const char* load_file_text = "Load file";
-static const char* modified_sequence_text = "View modified Sequence"; // rename
-static const char* generate_sequence_text = "Generate Eighth Note Groupings"; // rename
+static const char* view_algorithm_text = "View algorithm"; // this shows the algorithm at work, for example it will show just eigth notes
+static const char* apply_algorithm_text = "Apply algorithm"; // this will apply the algorithm to all files and generate data to be used for sequence generation
 
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
@@ -41,15 +41,15 @@ TrainingDataView::TrainingDataView(Listener* listener)
     m_load_file_button.setButtonText(load_file_text);
     addAndMakeVisible(m_load_file_button);
     
-    display_modified_sequence_button.addListener(this);
-    display_modified_sequence_button.setBounds(320, 0, 80, 45);
-    display_modified_sequence_button.setButtonText(modified_sequence_text);
-    addAndMakeVisible(display_modified_sequence_button);
+    view_algorithm_button.addListener(this);
+    view_algorithm_button.setBounds(320, 0, 80, 45);
+    view_algorithm_button.setButtonText(view_algorithm_text);
+    addAndMakeVisible(view_algorithm_button);
     
-    generate_sequence_button.addListener(this);
-    generate_sequence_button.setBounds(480, 0, 80, 45);
-    generate_sequence_button.setButtonText(generate_sequence_text);
-    addAndMakeVisible(generate_sequence_button);
+    apply_algorithm_button.addListener(this);
+    apply_algorithm_button.setBounds(480, 0, 80, 45);
+    apply_algorithm_button.setButtonText(apply_algorithm_text);
+    addAndMakeVisible(apply_algorithm_button);
 }
 
 void
@@ -82,30 +82,33 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_original_sequence.loadSequence(midi_file);
         }
     }
-    else if (button == &display_modified_sequence_button)
+    else if (button == &view_algorithm_button)
     {
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            MidiSequence eighth_note_groupings = MidiSequenceUtility::getOnlyEighthNotes(modified_sequence);
-            modified_sequence = MidiSequenceUtility::getOnlyEighthNotes(eighth_note_groupings);
+            // getModifiedSequence
+            MidiSequence eighth_note_groupings = m_eighth_notes.getModifiedSequence(modified_sequence);
             
             // this sets it now i can use it in the midi view
-            m_modified_sequence.setSequence(modified_sequence);
+            m_modified_sequence.setSequence(eighth_note_groupings);
             
             // then it can display the sequence as it is
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &generate_sequence_button) // re name
+    else if (button == &apply_algorithm_button) // re name the  variables, this is for generating an eigth note sequence
     {
-        std::vector<Sequence> sequence = SequenceUtility::generateAllSequenceObjects();
-        EighthNoteGroupingData data =  MidiSequenceUtility::getEighthNoteGroupingKeys(sequence);
+        if (m_sequences.empty())
+        {
+            m_sequences = SequenceUtility::generateAllSequenceObjects();
+        }
+        
+        // generateDatabaseKeys
+        NoteGroupingData data = m_eighth_notes.createDatabaseKeys(m_sequences);
         std::cout << data.size() << std::endl;
         
     }
-    // m_sequences = generateAllSequenceObjects(); // can be reused for other functions
-    // generate all eigth note groupings for each Sequence; - this will save each one to a db
 }
 
 void

@@ -12,7 +12,8 @@
 #include <stdio.h>
 
 #include "GuiNote.hpp"
-#include "../MidiSequenceUtility.hpp"
+
+#include "../SequenceTypes.h"
 
 // Might be better to put these in a constants file specifically for Piano roll and midiSequenceView
 // if scaling were to come into play it may be slightly harder as some of these are ints and not floats.

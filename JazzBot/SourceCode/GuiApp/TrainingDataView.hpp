@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <juce_gui_extra/juce_gui_extra.h>
 #include "MidiSequenceView.hpp"
+#include "../EighthNotes.hpp"
+#include "../SequenceTypes.h"
+
 
 class TrainingDataView : public juce::Component
                        , public MidiSequenceView::Listener
@@ -34,11 +37,13 @@ public:
 private:
     MidiSequenceView m_original_sequence;
     MidiSequenceView m_modified_sequence;
+    std::vector<Sequence> m_sequences;
+    EighthNotes m_eighth_notes;             // this will be a pointer to base class NoteGrouping
     Listener* m_listener;
     juce::TextButton m_return_to_menu_button;
     juce::TextButton m_load_file_button;
-    juce::TextButton display_modified_sequence_button;
-    juce::TextButton generate_sequence_button;
+    juce::TextButton view_algorithm_button;
+    juce::TextButton apply_algorithm_button;
 
 };
 

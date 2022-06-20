@@ -29,8 +29,8 @@ set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
                 SourceCode/GuiApp/TrainingDataView.cpp)
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
 set(COMMON_SOURCES SourceCode/main.cpp
+                   SourceCode/EighthNotes.cpp
                    SourceCode/ChordUtility.cpp
-                   SourceCode/MidiSequenceUtility.cpp
                    SourceCode/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 
@@ -110,8 +110,8 @@ target_link_libraries(JazzBotCommandLine
 find_package(Catch2 3 REQUIRED)
 add_executable(tests tests/EighthNoteGroupingTests.cpp
                      tests/ChordSequenceTests.cpp
+                     SourceCode/EighthNotes.cpp
                      SourceCode/ChordUtility.cpp
-                     SourceCode/MidiSequenceUtility.cpp
                      SourceCode/SequenceUtility.cpp)
 
 target_link_libraries(tests
