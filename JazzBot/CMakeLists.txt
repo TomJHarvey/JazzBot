@@ -24,14 +24,15 @@ set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
                 SourceCode/GuiApp/GuiNote.cpp
                 SourceCode/GuiApp/MainComponent.cpp
                 SourceCode/GuiApp/MainMenu.cpp
-                SourceCode/GuiApp/PianoRoll.cpp
                 SourceCode/GuiApp/MidiSequenceView.cpp
+                SourceCode/GuiApp/PianoRoll.cpp
                 SourceCode/GuiApp/TrainingDataView.cpp)
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
 set(COMMON_SOURCES SourceCode/main.cpp
-                   SourceCode/EighthNotes.cpp
-                   SourceCode/ChordUtility.cpp
-                   SourceCode/SequenceUtility.cpp)
+                   SourceCode/NoteGrouping/EighthNotes.cpp
+                   SourceCode/NoteGrouping/NoteGrouping.cpp
+                   SourceCode/Utility/ChordParsingUtility.cpp
+                   SourceCode/Utility/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 
 #Useful to keep for future on how to include common directories
@@ -106,13 +107,14 @@ target_link_libraries(JazzBotCommandLine
         juce::juce_recommended_warning_flags)
     
         
-        
 find_package(Catch2 3 REQUIRED)
-add_executable(tests tests/EighthNoteGroupingTests.cpp
-                     tests/ChordSequenceTests.cpp
-                     SourceCode/EighthNotes.cpp
-                     SourceCode/ChordUtility.cpp
-                     SourceCode/SequenceUtility.cpp)
+add_executable(tests tests/ChordSequenceParsingTests.cpp
+                     tests/EighthNoteGroupingDetectionTests.cpp
+                     tests/EighthNoteGroupingGenerationTests.cpp
+                     SourceCode/NoteGrouping/EighthNotes.cpp
+                     SourceCode/NoteGrouping/NoteGrouping.cpp
+                     SourceCode/Utility/ChordParsingUtility.cpp
+                     SourceCode/Utility/SequenceUtility.cpp)
 
 target_link_libraries(tests
     PRIVATE

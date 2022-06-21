@@ -5,8 +5,9 @@
 //  Created by Tom Harvey on 09/05/2022.
 //
 
+
+#include "ChordParsingUtility.hpp"
 #include "SequenceUtility.hpp"
-#include "ChordUtility.hpp"
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <algorithm>
 
@@ -28,8 +29,6 @@ static const std::size_t num_sequence_elements = 4;
 
 static const int test_scaling = 10;
 static const int test_divison_scaling = 2;
-
-//static const int beat_length = 480; // repeated definition
 
 std::vector<Sequence>
 SequenceUtility::generateAllSequenceObjects()
@@ -76,7 +75,7 @@ SequenceUtility::generateSequenceObject(const juce::File& song_info_file,
     if (parseSongInformation(song_info_file, song_information))
     {
         std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
-        if (ChordUtility::parseChordSequence(chord_sequence_string,
+        if (ChordParsingUtility::parseChordSequence(chord_sequence_string,
                                chord_sequence,
                                song_information.m_time_signature,
                                song_information.m_key, // get song information key
@@ -177,7 +176,7 @@ SequenceUtility::parseSongInformation(const juce::File& file, SongInformation& s
     else
     {
         TimeSignature time_signature = convertStringToTimeSignature(sequence_elements[3]);
-        RootNote key = ChordUtility::getKey(sequence_elements[2]);
+        RootNote key = ChordParsingUtility::getKey(sequence_elements[2]);
         if (time_signature != TimeSignature::not_set &&
             key != RootNote::Invalid)
         {
@@ -239,4 +238,94 @@ SequenceUtility::convertStringToTimeSignature(const std::string& time_signature_
         std::cout << "Time signature " << time_signature_string <<  " not handled " << std::endl;
     }
     return time_signature;
+}
+
+RootNote
+SequenceUtility::convertStringToRootNote(const std::string& key, const bool& is_minor_key)
+{
+    RootNote chord_type = RootNote::Invalid;
+    if (key == "A")
+    {
+        chord_type = RootNote::A;
+    }
+    else if (key == "Bb" ||
+             key == "A#")
+    {
+        chord_type = RootNote::Bb;
+    }
+    else if (key == "B" ||
+             key == "Cb")
+    {
+        chord_type = RootNote::B;
+    }
+    else if (key == "C")
+    {
+        chord_type = RootNote::C;
+    }
+    else if (key == "Db" ||
+             key == "C#")
+    {
+        chord_type = RootNote::Db;
+    }
+    else if (key == "D")
+    {
+        chord_type = RootNote::D;
+    }
+    else if (key == "Eb" ||
+             key == "D#")
+    {
+        chord_type = RootNote::Eb;
+    }
+    else if (key == "E" ||
+             key == "Fb")
+    {
+        chord_type = RootNote::E;
+    }
+    else if (key == "F")
+    {
+        chord_type = RootNote::F;
+    }
+    else if (key == "Gb" ||
+             key == "F#")
+    {
+        chord_type = RootNote::Gb;
+    }
+    else if (key == "G")
+    {
+        chord_type = RootNote::G;
+    }
+    else if (key == "Ab" ||
+             key == "G#")
+    {
+        chord_type = RootNote::Ab;
+    }
+    else
+    {
+        std::cout << "key not handled: " << key << std::endl;
+        chord_type = RootNote::Invalid;
+    }
+    
+    if (is_minor_key) // add three semi tones so the relative major key is now used
+    {
+        int chord = static_cast<int>(chord_type) + 3;
+        if (chord > 11)
+        {
+           chord -= 12;
+        }
+        chord_type = static_cast<RootNote>(chord);
+    }
+    return chord_type;
+}
+
+std::size_t
+SequenceUtility::findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number)
+{
+    for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
+    {
+        if (chord_sequence[index].m_bar_number != bar_number) // we don't want - 1, we will do that before entering function in this case
+        {
+            return (index +1);
+        }
+    }
+    return 0;
 }

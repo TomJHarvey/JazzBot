@@ -29,8 +29,6 @@ enum class RootNote
     Invalid = -1
 };
 
-using ChordsInKey = std::map<RootNote, std::string>;
-
 
 struct Chord
 {
@@ -77,17 +75,6 @@ struct Sequence
     MidiSequence m_midi_sequence;
 };
 
-struct NoteGroupingKey // used to hold the data for various note groupings for the database entry
-{
-    std::string m_chord;
-    std::string m_beat;
-    std::string m_starting_note;
-    std::string m_group_size;
-    std::string m_direction;
-    std::string m_next_chord;
-    std::string m_file_name;
-};
-
-using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<int>>>;
+static const int beat_length = 480;
 
 #endif /* SequenceTypes_h */

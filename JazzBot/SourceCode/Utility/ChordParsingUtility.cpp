@@ -1,21 +1,15 @@
 //
-//  ChordUtility.cpp
+//  ChordParsingUtility.cpp
 //  JazzBotGui
 //
-//  Created by Tom Harvey on 20/05/2022.
+//  Created by Tom Harvey on 21/06/2022.
 //
 
-#include "ChordUtility.hpp"
-#include "SequenceUtility.hpp"
-
-#include <iostream>
-
-static const std::string minor_key = "-min";
-static const std::string major_key = "-maj";
+#include "ChordParsingUtility.hpp"
+#include "../Utility/SequenceUtility.hpp"
 
 static const std::size_t key_size = 4;
 static const int number_of_notes = 12;
-static const int beat_length = 480; // repeated definition
 
 std::string chord_degrees[12] = {"I",
                                  "bII",
@@ -30,109 +24,11 @@ std::string chord_degrees[12] = {"I",
                                  "bVII",
                                  "VII"};
 
-RootNote
-ChordUtility::getKey(const std::string& key)
-{
-    RootNote chord_type = RootNote::Invalid;
-    bool is_minor_key = false;
-    std::string key_str;
-    std::size_t found = key.find(minor_key);
-    if (found != std::string::npos)
-    {
-        is_minor_key = true;
-    }
-    else
-    {
-        found = key.find(major_key);
-        if (found == std::string::npos)
-        {
-            std::cout << "Key not recognised: " << key << std::endl;
-            return chord_type;
-        }
-    }
-    key_str = key.substr(0, key.size() - key_size);
-    return convertStringToRootNote(key_str, is_minor_key); // could do the minor key conver here and not in the function, as another function now uses it. It is better to minimalise functionality for each function.
-}
-
-RootNote
-ChordUtility::convertStringToRootNote(const std::string& key, const bool& is_minor_key)
-{
-    RootNote chord_type = RootNote::Invalid;
-    if (key == "A")
-    {
-        chord_type = RootNote::A;
-    }
-    else if (key == "Bb" ||
-             key == "A#")
-    {
-        chord_type = RootNote::Bb;
-    }
-    else if (key == "B" ||
-             key == "Cb")
-    {
-        chord_type = RootNote::B;
-    }
-    else if (key == "C")
-    {
-        chord_type = RootNote::C;
-    }
-    else if (key == "Db" ||
-             key == "C#")
-    {
-        chord_type = RootNote::Db;
-    }
-    else if (key == "D")
-    {
-        chord_type = RootNote::D;
-    }
-    else if (key == "Eb" ||
-             key == "D#")
-    {
-        chord_type = RootNote::Eb;
-    }
-    else if (key == "E" ||
-             key == "Fb")
-    {
-        chord_type = RootNote::E;
-    }
-    else if (key == "F")
-    {
-        chord_type = RootNote::F;
-    }
-    else if (key == "Gb" ||
-             key == "F#")
-    {
-        chord_type = RootNote::Gb;
-    }
-    else if (key == "G")
-    {
-        chord_type = RootNote::G;
-    }
-    else if (key == "Ab" ||
-             key == "G#")
-    {
-        chord_type = RootNote::Ab;
-    }
-    else
-    {
-        std::cout << "key not handled: " << key << std::endl;
-        chord_type = RootNote::Invalid;
-    }
-    
-    if (is_minor_key) // add three semi tones so the relative major key is now used
-    {
-        int chord = static_cast<int>(chord_type) + 3;
-        if (chord > 11)
-        {
-           chord -= 12;
-        }
-        chord_type = static_cast<RootNote>(chord);
-    }
-    return chord_type;
-}
+static const std::string minor_key = "-min";
+static const std::string major_key = "-maj";
 
 ChordsInKey
-ChordUtility::getChordsInKey(const RootNote& key)
+ChordParsingUtility::getChordsInKey(const RootNote& key)
 {
     ChordsInKey chords;
     int counter = 0;
@@ -150,42 +46,8 @@ ChordUtility::getChordsInKey(const RootNote& key)
     return chords;
 }
 
-RootNote
-ChordUtility::getChordLetter(const std::string& chord)
-{
-    std::string chord_str = chord;
-    std::size_t slash_index = chord.find('/');
-    if (slash_index != std::string::npos)
-    {
-        chord_str = chord_str.substr(0, slash_index);
-    } // else exit?
-    
-    std::string chord_root_str;
-    std::string chord_type;
-    
-    bool sharp_to_flat = false;
-    if (chord_str.size() > 1 && chord_str[1] == 'b')
-    {
-        chord_root_str = chord_str.substr(0, 2);
-        chord_type = chord_str.substr(2, chord_str.size()-2);
-    }
-    else if (chord_str.size() > 1 && chord_str[1] == '#')
-    {
-        chord_root_str = chord_str.substr(0, 2);
-        chord_type = chord_str.substr(2, chord_str.size()-2);
-        sharp_to_flat = true;
-    }
-    else
-    {
-        chord_root_str = chord_str.substr(0, 1);
-        chord_type = chord_str.substr(1, chord_str.size()-1);
-    }
-    RootNote chord_root = convertStringToRootNote(chord_root_str, false);
-    return chord_root;
-}
-
 std::string
-ChordUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const std::string& chord)
+ChordParsingUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const std::string& chord)
 {
     // For each chord it will need to set its degree (e.g I VI, VII, bII, bVII) + its type (e.g min7, maj7, dom7 etc)
     // To do this it will take the current chord and split it into Note name and chord
@@ -217,11 +79,8 @@ ChordUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const s
         chord_root_str = chord_str.substr(0, 1);
         chord_type = chord_str.substr(1, chord_str.size()-1);
     }
-    RootNote chord_root = convertStringToRootNote(chord_root_str, false);
-    
-    
+    RootNote chord_root = SequenceUtility::convertStringToRootNote(chord_root_str, false);
     std::string simplified_chord_type;
-   
     if (chord_root != RootNote::Invalid)
     {
         auto it = chords_in_key.find(chord_root);
@@ -246,7 +105,7 @@ ChordUtility::convertChordNameToDegree(const ChordsInKey& chords_in_key, const s
 }
 
 std::string
-ChordUtility::getSimplifiedChordType(const std::string& chord_type)
+ChordParsingUtility::getSimplifiedChordType(const std::string& chord_type)
 {
     std::string chord;
     if (chord_type[0] == '-')
@@ -397,13 +256,13 @@ ChordUtility::getSimplifiedChordType(const std::string& chord_type)
 }
 
 bool
-ChordUtility::parseChordSequence(std::string& chord_sequence_str,
+ChordParsingUtility::parseChordSequence(std::string& chord_sequence_str,
                                  ChordSequence& chord_sequence,
                                  const TimeSignature& time_signature,
                                  const RootNote& key,
                                  const juce::String& file_name)
 {
-    ChordsInKey chords_in_key = ChordUtility::getChordsInKey(key);
+    ChordsInKey chords_in_key = ChordParsingUtility::getChordsInKey(key);
     std::string current_bar;
     std::string delimiter = "|";
     std::size_t pos, bar_number = 0;
@@ -457,7 +316,7 @@ ChordUtility::parseChordSequence(std::string& chord_sequence_str,
 }
 
 bool
-ChordUtility::setChordsInCurrentBar(const std::string& current_bar,
+ChordParsingUtility::setChordsInCurrentBar(const std::string& current_bar,
                                        ChordSequence& chord_sequence,
                                        const bool& found_chord,
                                        const ChordsInKey& chords_in_key,
@@ -491,7 +350,7 @@ ChordUtility::setChordsInCurrentBar(const std::string& current_bar,
                 {
                     chord = current_bar.substr(current_chord_position, bar_position - current_chord_position);
                 }
-                std::string chord_degree = ChordUtility::convertChordNameToDegree(chords_in_key, chord);
+                std::string chord_degree = ChordParsingUtility::convertChordNameToDegree(chords_in_key, chord);
                 int chord_position = (bar_number * bar_length) + (previous_number_of_beats * beat_length);
                 //std::cout << "Bar number = " << bar_number << " - Position = " << chord_position << " chord = " << chord << " degree = " << chord_degree << std::endl;
                 number_of_beats += 1;
@@ -508,7 +367,7 @@ ChordUtility::setChordsInCurrentBar(const std::string& current_bar,
 }
 
 bool
-ChordUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
+ChordParsingUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
                                                      const std::size_t& bar_number,
                                                      const int& bar_length)
 {
@@ -519,7 +378,7 @@ ChordUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
     if (chord_sequence.size() > 1 &&
         chord_sequence[0].m_bar_number != chord_sequence[chord_sequence.size()-1].m_bar_number)
     {
-        std::size_t last_bar_position = findLastBar(chord_sequence, bar_number);
+        std::size_t last_bar_position = SequenceUtility::findLastBar(chord_sequence, bar_number);
         if ((chord_sequence[last_bar_position].m_chord_position != 0) &&
             (chord_sequence[last_bar_position].m_chord_position /
              chord_sequence[last_bar_position].m_bar_number) != bar_length)
@@ -532,21 +391,9 @@ ChordUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
     return true;
 }
 
-std::size_t
-ChordUtility::findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number)
-{
-    for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
-    {
-        if (chord_sequence[index].m_bar_number != bar_number) // we don't want - 1, we will do that before entering function in this case
-        {
-            return (index +1);
-        }
-    }
-    return 0;
-}
 
 std::size_t
-ChordUtility::findChord(const std::string& current_bar, std::size_t& bar_position)
+ChordParsingUtility::findChord(const std::string& current_bar, std::size_t& bar_position)
 {
     std::size_t number_of_beats = 0;
     while (bar_position < current_bar.length())
@@ -577,155 +424,26 @@ ChordUtility::findChord(const std::string& current_bar, std::size_t& bar_positio
     return number_of_beats;
 }
 
-std::string
-ChordUtility::findChordForNote(const double& note_on, const ChordSequence& chord_sequence, const bool& next_chord, const TimeSignature& time_signature)
-{
-    std::size_t last_bar =
-        findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
-    
-    const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
-    
-    double number_of_run_throughs = 0.0f;
-    double sequence_positioner = 0.0f;
-    
-    double new_note_on = note_on;
-    
-    // if the current note is not in the first time round of the chord sequence
-    if (new_note_on >= (chord_sequence[last_bar].m_chord_position) + bar_length) // changed type
-    {
-        // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
-        
-        number_of_run_throughs = std::floor(note_on/(chord_sequence[last_bar].m_chord_position + bar_length));
-        sequence_positioner = number_of_run_throughs * (chord_sequence[last_bar].m_bar_number + 1) * bar_length; // maybe we want bar number + 1... 
-        new_note_on = new_note_on - sequence_positioner;
-        //std::cout << "new note on = " << new_note_on << " note on = " << note_on << "sp = " << sequence_positioner << std::endl;
-    }
-    
-    auto it = std::find_if(chord_sequence.begin(),
-                           chord_sequence.end(),
-                           [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});
-    
-    std::cout << "New note on = " << new_note_on << std::endl;
-    if (!next_chord) // commented out for testing if find if is the cause of error
-    {
-        --it; // At this stage if its at the last chord it will be = to nothing, then it goes back, which takes us to the last bar.
-    }
-    if (it != chord_sequence.end())
-    {
-        return it->m_chord_degree;
-    }
-    else // if its at the end that means it should wrap around to the first chord
-    {
-        return chord_sequence[0].m_chord_degree;
-    }
-    
-   // return chord_sequence[0].m_chord_degree; // here for testing
-}
-
 RootNote
-ChordUtility::findRootNoteForChord(const double& note_on, const ChordSequence& chord_sequence, const TimeSignature& time_signature) // function needs a refactor into one above
+ChordParsingUtility::getKey(const std::string& key)
 {
-    std::size_t last_bar =
-        findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
-    
-    
-    const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
-    
-    double new_note_on = note_on;
-    
-    // this should be last bar + bar length
-    
-    double last_bar_position = chord_sequence[last_bar].m_chord_position + bar_length;
-    
-    
-    
-    // if the current note is not in the first time round of the chord sequence
-    if (new_note_on > chord_sequence[last_bar].m_chord_position) // changed type
-    {
-        // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
-        // if round up -
-        
-        // s = last_bar_position *
-        double sequence_positioner = last_bar_position * std::floor(note_on/(last_bar_position));
-        new_note_on -= sequence_positioner;
-    }
-    
-    auto it = std::find_if(chord_sequence.begin(),
-                           chord_sequence.end(),
-                           [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});
-    // what happens if it reaches the end?
-    it --;
-    
-    return ChordUtility::getChordLetter(it->m_chord); // commented out for test.
-    //return RootNote::A;
-}
-
-RootNote
-ChordUtility::convertNoteValueToRootNote(const int& note_value)
-{
-    float octave = (note_value / 12);
-    int rounded_octave =  static_cast<int>(std::floor(octave));
-    int note_degree =  note_value - (rounded_octave * 12);
-    
     RootNote chord_type = RootNote::Invalid;
-    switch (note_degree) {
-        case 0:
-            chord_type = RootNote::C;
-            break;
-        case 1:
-            chord_type = RootNote::Db;
-            break;
-        case 2:
-            chord_type = RootNote::D;
-            break;
-        case 3:
-            chord_type = RootNote::Eb;
-            break;
-        case 4:
-            chord_type = RootNote::E;
-            break;
-        case 5:
-            chord_type = RootNote::F;
-            break;
-        case 6:
-            chord_type = RootNote::Gb;
-            break;
-        case 7:
-            chord_type = RootNote::G;
-            break;
-        case 8:
-            chord_type = RootNote::Ab;
-            break;
-        case 9:
-            chord_type = RootNote::A;
-            break;
-        case 10:
-            chord_type = RootNote::Bb;
-            break;
-        case 11:
-            chord_type = RootNote::B;
-            break;
-        default:
-            break;
-    }
-    return chord_type;
-}
-
-
-int
-ChordUtility::calculateRootNoteDifference(const RootNote& note_1, const RootNote& note_2)
-{
-    int search_note = static_cast<int>(note_1); // root for chord
-    int target_note = static_cast<int>(note_2);
-    int counter = 0;
-    while (search_note != target_note)
+    bool is_minor_key = false;
+    std::string key_str;
+    std::size_t found = key.find(minor_key);
+    if (found != std::string::npos)
     {
-        search_note ++;
-        counter ++;
-        if (search_note > 11)
+        is_minor_key = true;
+    }
+    else
+    {
+        found = key.find(major_key);
+        if (found == std::string::npos)
         {
-            search_note -=12;
+            std::cout << "Key not recognised: " << key << std::endl;
+            return chord_type;
         }
     }
-    return counter;
+    key_str = key.substr(0, key.size() - key_size);
+    return SequenceUtility::convertStringToRootNote(key_str, is_minor_key); // could do the minor key conver here and not in the function, as another function now uses it. It is better to minimalise functionality for each function.
 }

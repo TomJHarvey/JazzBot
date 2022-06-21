@@ -20,14 +20,14 @@ public:
     NoteGroupingData createDatabaseKeys(const std::vector<Sequence>& sequence) override;
     
 private:
-    std::size_t findEigthNoteGrouping(std::size_t& increment,
-                                      const std::size_t& index,
-                                      const MidiSequence& midi_events,
-                                      BeatMarkers& beat_marker_1,
-                                      BeatMarkers& beat_marker_2,
-                                      MidiSequence& eigth_notes_midi_sequence,
-                                      const bool& first_time,
-                                      bool& found_grouping); // maybe a better way to do this
+    std::size_t findEighthNoteGrouping(std::size_t& increment,
+                                       const std::size_t& index,
+                                       const MidiSequence& midi_events,
+                                       BeatMarkers& beat_marker_1,
+                                       BeatMarkers& beat_marker_2,
+                                       MidiSequence& eigth_notes_midi_sequence,
+                                       const bool& first_time,
+                                       bool& found_grouping); // maybe a better way to do this
     
     std::array<BeatMarkers, 2> getBeatMarkers(const std::size_t& note_index,
                                               const MidiSequence& midi_events);

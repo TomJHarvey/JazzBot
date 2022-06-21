@@ -6,7 +6,8 @@
 //
 
 #include "TrainingDataView.hpp"
-#include "../SequenceUtility.hpp"
+#include "../NoteGrouping/EighthNotes.hpp"
+#include "../Utility/SequenceUtility.hpp"
 #include <sqlite3.h>
 
 static const int training_data_tool_bar_height = 50;
@@ -25,6 +26,7 @@ static const juce::File default_file_path(midi_files_directory);
 TrainingDataView::TrainingDataView(Listener* listener)
     : m_original_sequence(this)
     , m_modified_sequence(this)
+    , m_note_grouping(new EighthNotes())
     , m_listener(listener)
 {
     addAndMakeVisible(&m_original_sequence);
@@ -87,8 +89,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            // getModifiedSequence
-            MidiSequence eighth_note_groupings = m_eighth_notes.getModifiedSequence(modified_sequence);
+            MidiSequence eighth_note_groupings = m_note_grouping->getModifiedSequence(modified_sequence);
             
             // this sets it now i can use it in the midi view
             m_modified_sequence.setSequence(eighth_note_groupings);
@@ -97,18 +98,17 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &apply_algorithm_button) // re name the  variables, this is for generating an eigth note sequence
+    else if (button == &apply_algorithm_button)
     {
         if (m_sequences.empty())
         {
             m_sequences = SequenceUtility::generateAllSequenceObjects();
         }
         
-        // generateDatabaseKeys
-        NoteGroupingData data = m_eighth_notes.createDatabaseKeys(m_sequences);
+        NoteGroupingData data = m_note_grouping->createDatabaseKeys(m_sequences);
         std::cout << data.size() << std::endl;
-        
     }
+    // TODO: add a drop down menu to select the type of algorithm, it will change m_note_grouping
 }
 
 void

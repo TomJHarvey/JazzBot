@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include <juce_core/juce_core.h>
-#include "SequenceTypes.h"
+#include "../SequenceTypes.h"
 
 class SequenceUtility
 {
@@ -24,6 +24,10 @@ public:
                                        Sequence& sequence,
                                        const bool& ppq_is_480);
     static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, const bool& ppq_is_480);
+    
+    static std::size_t findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number);
+    static RootNote convertStringToRootNote(const std::string& key, const bool& is_minor_key);
+    
 private:
     static TimeSignature convertStringToTimeSignature(const std::string& time_signature_string);
 

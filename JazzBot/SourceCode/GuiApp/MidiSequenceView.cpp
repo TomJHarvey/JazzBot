@@ -1,5 +1,5 @@
 #include "MidiSequenceView.hpp"
-#include "../SequenceUtility.hpp"
+#include "../Utility/SequenceUtility.hpp"
 
 static const int tool_bar_height = 20;
 static const int arrange_window_height = (number_of_piano_keys + 1) * grid_line_height;
