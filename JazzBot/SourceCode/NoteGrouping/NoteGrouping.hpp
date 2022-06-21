@@ -25,7 +25,7 @@ struct NoteGroupingKey // used to hold the data for various note groupings for t
     std::string m_file_name;
 };
 
-using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<int>>>;
+using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<std::string>>>;
 
 class NoteGrouping
 {

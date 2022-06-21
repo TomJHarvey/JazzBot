@@ -248,7 +248,7 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 std::string starting_note_str = std::to_string(calculateRootNoteDifference(chord_root_key, first_note));
                 
                 std::vector<std::string> chords;
-                std::vector<int> notes;
+                std::vector<std::string> notes;
                 // Find the next chord by getting the last note and finding out the chord of the next bar
                 for (std::size_t i = increment; i <= index; i++) // 0-5, 1-5, 2-5, 3-5
                 {
@@ -257,7 +257,7 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                     chords.push_back(chord_degree);
                     if (i != increment)
                     {
-                        notes.push_back(grouping[i].note_value - grouping[i-1].note_value);
+                        notes.push_back(std::to_string(grouping[i].note_value - grouping[i-1].note_value));
                     }
                 }
 
@@ -291,6 +291,9 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                     chords_str.pop_back();
                     group_size_str += std::to_string(current_chord_counter);
                 }
+                
+//                std::cout << chords_str << std::endl;
+//                std::cout << group_size_str << std::endl;
 
                 NoteGroupingKey grouping_key = {chords_str,
                                                 beat_type_str,
