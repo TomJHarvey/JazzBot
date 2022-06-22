@@ -106,11 +106,20 @@ TrainingDataView::buttonClicked(juce::Button* button)
         {
             m_sequences = SequenceUtility::generateAllSequenceObjects();
         }
-        // if database directory is not empty() // else popup window - "database already populating"
-        NoteGroupingData data = m_note_grouping->createDatabaseKeys(m_sequences); // popup window with - "creating database..."
-        if (GroupingsDatabase::createDatabase(eighth_note_groupings_db_string))
+        
+        // its eight note string for now. That can be stored in noteGrouping as get database name.
+        if (!GroupingsDatabase::databaseExists(eighth_note_groupings_db_string))
         {
-            GroupingsDatabase::populateDatabase(eighth_note_groupings_db_string, data);
+            NoteGroupingData data = m_note_grouping->createDatabaseKeys(m_sequences);
+            if (GroupingsDatabase::createDatabase(eighth_note_groupings_db_string))
+            {
+                GroupingsDatabase::populateDatabase(eighth_note_groupings_db_string, data);
+            }
+        }
+        else
+        {
+            // could have a pop up window here,
+            std::cout << "Database " << eighth_note_groupings_db_string << " already exists" << std::endl;
         }
         
         //std::cout << data.size() << std::endl;

@@ -30,7 +30,7 @@ GroupingsDatabase::createDatabase(const std::string& database_name)
         return true;
     }
     
-    sqlite3* DB;
+    sqlite3* sql_database;
     std::string sql = "CREATE TABLE NOTEGROUPING("
                           "ID INT PRIMARY KEY     NOT NULL, "
                           "FILENAME         TEXT    NOT NULL, "
@@ -44,20 +44,20 @@ GroupingsDatabase::createDatabase(const std::string& database_name)
                           "GROUPINGNUM      TEXT    NOT NULL, "
                           "NOTES            TEXT    NOT NULL);";
     int exit = 0;
-    exit = sqlite3_open(database_string.c_str(), &DB);
-    char* messaggeError;
-    exit = sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, &messaggeError);
+    exit = sqlite3_open(database_string.c_str(), &sql_database);
+    char* messagge_error;
+    exit = sqlite3_exec(sql_database, sql.c_str(), nullptr, nullptr, &messagge_error);
   
     if (exit != SQLITE_OK) {
         std::cout << "Error Create Table" << std::endl;
-        sqlite3_free(messaggeError);
+        sqlite3_free(messagge_error);
         return false;
     }
     else
     {
         std::cout << "Table created Successfully" << std::endl;
     }
-    sqlite3_close(DB);
+    sqlite3_close(sql_database);
     return true;
 }
 
@@ -65,8 +65,8 @@ bool
 GroupingsDatabase::populateDatabase(const std::string& database_name,
                                     const NoteGroupingData& note_grouping_data)
 {
-    sqlite3* DB;
-    char* messaggeError;
+    sqlite3* sql_database;
+    char* messagge_error;
     
     juce::File output_directory = getOutputDirectory(database_directory);
     std::string database_string = output_directory.getFullPathName().toStdString() + "/" + database_name; // not portable
@@ -78,7 +78,7 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
     }
     
     // check if file exists.
-    int exit = sqlite3_open(database_string.c_str(), &DB);
+    int exit = sqlite3_open(database_string.c_str(), &sql_database);
     
     for (std::size_t index = 0; index < note_grouping_data.size(); index++)
     {
@@ -109,10 +109,10 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
                             "'" + notes + "');";
         
 
-        exit = sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, &messaggeError);
+        exit = sqlite3_exec(sql_database, sql.c_str(), nullptr, nullptr, &messagge_error);
         if (exit != SQLITE_OK) {
             std::cout << "Error Insert" << std::endl;
-            sqlite3_free(messaggeError);
+            sqlite3_free(messagge_error);
             return false;
         }
         else
@@ -120,7 +120,7 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
             std::cout << "Records created Successfully!" << std::endl;
         }
     }
-    sqlite3_close(DB);
+    sqlite3_close(sql_database);
     return true;
 }
 
@@ -141,3 +141,11 @@ GroupingsDatabase::getOutputDirectory(const std::string& output_folder_name)
     return output_directory;
 }
 
+bool
+GroupingsDatabase::databaseExists(const std::string& database_name)
+{
+    juce::File output_directory = getOutputDirectory(database_directory);
+    std::string database_string = output_directory.getFullPathName().toStdString() + "/" + database_name; // not portable
+    juce::File output_directory_file(database_string);
+    return output_directory_file.exists();
+}

@@ -20,6 +20,7 @@ public:
     static bool createDatabase(const std::string& database_name);
     static bool populateDatabase(const std::string& database_name, const NoteGroupingData& note_grouping_data);
     static juce::File getOutputDirectory(const std::string& output_folder_name);
+    static bool databaseExists(const std::string& database_name);
 };
 
 #endif /* GroupingsDatabase_hpp */
