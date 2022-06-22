@@ -36,9 +36,9 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
             NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
             REQUIRE(data[0].first.m_chord == "IVj7");
             REQUIRE(data[0].first.m_beat == "D");
-            REQUIRE(data[0].first.m_direction == "-4");
+            REQUIRE(data[0].first.m_direction == "3");
             REQUIRE(data[0].first.m_file_name == "BennyCarter_JustFriends");
-            REQUIRE(data[0].first.m_group_size == "13");  // apparently its 13, investigate
+            REQUIRE(data[0].first.m_group_size == "10");  // apparently its 13, investigate
             REQUIRE(data[0].first.m_next_chord == "IV-7");
             REQUIRE(data[0].first.m_starting_note == "4");
         }
@@ -56,7 +56,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "II-7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "-3");
                 REQUIRE(data[0].first.m_group_size == "4");
                 REQUIRE(data[0].first.m_next_chord == "V7");
@@ -73,7 +73,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "II-7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "-3");
                 REQUIRE(data[0].first.m_group_size == "4");
                 REQUIRE(data[0].first.m_next_chord == "V7");
@@ -89,7 +89,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "Ij7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "-3");
                 REQUIRE(data[0].first.m_group_size == "4");
                 REQUIRE(data[0].first.m_next_chord == "VI7");
@@ -105,7 +105,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "V7&Ij7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "4");
                 REQUIRE(data[0].first.m_group_size == "2&2");
                 REQUIRE(data[0].first.m_next_chord == "VI7");
@@ -124,7 +124,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "VI7&II-7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "-1");
                 REQUIRE(data[0].first.m_group_size == "2&2");
                 REQUIRE(data[0].first.m_next_chord == "V7");
@@ -144,7 +144,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
                 NoteGroupingData data =  eighth_notes.createDatabaseKeys(sequences);
                 REQUIRE(data.size() == 3);
                 REQUIRE(data[0].first.m_chord == "VI7&II-7");
-                REQUIRE(data[0].first.m_beat == "O");
+                REQUIRE(data[0].first.m_beat == "D");
                 REQUIRE(data[0].first.m_direction == "-1");
                 REQUIRE(data[0].first.m_group_size == "2&2");
                 REQUIRE(data[0].first.m_next_chord == "V7");

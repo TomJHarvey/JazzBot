@@ -39,7 +39,8 @@ private:
                                          const ChordSequence& chord_sequence,
                                          NoteGroupingData& eighth_note_data,
                                          const std::string& file_name,
-                                         const TimeSignature& time_signature);
+                                         const TimeSignature& time_signature,
+                                         unsigned int& grouping_counter);
     
 };
 

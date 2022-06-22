@@ -82,6 +82,55 @@ NoteGrouping::findRootNoteForChord(const double& note_on, const ChordSequence& c
     return getChordLetter(it->m_chord); // commented out for test.
 }
 
+// This function here will need to get the bar number
+// It will first need to provide the note on for the first note in the sequence
+// if it is over the last chord, then it will get the value of sequence positioner, if not it will set it to (0 or 1, need to check...)
+// then it will search and get the iterators m_current_bar
+
+// for now i'll just make a new function, then i can think about refactoring. It can return a string that will be used in the database.
+std::string
+NoteGrouping::getLocation(const double& note_on, const ChordSequence& chord_sequence, const TimeSignature& time_signature)
+{
+    // 0 is first time, then 1,2,3,4
+    std::size_t last_bar =
+        SequenceUtility::findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
+    
+    const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
+    
+    double number_of_run_throughs = 0.0f;
+    double sequence_positioner = 0.0f;
+    
+    double new_note_on = note_on;
+    
+    // if the current note is not in the first time round of the chord sequence
+    if (new_note_on >= (chord_sequence[last_bar].m_chord_position) + bar_length) // changed type
+    {
+        // find the amount of times the sequence has gone through, then minus that from the note on so it can index the chord sequence
+        
+        number_of_run_throughs = std::floor(note_on/(chord_sequence[last_bar].m_chord_position + bar_length));
+        sequence_positioner = number_of_run_throughs * (chord_sequence[last_bar].m_bar_number + 1) * bar_length; // maybe we want bar number + 1...
+        new_note_on = new_note_on - sequence_positioner;
+        //std::cout << "new note on = " << new_note_on << " note on = " << note_on << "sp = " << sequence_positioner << std::endl;
+    }
+    
+    auto it = std::find_if(chord_sequence.begin(),
+                           chord_sequence.end(),
+                           [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});
+    
+    std::string bar_number;
+    if (it != chord_sequence.end())
+    {
+        bar_number =  std::to_string(it->m_bar_number);
+    }
+    else // if its at the end that means it should wrap around to the first chord
+    {
+        bar_number = std::to_string(chord_sequence[0].m_bar_number);
+    }
+    
+    return std::to_string(static_cast<int>(number_of_run_throughs)) + "&" + bar_number;
+    
+}
+
 
 RootNote
 NoteGrouping::convertNoteValueToRootNote(const int& note_value)

@@ -9,13 +9,14 @@
 #include "../SequenceTypes.h"
 
 #include <stdio.h>
-#include <iostream> //why here?
+#include <iostream>
 #include <array>
 
 static const int quaver_length = 240;
 static const double dotted_quaver = 360;
 static const double dotted_semi = 180;
 static const double offbeat_dotted_semi = 150; // this value is more leniant if its on an offbeat. Not really a dotted semi then is it
+static const std::size_t grouping_limit = 10;
 
 MidiSequence
 EighthNotes::getModifiedSequence(const MidiSequence& midi_events)
@@ -59,6 +60,7 @@ EighthNotes::createDatabaseKeys(const std::vector<Sequence>& sequence)
     for (std::size_t sequence_index = 0; sequence_index < sequence.size(); sequence_index++)
     {
         std::array<BeatMarkers,2> beat_markers;
+        unsigned int grouping_counter = 0;
         for (std::size_t midi_sequence_index = 0;
              midi_sequence_index < sequence[sequence_index].m_midi_sequence.size();
              midi_sequence_index++)
@@ -67,6 +69,7 @@ EighthNotes::createDatabaseKeys(const std::vector<Sequence>& sequence)
             std::size_t increment = 1;
             bool found_grouping = false;
             MidiSequence eighth_note_grouping;
+            bool beat_type = beat_markers[0].second;
             increment = findEighthNoteGrouping(increment,
                                                midi_sequence_index,
                                                sequence[sequence_index].m_midi_sequence,
@@ -80,11 +83,12 @@ EighthNotes::createDatabaseKeys(const std::vector<Sequence>& sequence)
             {
                 calculateNoteGroupingKeys(eighth_note_grouping,
                                           index,
-                                          beat_markers[0].second,
+                                          beat_type,
                                           sequence[sequence_index].m_chord_sequence,
                                           eighth_note_data,
                                           sequence[sequence_index].m_song_information.m_title,
-                                          sequence[sequence_index].m_song_information.m_time_signature);
+                                          sequence[sequence_index].m_song_information.m_time_signature,
+                                          grouping_counter);
             }
             if (increment > 1)
             {
@@ -158,7 +162,8 @@ EighthNotes::findEighthNoteGrouping(std::size_t& increment,
         
         // for now these sets of conditions will have to do, i think i can always go back and edit them if i need to.
 
-        if (midi_events[index + increment].note_on < (beat_marker_2.first+20) &&
+        if (increment < grouping_limit && // limit for 8th note groupings
+           midi_events[index + increment].note_on < (beat_marker_2.first+20) &&
             (midi_events[first_index].duration < dotted_quaver ) &&
             midi_events[index + increment].note_on - midi_events[first_index].note_on < dotted_quaver &&
             ((midi_events[index + increment].note_on - midi_events[first_index].note_on > dotted_semi &&
@@ -211,7 +216,8 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                                              const ChordSequence& chord_sequence,
                                              NoteGroupingData& eighth_note_data,
                                              const std::string& file_name,
-                                             const TimeSignature& time_signature)
+                                             const TimeSignature& time_signature,
+                                             unsigned int& grouping_counter)
 {
     // This could be done more effeciently, by working out the key once then changing the values of the key
     // Instead it loops through multiple times to create the key.
@@ -223,7 +229,7 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
     if (index != grouping.size()) // we don't need these massive groupings, figure out how not to do it.
     {
         std::size_t new_index =  index + 1;
-        calculateNoteGroupingKeys(grouping, new_index, starting_beat_type, chord_sequence, eighth_note_data, file_name, time_signature);
+        calculateNoteGroupingKeys(grouping, new_index, starting_beat_type, chord_sequence, eighth_note_data, file_name, time_signature, grouping_counter);
         if (index > 1)
         {
             //std::cout << "New grouping with index: " << index << std::endl;
@@ -242,13 +248,16 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 
                 RootNote first_note = convertNoteValueToRootNote(grouping[increment].note_value);
                 RootNote chord_root_key = findRootNoteForChord(grouping[increment].note_on, chord_sequence, time_signature);
+                std::string location_str = getLocation(grouping[increment].note_on, chord_sequence, time_signature);
+                grouping_counter ++;
+                std::string grouping_counter_str = std::to_string(grouping_counter);
                 
                 // I need to get the root key from find chord for note.
-                
                 std::string starting_note_str = std::to_string(calculateRootNoteDifference(chord_root_key, first_note));
-                
+
                 std::vector<std::string> chords;
                 std::vector<std::string> notes;
+                
                 // Find the next chord by getting the last note and finding out the chord of the next bar
                 for (std::size_t i = increment; i <= index; i++) // 0-5, 1-5, 2-5, 3-5
                 {
@@ -294,14 +303,15 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 
 //                std::cout << chords_str << std::endl;
 //                std::cout << group_size_str << std::endl;
-
                 NoteGroupingKey grouping_key = {chords_str,
                                                 beat_type_str,
                                                 starting_note_str,
                                                 group_size_str,
                                                 direction_str,
                                                 next_chord_str,
-                                                file_name};
+                                                file_name,
+                                                grouping_counter_str,
+                                                location_str};
 
                 eighth_note_data.push_back({grouping_key, notes});
 

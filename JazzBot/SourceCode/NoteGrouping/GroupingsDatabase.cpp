@@ -40,6 +40,8 @@ GroupingsDatabase::createDatabase(const std::string& database_name)
                           "DIRECTION        TEXT    NOT NULL, "
                           "NEXTCHORD        TEXT    NOT NULL, "
                           "BEAT             TEXT    NOT NULL, "
+                          "LOCATION         TEXT    NOT NULL, "
+                          "GROUPINGNUM      TEXT    NOT NULL, "
                           "NOTES            TEXT    NOT NULL);";
     int exit = 0;
     exit = sqlite3_open(database_string.c_str(), &DB);
@@ -102,13 +104,16 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
                             "'" + note_grouping_data[index].first.m_direction + "'," +
                             "'" + note_grouping_data[index].first.m_next_chord + "'," +
                             "'" + note_grouping_data[index].first.m_beat + "'," +
+                            "'" + note_grouping_data[index].first.m_location + "'," +
+                            "'" + note_grouping_data[index].first.m_grouping_number + "'," +
                             "'" + notes + "');";
+        
 
-         exit = sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, &messaggeError);
+        exit = sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, &messaggeError);
         if (exit != SQLITE_OK) {
             std::cout << "Error Insert" << std::endl;
             sqlite3_free(messaggeError);
-            //return false;
+            return false;
         }
         else
         {
