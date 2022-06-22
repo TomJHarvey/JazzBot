@@ -108,19 +108,19 @@ TrainingDataView::buttonClicked(juce::Button* button)
         }
         
         // its eight note string for now. That can be stored in noteGrouping as get database name.
-        if (!GroupingsDatabase::databaseExists(eighth_note_groupings_db_string))
-        {
+//        if (!GroupingsDatabase::databaseExists(eighth_note_groupings_db_string))
+//        {
             NoteGroupingData data = m_note_grouping->createDatabaseKeys(m_sequences);
             if (GroupingsDatabase::createDatabase(eighth_note_groupings_db_string))
             {
                 GroupingsDatabase::populateDatabase(eighth_note_groupings_db_string, data);
             }
-        }
-        else
-        {
-            // could have a pop up window here,
-            std::cout << "Database " << eighth_note_groupings_db_string << " already exists" << std::endl;
-        }
+//        }
+//        else
+//        {
+//            // could have a pop up window here,
+//            std::cout << "Database " << eighth_note_groupings_db_string << " already exists" << std::endl;
+//        }
         
         //std::cout << data.size() << std::endl;
     }

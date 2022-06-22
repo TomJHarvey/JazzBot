@@ -141,7 +141,7 @@ SequenceUtility::parseMidiFile(const juce::File& file, MidiSequence& midi_events
                                                (note_on_timestamp/test_divison_scaling)*test_scaling,
                                                (note_off_timestamp/test_divison_scaling)*test_scaling,
                                                (duration/test_divison_scaling)*test_scaling});
-                    }
+                    } 
                 }
                 current_note_ons.erase(note_number);
             }

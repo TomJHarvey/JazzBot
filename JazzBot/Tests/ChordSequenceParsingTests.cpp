@@ -301,6 +301,18 @@ TEST_CASE("ChordSequenceParsingTests", "[chord_sequence_parsing_tests]")
             REQUIRE(chord_sequence[34].m_bar_number == 31);
             REQUIRE(chord_sequence[34].m_chord_position == 59520);
         }
+        SECTION("Skippy") // issues with testing, so chose this to see where issue lies
+        {
+            test_file = juce::File::getCurrentWorkingDirectory().getChildFile(test_file_dir + "skippy_sequence.txt");
+            std::string chord_sequence_string = SequenceUtility::getChordSequenceAsString(test_file);
+            ChordSequence chord_sequence;
+            ChordParsingUtility::parseChordSequence(chord_sequence_string, chord_sequence, TimeSignature::four_four, RootNote::Ab, test_file.getFileName());
+            REQUIRE(chord_sequence.size() == 68);
+            REQUIRE(chord_sequence[0].m_chord == "D7");
+            REQUIRE(chord_sequence[0].m_chord_degree == "bV7");
+
+        }
+        
     }
     // These tests with irregular time signatures aren't throughough, however im running out of time!!
     SECTION("6/4")

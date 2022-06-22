@@ -182,7 +182,10 @@ EighthNotes::findEighthNoteGrouping(std::size_t& increment,
                                                      duration});
 
             }
-            eigth_notes_midi_sequence.push_back({midi_events[index + increment]});
+            else
+            {
+                eigth_notes_midi_sequence.push_back({midi_events[index + increment]});
+            }
 
             beat_marker_1.first += quaver_length;
             beat_marker_1.second = ! beat_marker_1.second;
@@ -223,6 +226,11 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
     // Instead it loops through multiple times to create the key.
     // Looking at how long it takes, i think it would be worth trying to change the performance of this
     
+    if (file_name == "SteveLacy_Skippy")
+    {
+        std::cout << "here" << std::endl;
+    }
+    
     // a lot of this could probably be shared by other groupings, so thats something to think about for the future
 
     // This could do with a small refactor first i should check that it actually works.
@@ -241,7 +249,7 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 //std::cout << "New grouping " << std::endl;
                 std::string beat_type_str = (beat_type ? "D" : "O");
     
-                std::string direction_str = std::to_string(grouping[grouping.size() -1].note_value -
+                std::string direction_str = std::to_string(grouping[index].note_value -
                                                            grouping[increment].note_value);
                 // this function needs changing, it should return the root
                 std::string next_chord_str = findChordForNote(grouping[index-1].note_on, chord_sequence, true, time_signature); // is this correct, why -1

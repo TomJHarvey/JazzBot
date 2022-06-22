@@ -38,9 +38,50 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
             REQUIRE(data[0].first.m_beat == "D");
             REQUIRE(data[0].first.m_direction == "3");
             REQUIRE(data[0].first.m_file_name == "BennyCarter_JustFriends");
-            REQUIRE(data[0].first.m_group_size == "10");  // apparently its 13, investigate
+            REQUIRE(data[0].first.m_group_size == "10");
             REQUIRE(data[0].first.m_next_chord == "IV-7");
             REQUIRE(data[0].first.m_starting_note == "4");
+            REQUIRE(data[0].second.size() == 9);
+            REQUIRE(data[0].second[0] == "3");
+            REQUIRE(data[0].second[1] == "2");
+            REQUIRE(data[0].second[2] == "-2");
+            REQUIRE(data[0].second[3] == "9");
+            REQUIRE(data[0].second[4] == "-1");
+            REQUIRE(data[0].second[5] == "-1");
+            REQUIRE(data[0].second[6] == "-1");
+            REQUIRE(data[0].second[7] == "-1");
+            REQUIRE(data[0].second[8] == "-5");
+            
+            // Ends on the same note as the grouping before but starts on the next note
+            REQUIRE(data[1].first.m_beat == "O");
+            REQUIRE(data[1].first.m_direction == "0");
+            REQUIRE(data[1].first.m_starting_note == "7");
+            REQUIRE(data[1].first.m_group_size == "9");  // apparently its 13, investigate
+            REQUIRE(data[1].second[0] == "2");
+            REQUIRE(data[1].second[1] == "-2");
+            REQUIRE(data[1].second[2] == "9");
+            REQUIRE(data[1].second[3] == "-1");
+            REQUIRE(data[1].second[4] == "-1");
+            REQUIRE(data[1].second[5] == "-1");
+            REQUIRE(data[1].second[6] == "-1");
+            REQUIRE(data[1].second[7] == "-5");
+            
+            // Starts on the same as the first grouping, but ends one note earlier
+            REQUIRE(data[8].first.m_beat == "D");
+            REQUIRE(data[8].first.m_direction == "8");
+            REQUIRE(data[8].first.m_file_name == "BennyCarter_JustFriends");
+            REQUIRE(data[8].first.m_group_size == "9");
+            REQUIRE(data[8].first.m_next_chord == "IV-7");
+            REQUIRE(data[8].first.m_starting_note == "4");
+            REQUIRE(data[8].second.size() == 8);
+            REQUIRE(data[8].second[0] == "3");
+            REQUIRE(data[8].second[1] == "2");
+            REQUIRE(data[8].second[2] == "-2");
+            REQUIRE(data[8].second[3] == "9");
+            REQUIRE(data[8].second[4] == "-1");
+            REQUIRE(data[8].second[5] == "-1");
+            REQUIRE(data[8].second[6] == "-1");
+            REQUIRE(data[8].second[7] == "-1");
         }
         SECTION("Test 2561 chord sequence in C")
         {
