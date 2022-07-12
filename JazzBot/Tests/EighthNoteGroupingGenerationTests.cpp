@@ -86,7 +86,7 @@ TEST_CASE("EighthNoteGroupingGenerationTests", "[eighth_note_grouping_generation
         SECTION("Test 2561 chord sequence in C")
         {
             chord_changes_file = juce::File::getCurrentWorkingDirectory().getChildFile(chord_sequence_dir + "2_5_1_6_chord_changes.txt");
-            song_info_file = juce::File::getCurrentWorkingDirectory().getChildFile(song_information_dir + "2_5_6_1_song_information.txt");
+            song_info_file = juce::File::getCurrentWorkingDirectory().getChildFile(song_information_dir + "2_5_1_6_song_information.txt");
             SECTION("Test Start of sequence")
             {
                 midi_file = juce::File::getCurrentWorkingDirectory().getChildFile(midi_file_dir + "start_sequence.mid");

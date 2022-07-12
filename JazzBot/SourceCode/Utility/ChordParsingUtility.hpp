@@ -19,11 +19,10 @@ class ChordParsingUtility
 {
 public:
     static RootNote getKey(const std::string& key);
-    static bool parseChordSequence(std::string& chord_sequence_str,
+    static bool parseChordSequence(const juce::File& chord_changes_file,
                                    ChordSequence& chord_sequence,
                                    const TimeSignature& time_signature,
-                                   const RootNote& key,
-                                   const juce::String& file_name);
+                                   const RootNote& key);
     
     
 private:
@@ -42,6 +41,7 @@ private:
     static bool checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_sequence,
                                                     const std::size_t& bar_number,
                                                     const int& bar_length);
+    static std::string getChordSequenceAsString(const juce::File& file);
     
 };
 

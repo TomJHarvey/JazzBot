@@ -226,11 +226,6 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
     // Instead it loops through multiple times to create the key.
     // Looking at how long it takes, i think it would be worth trying to change the performance of this
     
-    if (file_name == "SteveLacy_Skippy")
-    {
-        std::cout << "here" << std::endl;
-    }
-    
     // a lot of this could probably be shared by other groupings, so thats something to think about for the future
 
     // This could do with a small refactor first i should check that it actually works.
@@ -256,15 +251,15 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 
                 RootNote first_note = convertNoteValueToRootNote(grouping[increment].note_value);
                 RootNote chord_root_key = findRootNoteForChord(grouping[increment].note_on, chord_sequence, time_signature);
+                std::string starting_note_str = std::to_string(calculateRootNoteDifference(chord_root_key, first_note));
+                
+                
                 std::string location_str = getLocation(grouping[increment].note_on, chord_sequence, time_signature);
                 grouping_counter ++;
                 std::string grouping_counter_str = std::to_string(grouping_counter);
-                
-                // I need to get the root key from find chord for note.
-                std::string starting_note_str = std::to_string(calculateRootNoteDifference(chord_root_key, first_note));
 
-                std::vector<std::string> chords;
-                std::vector<std::string> notes;
+                std::vector<std::string> chords; // lines below to get groupsize and chords could be done differently, i think its unnecessary.
+                std::vector<std::string> notes; // this can probably stay... 
                 
                 // Find the next chord by getting the last note and finding out the chord of the next bar
                 for (std::size_t i = increment; i <= index; i++) // 0-5, 1-5, 2-5, 3-5

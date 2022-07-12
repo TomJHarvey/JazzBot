@@ -44,7 +44,6 @@ private:
     juce::TextButton m_load_file_button;
     juce::TextButton view_algorithm_button;
     juce::TextButton apply_algorithm_button;
-
 };
 
 #endif /* TrainingDataView_hpp */

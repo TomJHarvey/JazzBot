@@ -74,12 +74,10 @@ SequenceUtility::generateSequenceObject(const juce::File& song_info_file,
 
     if (parseSongInformation(song_info_file, song_information))
     {
-        std::string chord_sequence_string = getChordSequenceAsString(chord_changes_file);
-        if (ChordParsingUtility::parseChordSequence(chord_sequence_string,
-                               chord_sequence,
-                               song_information.m_time_signature,
-                               song_information.m_key, // get song information key
-                               chord_changes_file.getFileName()) &&
+        if (ChordParsingUtility::parseChordSequence(chord_changes_file,
+                                                    chord_sequence,
+                                                    song_information.m_time_signature,
+                                                    song_information.m_key) &&
             SequenceUtility::parseMidiFile(midi_file, midi_sequence, ppq_is_480))
         {
             sequence = {song_information, chord_sequence, midi_sequence};
@@ -191,22 +189,6 @@ SequenceUtility::parseSongInformation(const juce::File& file, SongInformation& s
             return false;
         }
     }
-}
-
-std::string
-SequenceUtility::getChordSequenceAsString(const juce::File& file)
-{
-    //std::cout << file.getFileName() << std::endl;
-    if (!file.existsAsFile())
-    {
-        return "";
-    }
-    std::string chord_sequence_str = file.loadFileAsString().toStdString();
-    chord_sequence_str.erase(std::remove(chord_sequence_str.begin(),
-                                         chord_sequence_str.end(),
-                                         '\n'),
-                            chord_sequence_str.end());
-    return chord_sequence_str;
 }
 
 TimeSignature

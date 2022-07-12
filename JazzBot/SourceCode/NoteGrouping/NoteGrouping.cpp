@@ -33,7 +33,6 @@ NoteGrouping::findChordForNote(const double& note_on, const ChordSequence& chord
         new_note_on = new_note_on - sequence_positioner;
         //std::cout << "new note on = " << new_note_on << " note on = " << note_on << "sp = " << sequence_positioner << std::endl;
     }
-    
     auto it = std::find_if(chord_sequence.begin(),
                            chord_sequence.end(),
                            [&new_note_on](const Chord& chord){return chord.m_chord_position > new_note_on;});

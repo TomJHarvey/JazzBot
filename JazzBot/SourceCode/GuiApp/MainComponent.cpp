@@ -8,6 +8,7 @@ static const int main_menu_y_position_scaling = 6;
 MainComponent::MainComponent()
     : m_main_menu(this)
     , m_training_data_view(this)
+    , m_generate_sequence_view(this)
 {
     setSize(window_size, window_size);
     addAndMakeVisible(m_main_menu);
@@ -30,7 +31,8 @@ MainComponent::menuItemSelected(const MenuItem& menu_selection)
             addAndMakeVisible(m_training_data_view);
             break;
         case MenuItem::generate_sequence:
-            addAndMakeVisible(m_main_menu); // tmp
+            m_generate_sequence_view.setBounds(0, 0, getWidth(), getHeight());
+            addAndMakeVisible(m_generate_sequence_view);
             break;
         case MenuItem::view_sequence:
             addAndMakeVisible(m_main_menu); // tmp
@@ -43,7 +45,15 @@ MainComponent::menuItemSelected(const MenuItem& menu_selection)
 void
 MainComponent::returnToMainMenu()
 {
+    // this should pass in the menu item so it knows what to close
     removeChildComponent(&m_training_data_view);
+    addAndMakeVisible(m_main_menu);
+}
+
+void
+MainComponent::exitGenerateSequence()
+{
+    removeChildComponent(&m_generate_sequence_view);
     addAndMakeVisible(m_main_menu);
 }
 
@@ -55,6 +65,7 @@ MainComponent::resized()
                                             m_main_menu.getWidth(),
                                             m_main_menu.getHeight());
     m_training_data_view.setBounds(0, 0, getWidth(), getHeight());
+    m_generate_sequence_view.setBounds(0, 0, getWidth(), getHeight());
     
     int w = getWidth();
     int h = getHeight();

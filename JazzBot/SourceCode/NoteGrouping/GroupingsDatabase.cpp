@@ -6,12 +6,74 @@
 //
 
 #include "GroupingsDatabase.hpp"
-#include <sqlite3.h>
 #include <iostream>
 #include <regex>
 
 static std::string database_directory = "NoteGroupings/";
 char apostrophe = '\'';
+
+GroupingsDatabase::GroupingsDatabase(const std::string& database_name)
+    : m_sql_database(nullptr)
+{
+    std::string database_location;
+    m_database_exists = databaseExists(database_name, database_location);
+    
+    if (m_database_exists) // should this enxt block be in a separate function?
+    {
+        int exit = 0;
+        // because the constructor doesn't return anything, each time the m_sql_database needs to be used there has to be a nullptr check
+        exit = sqlite3_open(database_location.c_str(), &m_sql_database);
+        if (exit)
+        {
+            std::cerr << "Error open DB " << sqlite3_errmsg(m_sql_database) << std::endl; // do we want it to be an error?
+        }
+    }
+}
+
+GroupingsDatabase::~GroupingsDatabase()
+{
+    m_sql_database = nullptr;
+}
+
+std::string
+GroupingsDatabase::selectEighthNoteGroupings(const EighthNoteGroupingRows& rows)
+{
+    std::string eighth_note_grouping;
+    if (m_sql_database != nullptr)
+    {
+        sqlite3_stmt *stmt;
+        std::string sql = "SELECT * FROM 'NOTEGROUPING' WHERE STARTINGNOTE='" + rows.m_starting_note + "'" +
+                          " AND BEAT='"  + rows.m_beat + "'" +
+                          " AND CHORD='"  + rows.m_chords + "'" +
+                          " AND GROUPSIZE='"  + rows.m_group_size + "'" +
+                          //" AND NEXTCHORD='"  + next_chord + "'" +
+                          " order by RANDOM() LIMIT 1;";
+        
+        
+        // AND DIRECTION<'5'
+        int rc = sqlite3_prepare_v2(m_sql_database,
+                                    sql.c_str(),
+                                    -1,
+                                    &stmt,
+                                    nullptr);
+        if (rc != SQLITE_OK)
+        {
+            std::cerr << "SELECT failed: " << sqlite3_errmsg(m_sql_database) << std::endl;
+            //return ...; // or throw
+        }
+        while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+        {
+            eighth_note_grouping = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
+        }
+        if (rc != SQLITE_DONE)
+        {
+            std::cerr << "SELECT failed: " << sqlite3_errmsg(m_sql_database) << std::endl;
+            // if you return/throw here, don't forget the finalize
+        }
+        sqlite3_finalize(stmt);
+    }
+    return eighth_note_grouping;
+}
 
 bool
 GroupingsDatabase::createDatabase(const std::string& database_name)
@@ -67,7 +129,6 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
 {
     sqlite3* sql_database;
     char* messagge_error;
-    
     juce::File output_directory = getOutputDirectory(database_directory);
     std::string database_string = output_directory.getFullPathName().toStdString() + "/" + database_name; // not portable
     juce::File output_directory_file(database_string);
@@ -95,8 +156,7 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
         }
         
         notes.pop_back();
-        
-        std::string sql = "INSERT INTO NOTEGROUPING VALUES(" + std::to_string(index + 1) +
+        std::string sql = "INSERT INTO NOTEGROUPING VALUES(" + std::to_string(index + 1) + // rewrite with std::format
                             ",'" + file_name + "'," +
                             "'" + note_grouping_data[index].first.m_chord + "'," +
                             "'" + note_grouping_data[index].first.m_starting_note + "'," +
@@ -108,9 +168,9 @@ GroupingsDatabase::populateDatabase(const std::string& database_name,
                             "'" + note_grouping_data[index].first.m_grouping_number + "'," +
                             "'" + notes + "');";
         
-
         exit = sqlite3_exec(sql_database, sql.c_str(), nullptr, nullptr, &messagge_error);
-        if (exit != SQLITE_OK) {
+        if (exit != SQLITE_OK)
+        {
             std::cout << "Error Insert" << std::endl;
             sqlite3_free(messagge_error);
             return false;
@@ -137,15 +197,14 @@ GroupingsDatabase::getOutputDirectory(const std::string& output_folder_name)
     
     juce::String output_directory_path = project_path + output_folder_name;
     juce::File output_directory = output_directory_path;
-    
     return output_directory;
 }
 
 bool
-GroupingsDatabase::databaseExists(const std::string& database_name)
+GroupingsDatabase::databaseExists(const std::string& database_name, std::string& database_location)
 {
     juce::File output_directory = getOutputDirectory(database_directory);
-    std::string database_string = output_directory.getFullPathName().toStdString() + "/" + database_name; // not portable
-    juce::File output_directory_file(database_string);
+    database_location = output_directory.getFullPathName().toStdString() + "/" + database_name; // not portable
+    juce::File output_directory_file(database_location);
     return output_directory_file.exists();
 }

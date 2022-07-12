@@ -8,7 +8,7 @@
 
 #include "MainMenu.hpp"
 #include "TrainingDataView.hpp"
-
+#include "GenerateSequenceView.hpp"
 
 #include "PianoRoll.hpp"
 
@@ -20,6 +20,7 @@
 class MainComponent : public juce::Component
                     , public MainMenu::Listener
                     , public TrainingDataView::Listener
+                    , public GenerateSequenceView::Listener
 {
 public:
     MainComponent();
@@ -27,9 +28,11 @@ public:
     void resized() override;
     void menuItemSelected(const MenuItem& menu_selection) override;
     void returnToMainMenu() override;
+    void exitGenerateSequence() override; // same as above function, needs refactoring
 
 private:
     MainMenu m_main_menu;
     TrainingDataView m_training_data_view;
+    GenerateSequenceView m_generate_sequence_view;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

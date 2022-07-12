@@ -17,7 +17,6 @@ class SequenceUtility
 public:
     static std::vector<Sequence> generateAllSequenceObjects();
     static bool parseSongInformation(const juce::File& file, SongInformation& song_information);
-    static std::string getChordSequenceAsString(const juce::File& file);
     static bool generateSequenceObject(const juce::File& song_info_file,
                                        const juce::File& chord_changes_file,
                                        const juce::File& midi_file,

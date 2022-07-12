@@ -19,7 +19,6 @@ static const char* view_algorithm_text = "View algorithm"; // this shows the alg
 static const char* apply_algorithm_text = "Apply algorithm"; // this will apply the algorithm to all files and generate data to be used for sequence generation
 
 static const char* eighth_note_groupings_db_string = "eighth_note_groupings.db";
-
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
 

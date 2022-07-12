@@ -21,6 +21,7 @@ juce_add_console_app(JazzBotCommandLine
     PRODUCT_NAME "Console App Example")     # The name of the final executable, which can differ from the target name
 
 set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
+                SourceCode/GuiApp/GenerateSequenceView.cpp
                 SourceCode/GuiApp/GuiNote.cpp
                 SourceCode/GuiApp/MainComponent.cpp
                 SourceCode/GuiApp/MainMenu.cpp
@@ -32,6 +33,7 @@ set(COMMON_SOURCES SourceCode/main.cpp
                    SourceCode/NoteGrouping/EighthNotes.cpp
                    SourceCode/NoteGrouping/GroupingsDatabase.cpp
                    SourceCode/NoteGrouping/NoteGrouping.cpp
+                   SourceCode/NoteSequence/NoteSequence.cpp
                    SourceCode/Utility/ChordParsingUtility.cpp
                    SourceCode/Utility/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
@@ -57,6 +59,7 @@ set(PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(MIDI_FILES_DIRECTORY ${CMAKE_SOURCE_DIR}../midi_files)
 set(CHORD_CHANGES_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/chord_changes)
 set(SONG_INFORMATION_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/song_information)
+set(CUSTOM_CHORD_CHANGES_DIRECTORY ${CMAKE_SOURCE_DIR}/ChordChanges)
 
 target_compile_definitions(JazzBotGui
     PRIVATE

@@ -256,12 +256,12 @@ ChordParsingUtility::getSimplifiedChordType(const std::string& chord_type)
 }
 
 bool
-ChordParsingUtility::parseChordSequence(std::string& chord_sequence_str,
+ChordParsingUtility::parseChordSequence(const juce::File& chord_changes_file,
                                  ChordSequence& chord_sequence,
                                  const TimeSignature& time_signature,
-                                 const RootNote& key,
-                                 const juce::String& file_name)
+                                 const RootNote& key)
 {
+    std::string chord_sequence_str = ChordParsingUtility::getChordSequenceAsString(chord_changes_file);
     ChordsInKey chords_in_key = ChordParsingUtility::getChordsInKey(key);
     std::string current_bar;
     std::string delimiter = "|";
@@ -287,7 +287,7 @@ ChordParsingUtility::parseChordSequence(std::string& chord_sequence_str,
             }
             else
             {
-                std::cout <<  file_name << ": Rest before chord not Handled" << std::endl;
+                std::cout <<  chord_changes_file.getFileName() << ": Rest before chord not Handled" << std::endl;
                 return false;
             }
             int total_beats = 0;
@@ -303,7 +303,7 @@ ChordParsingUtility::parseChordSequence(std::string& chord_sequence_str,
             }
             if (total_beats != static_cast<int>(time_signature))
             {
-                std::cout << file_name << ": Has incorrect number of beats at bar number " << bar_number << std::endl;
+                std::cout << chord_changes_file.getFileName() << ": Has incorrect number of beats at bar number " << bar_number << std::endl;
                 chord_sequence.clear();
                 return false;
             }
@@ -446,4 +446,21 @@ ChordParsingUtility::getKey(const std::string& key)
     }
     key_str = key.substr(0, key.size() - key_size);
     return SequenceUtility::convertStringToRootNote(key_str, is_minor_key); // could do the minor key conver here and not in the function, as another function now uses it. It is better to minimalise functionality for each function.
+}
+
+
+std::string
+ChordParsingUtility::getChordSequenceAsString(const juce::File& file)
+{
+    //std::cout << file.getFileName() << std::endl;
+    if (!file.existsAsFile())
+    {
+        return "";
+    }
+    std::string chord_sequence_str = file.loadFileAsString().toStdString();
+    chord_sequence_str.erase(std::remove(chord_sequence_str.begin(),
+                                         chord_sequence_str.end(),
+                                         '\n'),
+                            chord_sequence_str.end());
+    return chord_sequence_str;
 }
