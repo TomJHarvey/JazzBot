@@ -33,7 +33,7 @@ set(COMMON_SOURCES SourceCode/main.cpp
                    SourceCode/NoteGrouping/EighthNotes.cpp
                    SourceCode/NoteGrouping/GroupingsDatabase.cpp
                    SourceCode/NoteGrouping/NoteGrouping.cpp
-                   SourceCode/NoteSequence/NoteSequence.cpp
+                   SourceCode/NoteSequence/EighthNoteSequence.cpp
                    SourceCode/Utility/ChordParsingUtility.cpp
                    SourceCode/Utility/MidiFileUtility.cpp
                    SourceCode/Utility/SequenceUtility.cpp)

@@ -2,16 +2,16 @@
 //  EighthNoteSequence.cpp
 //  JazzBotGui
 //
-//  Created by Tom Harvey on 23/06/2022.
+//  Created by Tom Harvey on 13/07/2022.
 //
 
-#include "NoteSequence.hpp"
+#include "EighthNoteSequence.hpp"
 #include "../NoteGrouping/NoteGrouping.hpp"
 #include <random>
 
 static const char* eighth_note_groupings_db_string = "eighth_note_groupings.db"; // repeated from training dataview
 
-NoteSequence::NoteSequence(const ChordSequence& chord_sequence,
+EighthNoteSequence::EighthNoteSequence(const ChordSequence& chord_sequence,
                            const TimeSignature& time_signature,
                            const SwingRatio& swing_ratio,
                            const EighthNoteGroupingRange& grouping_range)
@@ -21,16 +21,17 @@ NoteSequence::NoteSequence(const ChordSequence& chord_sequence,
     , m_grouping_range(grouping_range)
     , m_chorus_number(0)
 {
-    m_sequence_length = m_chord_sequence[m_chord_sequence.size()-1].m_chord_position + 1920; // pass in time signature, then use a static helper function to convert that to the beat length
+    int bar_length = (static_cast<int>(time_signature) * beat_length);
+    m_sequence_length = m_chord_sequence[m_chord_sequence.size()-1].m_chord_position + bar_length;
 }
 
 MidiSequence
-NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
+EighthNoteSequence::generateSequence(const std::size_t& number_of_choruses)
 {
     GroupingsDatabase groupings_database(eighth_note_groupings_db_string);
     MidiSequence midi_sequence; // midi sequence to return
-    
-    int last_note = 77; // used to store the last note to  find the starting note of the next grouping F5
+    m_chorus_number = 0; // maybe reset at the end?
+    int last_note = 72; // used to store the last note to  find the starting note of the next grouping F5
     midi_sequence.push_back({last_note, 0, m_swing_ratio.first, m_swing_ratio.first});
     
     NotePosition note_position = std::make_pair(0, "D"); // use constant?
@@ -99,7 +100,7 @@ NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
 }
 
 std::string
-NoteSequence::convertMidiNoteToStartingNote(const int& last_note,
+EighthNoteSequence::convertMidiNoteToStartingNote(const int& last_note,
                                             const double& note_position) const
 {
     // these three steps in a row are already use, refactor this down to one function, this static one wont be needed.
@@ -110,7 +111,7 @@ NoteSequence::convertMidiNoteToStartingNote(const int& last_note,
 }
 
 void
-NoteSequence::appendEighthNoteGroupingToMidiSequence(const std::string& eighth_note_grouping_string,
+EighthNoteSequence::appendEighthNoteGroupingToMidiSequence(const std::string& eighth_note_grouping_string,
                                                      MidiSequence& midi_sequence,
                                                      NotePosition& note_position,
                                                      int& last_note)
@@ -139,7 +140,7 @@ NoteSequence::appendEighthNoteGroupingToMidiSequence(const std::string& eighth_n
 }
 
 void
-NoteSequence::addNoteToSequence(const std::string& increment_str,
+EighthNoteSequence::addNoteToSequence(const std::string& increment_str,
                                 MidiSequence& midi_sequence,
                                 NotePosition& note_position,
                                 int& note_value,
@@ -163,7 +164,7 @@ NoteSequence::addNoteToSequence(const std::string& increment_str,
 }
 
 EighthNoteGroupingRows
-NoteSequence::calculateEighthNoteGroupingRows(const NotePosition& note_position,
+EighthNoteSequence::calculateEighthNoteGroupingRows(const NotePosition& note_position,
                                               const std::string& first_chord_str,
                                               const std::string& starting_note_str,
                                               const std::string& beat_type_str,
@@ -203,7 +204,7 @@ NoteSequence::calculateEighthNoteGroupingRows(const NotePosition& note_position,
 }
 
 int
-NoteSequence::generateRandomGroupingLength() const
+EighthNoteSequence::generateRandomGroupingLength() const
 {
     std::random_device rd; // obtain a random number from hardware
     std::mt19937 gen(rd()); // seed the generator
@@ -213,7 +214,7 @@ NoteSequence::generateRandomGroupingLength() const
 }
 
 void
-NoteSequence::incrementNotePosition(NotePosition& current_note_position) const
+EighthNoteSequence::incrementNotePosition(NotePosition& current_note_position) const
 {
     if (current_note_position.second == "D") // use constants?
     {
@@ -226,3 +227,4 @@ NoteSequence::incrementNotePosition(NotePosition& current_note_position) const
         current_note_position.second = "D";
     }
 }
+

@@ -29,7 +29,7 @@ struct NoteGroupingKey // used to hold the data for various note groupings for t
 
 using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<std::string>>>;
 
-class NoteGrouping
+class NoteGrouping // Different note groupings can be created, for now its just for eighth notes
 {
 public:
     virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) = 0;

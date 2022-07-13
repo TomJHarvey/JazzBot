@@ -9,6 +9,7 @@
 #include "../Utility/ChordParsingUtility.hpp"
 #include "../Utility/MidiFileUtility.hpp"
 #include "../Utility/SequenceUtility.hpp"
+#include "../NoteSequence/EighthNoteSequence.hpp"
 
 static const int training_data_tool_bar_height = 50;
 static const char* return_to_menu_text = "Main Menu";
@@ -29,12 +30,12 @@ static const std::string just_friends_song_information_file = "ChetBaker_JustFri
 static const std::string giant_steps_chord_sequence_file = "JohnColtrane_GiantSteps-1_chord_changes.txt";
 static const std::string giant_steps_song_information_file = "JohnColtrane_GiantSteps-1_song_information.txt";
 
-static const std::size_t default_number_of_choruses = 1;
+static const std::size_t default_number_of_choruses = 8;
 
 GenerateSequenceView::GenerateSequenceView(Listener* listener)
     : m_midi_sequence(this)
-    , m_chord_sequence_file(custom_chord_sequence_dir + just_friends_chord_sequence_file)
-    , m_song_information_file(custom_song_infromation_dir + just_friends_song_information_file)
+    , m_chord_sequence_file(custom_chord_sequence_dir + giant_steps_chord_sequence_file)
+    , m_song_information_file(custom_song_infromation_dir + giant_steps_song_information_file)
     , m_listener(listener)
 {
     addAndMakeVisible(&m_midi_sequence);
@@ -72,6 +73,15 @@ GenerateSequenceView::GenerateSequenceView(Listener* listener)
             m_chord_sequence = chord_sequence;
         }
     }
+    
+    
+    SwingRatio swing_ratio = std::make_pair(320, 160); // instead of fixed ratio values it would be cool to have them vary (so that would instead pass in something else
+    EighthNoteGroupingRange grouping_range = std::make_pair(3, 8);
+    
+    m_note_sequence = std::make_unique<EighthNoteSequence>(m_chord_sequence,
+                                                           m_song_information.m_time_signature,
+                                                           swing_ratio,
+                                                           grouping_range);
 }
 
 void
@@ -95,17 +105,17 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
         // instead of a file chooser, i think it would be better to have a drop down menu with file names to choose from, either using songs or custom chord sequences
         // then that name will need to match for the song info and the chord sequence and from there it will load it in.
         // the code in the constructor can be wrapped into a function
+        
+        // remove previous ptr
+        // make note_sequence point to a new sequence.
     }
     else if (button == &m_generate_melody_button)
     {
         if (!m_chord_sequence.empty())
         {
             // these two can be passed in from gui
-            SwingRatio swing_ratio = std::make_pair(320, 160); // instead of fixed ratio values it would be cool to have them vary (so that would instead pass in something else
-            EighthNoteGroupingRange grouping_range = std::make_pair(3, 8);
             
-            NoteSequence note_sequence(m_chord_sequence, m_song_information.m_time_signature, swing_ratio, grouping_range);
-            MidiSequence midi_sequence = note_sequence.generateEighthNoteSequence(default_number_of_choruses);
+            MidiSequence midi_sequence = m_note_sequence->generateSequence(default_number_of_choruses);
             MidiFileUtility::writeMidiFile(midi_sequence);
         }
     }

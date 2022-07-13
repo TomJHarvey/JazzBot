@@ -44,6 +44,7 @@ private:
     juce::TextButton m_return_to_menu_button;
     juce::TextButton m_select_chord_sequence_button;
     juce::TextButton m_generate_melody_button;
+    std::unique_ptr<NoteSequence> m_note_sequence;
 
 };
 

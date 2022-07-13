@@ -50,7 +50,6 @@ EighthNotes::getModifiedSequence(const MidiSequence& midi_events)
         }
     }
     return eighth_note_groupings;
-    
 }
 
 NoteGroupingData
