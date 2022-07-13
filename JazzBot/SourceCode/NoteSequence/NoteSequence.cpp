@@ -30,7 +30,7 @@ NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
     GroupingsDatabase groupings_database(eighth_note_groupings_db_string);
     MidiSequence midi_sequence; // midi sequence to return
     
-    int last_note = 62; // used to store the last note to  find the starting note of the next grouping
+    int last_note = 77; // used to store the last note to  find the starting note of the next grouping F5
     midi_sequence.push_back({last_note, 0, m_swing_ratio.first, m_swing_ratio.first});
     
     NotePosition note_position = std::make_pair(0, "D"); // use constant?
@@ -40,16 +40,26 @@ NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
         const std::string starting_note_str = convertMidiNoteToStartingNote(last_note, note_position.first);
         const std::string current_chord_str = NoteGrouping::findChordForNote(note_position.first, m_chord_sequence, false, m_time_signature);  // this can be reused in eighth notes, just pass ina  vector of note positions. (thats whats given in the other function
         const std::string beat_type_str = note_position.second;
+        std::string direction_str;
         
-        //        int grouping_length = generateRandomGroupingLength();
-        int grouping_length =4 ;
+        if (last_note < 54)
+        {
+            direction_str = "up";;
+        }
+        else if (last_note > 80)
+        {
+            direction_str = "down";
+        }
+        
+        int grouping_length = generateRandomGroupingLength();
         
         // prepare row strings for database.
         EighthNoteGroupingRows rows = calculateEighthNoteGroupingRows(note_position,
                                                                       current_chord_str,
                                                                       starting_note_str,
                                                                       beat_type_str,
-                                                                      grouping_length);
+                                                                      grouping_length,
+                                                                      direction_str);
         
         std::string eighth_note_grouping_string = groupings_database.selectEighthNoteGroupings(rows);
         if (!eighth_note_grouping_string.empty())
@@ -63,7 +73,8 @@ NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
                                                    current_chord_str,
                                                    starting_note_str,
                                                    beat_type_str,
-                                                   new_grouping_length);
+                                                   new_grouping_length,
+                                                   direction_str);
             
             eighth_note_grouping_string = groupings_database.selectEighthNoteGroupings(rows);
             if (!eighth_note_grouping_string.empty())
@@ -80,9 +91,6 @@ NoteSequence::generateEighthNoteSequence(const std::size_t& number_of_choruses)
         {
             incrementNotePosition(note_position); // add rests
         }
-//
-//        std::cout << "Sequence end = " << note_position.first << std::endl;
-//        std::cout << "Sequence size = " << grouping_length << std::endl;
     }
     // reset all variables back to 0?
     // then i would need an init function perhaps?
@@ -159,7 +167,8 @@ NoteSequence::calculateEighthNoteGroupingRows(const NotePosition& note_position,
                                               const std::string& first_chord_str,
                                               const std::string& starting_note_str,
                                               const std::string& beat_type_str,
-                                              const int& grouping_length) const
+                                              const int& grouping_length,
+                                              const std::string& direction) const
 {
     NotePosition temp_note_position = note_position;
     incrementNotePosition(temp_note_position);
@@ -189,7 +198,7 @@ NoteSequence::calculateEighthNoteGroupingRows(const NotePosition& note_position,
     group_size_str += std::to_string(current_chord_counter);
     chords_str.pop_back();
     // starting_note_str = findChordForNote(note_position, chord_sequence, true, time_signature);
-    EighthNoteGroupingRows rows{starting_note_str, beat_type_str, chords_str, group_size_str, "next_chord_str", "direction"};
+    EighthNoteGroupingRows rows{starting_note_str, beat_type_str, chords_str, group_size_str, "next_chord_str", direction};
     return rows;
 }
 

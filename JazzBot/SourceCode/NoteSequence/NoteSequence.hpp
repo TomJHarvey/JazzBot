@@ -33,7 +33,8 @@ private:
                                                            const std::string& first_chord_str,
                                                            const std::string& starting_note_str,
                                                            const std::string& beat_type_str,
-                                                           const int& grouping_length) const;
+                                                           const int& grouping_length,
+                                                           const std::string& direction) const;
     
     void addNoteToSequence(const std::string& increment_str,
                            MidiSequence& midi_sequence,

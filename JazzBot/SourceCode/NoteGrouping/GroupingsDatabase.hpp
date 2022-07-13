@@ -29,7 +29,6 @@ struct EighthNoteGroupingRows
 class GroupingsDatabase
 {
 public:
-    
     // the non static methods are for selecting from the database
     GroupingsDatabase(const std::string& database_name); // init the db.
     ~GroupingsDatabase();
@@ -43,7 +42,6 @@ public:
 private:
     bool m_database_exists;
     sqlite3* m_sql_database;
-    
 };
 
 #endif /* GroupingsDatabase_hpp */

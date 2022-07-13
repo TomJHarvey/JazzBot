@@ -35,6 +35,7 @@ set(COMMON_SOURCES SourceCode/main.cpp
                    SourceCode/NoteGrouping/NoteGrouping.cpp
                    SourceCode/NoteSequence/NoteSequence.cpp
                    SourceCode/Utility/ChordParsingUtility.cpp
+                   SourceCode/Utility/MidiFileUtility.cpp
                    SourceCode/Utility/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 

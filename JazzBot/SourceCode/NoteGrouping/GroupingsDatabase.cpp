@@ -17,7 +17,6 @@ GroupingsDatabase::GroupingsDatabase(const std::string& database_name)
 {
     std::string database_location;
     m_database_exists = databaseExists(database_name, database_location);
-    
     if (m_database_exists) // should this enxt block be in a separate function?
     {
         int exit = 0;
@@ -41,11 +40,22 @@ GroupingsDatabase::selectEighthNoteGroupings(const EighthNoteGroupingRows& rows)
     std::string eighth_note_grouping;
     if (m_sql_database != nullptr)
     {
+        std::string direction;
+        if (rows.m_direction == "up")
+        {
+            direction = " AND DIRECTION >0";
+        }
+        if (rows.m_direction == "down")
+        {
+            direction = " AND DIRECTION <0";
+        }
+        
         sqlite3_stmt *stmt;
         std::string sql = "SELECT * FROM 'NOTEGROUPING' WHERE STARTINGNOTE='" + rows.m_starting_note + "'" +
                           " AND BEAT='"  + rows.m_beat + "'" +
                           " AND CHORD='"  + rows.m_chords + "'" +
                           " AND GROUPSIZE='"  + rows.m_group_size + "'" +
+                          direction +
                           //" AND NEXTCHORD='"  + next_chord + "'" +
                           " order by RANDOM() LIMIT 1;";
         

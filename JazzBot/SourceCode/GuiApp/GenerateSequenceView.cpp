@@ -7,6 +7,7 @@
 
 #include "GenerateSequenceView.hpp"
 #include "../Utility/ChordParsingUtility.hpp"
+#include "../Utility/MidiFileUtility.hpp"
 #include "../Utility/SequenceUtility.hpp"
 
 static const int training_data_tool_bar_height = 50;
@@ -22,12 +23,18 @@ static const std::string custom_song_infromation_dir = "/Users/tom-harvey/dev/Ja
 static const std::string default_chord_sequence_file = "2_5_1_6_chord_changes.txt";
 static const std::string default_song_information_file = "2_5_1_6_song_information.txt";
 
-static const std::size_t default_number_of_choruses = 2;
+static const std::string just_friends_chord_sequence_file = "ChetBaker_JustFriends_chord_changes.txt";
+static const std::string just_friends_song_information_file = "ChetBaker_JustFriends_song_information.txt";
+
+static const std::string giant_steps_chord_sequence_file = "JohnColtrane_GiantSteps-1_chord_changes.txt";
+static const std::string giant_steps_song_information_file = "JohnColtrane_GiantSteps-1_song_information.txt";
+
+static const std::size_t default_number_of_choruses = 1;
 
 GenerateSequenceView::GenerateSequenceView(Listener* listener)
     : m_midi_sequence(this)
-    , m_chord_sequence_file(custom_chord_sequence_dir + default_chord_sequence_file)
-    , m_song_information_file(custom_song_infromation_dir + default_song_information_file)
+    , m_chord_sequence_file(custom_chord_sequence_dir + just_friends_chord_sequence_file)
+    , m_song_information_file(custom_song_infromation_dir + just_friends_song_information_file)
     , m_listener(listener)
 {
     addAndMakeVisible(&m_midi_sequence);
@@ -99,6 +106,7 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
             
             NoteSequence note_sequence(m_chord_sequence, m_song_information.m_time_signature, swing_ratio, grouping_range);
             MidiSequence midi_sequence = note_sequence.generateEighthNoteSequence(default_number_of_choruses);
+            MidiFileUtility::writeMidiFile(midi_sequence);
         }
     }
     // TODO: add a drop down menu to select the type of algorithm, it will change m_note_grouping
