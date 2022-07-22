@@ -17,6 +17,7 @@ class MidiFileUtility
 {
 public:
     static bool writeMidiFile(const MidiSequence& midi_sequence);
+    static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, const bool& ppq_is_480);
 };
 
 #endif /* MidiFileUtility_hpp */

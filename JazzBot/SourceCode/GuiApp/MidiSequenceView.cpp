@@ -1,5 +1,5 @@
 #include "MidiSequenceView.hpp"
-#include "../Utility/SequenceUtility.hpp"
+#include "../Utility/MidiFileUtility.hpp"
 
 static const int tool_bar_height = 20;
 static const int arrange_window_height = (number_of_piano_keys + 1) * grid_line_height;
@@ -22,7 +22,7 @@ void
 MidiSequenceView::loadSequence(const juce::File& midi_file)
 {
     m_midi_sequence.clear();
-    if (SequenceUtility::parseMidiFile(midi_file, m_midi_sequence, true))
+    if (MidiFileUtility::parseMidiFile(midi_file, m_midi_sequence, true))
     {
         displaySequence();
     }

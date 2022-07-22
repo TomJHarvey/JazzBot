@@ -22,7 +22,6 @@ public:
                                        const juce::File& midi_file,
                                        Sequence& sequence,
                                        const bool& ppq_is_480);
-    static bool parseMidiFile(const juce::File& file, MidiSequence& midi_events, const bool& ppq_is_480);
     
     static std::size_t findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number);
     static RootNote convertStringToRootNote(const std::string& key, const bool& is_minor_key);

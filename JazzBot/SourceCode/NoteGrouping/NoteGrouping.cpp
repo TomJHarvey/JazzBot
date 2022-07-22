@@ -17,10 +17,8 @@ NoteGrouping::findChordForNote(const double& note_on, const ChordSequence& chord
         SequenceUtility::findLastBar(chord_sequence, chord_sequence[chord_sequence.size()-1].m_bar_number);
     
     const int bar_length = static_cast<int>(time_signature) * beat_length; // maybe but in function...
-    
     double number_of_run_throughs = 0.0f;
     double sequence_positioner = 0.0f;
-    
     double new_note_on = note_on;
     
     // if the current note is not in the first time round of the chord sequence
@@ -127,7 +125,6 @@ NoteGrouping::getLocation(const double& note_on, const ChordSequence& chord_sequ
     }
     
     return std::to_string(static_cast<int>(number_of_run_throughs)) + "&" + bar_number;
-    
 }
 
 
