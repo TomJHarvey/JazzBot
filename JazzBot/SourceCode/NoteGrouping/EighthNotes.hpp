@@ -19,6 +19,8 @@ public:
     MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const override;
     void getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const override; // Look over a group of songs in the database
     std::string getDatabaseCreationSQL() const override;
+    std::string getDatabaseName() const override;
+    std::string getDatabaseDirectory() const override;
     
 private:
     std::size_t findEighthNoteGrouping(std::size_t& increment,

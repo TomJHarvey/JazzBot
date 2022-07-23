@@ -6,6 +6,7 @@
 //
 
 #include "EighthNotes.hpp"
+#include "../DatabaseConstants.h"
 #include "../SequenceTypes.h"
 
 #include <stdio.h>
@@ -361,7 +362,6 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
     }
 }
 
-
 std::string
 EighthNotes::getDatabaseCreationSQL() const
 {
@@ -380,6 +380,18 @@ EighthNotes::getDatabaseCreationSQL() const
                           "GROUPINGNUM      TEXT    NOT NULL, "
                           "NOTES            TEXT    NOT NULL);";
     return sql_create_db;
+}
+
+std::string
+EighthNotes::getDatabaseName() const
+{
+    return eighth_note_groupings_db_string;
+}
+
+std::string
+EighthNotes::getDatabaseDirectory() const
+{
+    return note_groupings_directory;
 }
 
 

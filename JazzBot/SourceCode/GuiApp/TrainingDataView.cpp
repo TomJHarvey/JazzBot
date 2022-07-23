@@ -9,7 +9,6 @@
 #include "../NoteGrouping/EighthNotes.hpp"
 #include "../Utility/DatabaseUtility.hpp"
 #include "../Utility/SequenceUtility.hpp"
-#include "../DatabaseConstants.h"
 
 static const int training_data_tool_bar_height = 50;
 static const int midi_sequence_view_height = 450;
@@ -90,10 +89,10 @@ TrainingDataView::buttonClicked(juce::Button* button)
         MidiSequence modified_sequence;
         if (m_original_sequence.getCurrentSequence(modified_sequence))
         {
-            MidiSequence eighth_note_groupings = m_note_grouping->getModifiedSequence(modified_sequence);
+            MidiSequence note_groupings = m_note_grouping->getModifiedSequence(modified_sequence);
             
             // this sets it now i can use it in the midi view
-            m_modified_sequence.setSequence(eighth_note_groupings);
+            m_modified_sequence.setSequence(note_groupings);
             
             // then it can display the sequence as it is
             m_modified_sequence.displaySequence();
@@ -107,27 +106,26 @@ TrainingDataView::buttonClicked(juce::Button* button)
         }
         
         // its eight note string for now. That can be stored in noteGrouping as get database name.
-//        if (!DatabaseUtility::databaseExists(eighth_note_groupings_db_string))
-//        {
+        std::string database_location;
+        if (!DatabaseUtility::databaseExists(m_note_grouping->getDatabaseName(), m_note_grouping->getDatabaseDirectory(), database_location))
+        {
             std::vector<std::string> sql_insert_statements;
             m_note_grouping->getSQLInsertQueries(m_sequences, sql_insert_statements);
             if (!sql_insert_statements.empty())
             {                
-                // create the datavase by passing in the database filename, the datavase directory and the sql for creating the database
-                if (DatabaseUtility::createDatabase(eighth_note_groupings_db_string, note_groupings_directory, m_note_grouping->getDatabaseCreationSQL()))
+                // create the database by passing in the database filename, the database directory and the sql for creating the database
+                if (DatabaseUtility::createDatabase(m_note_grouping->getDatabaseName(), m_note_grouping->getDatabaseDirectory(), m_note_grouping->getDatabaseCreationSQL()))
                 {
-                    // create the datavase by passing in the database filename, the datavase directory and the sql for inserting the eighth note grouping data into the datbase
-                    DatabaseUtility::populateDatabase(eighth_note_groupings_db_string, note_groupings_directory, sql_insert_statements);
+                    // create the database by passing in the database filename, the database directory and the sql for inserting the note grouping data into the datbase
+                    DatabaseUtility::populateDatabase(m_note_grouping->getDatabaseName(), m_note_grouping->getDatabaseDirectory(), sql_insert_statements);
                 }
             }
-//        }
-//        else
-//        {
-//            // could have a pop up window here,
-//            std::cout << "Database " << eighth_note_groupings_db_string << " already exists" << std::endl;
-//        }
-        
-        //std::cout << data.size() << std::endl;
+        }
+        else
+        {
+            // could have a pop up window here,
+            std::cout << "Database already exists at " << database_location << std::endl;
+        }
     }
     // TODO: add a drop down menu to select the type of algorithm, it will change m_note_grouping
 }

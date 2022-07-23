@@ -36,6 +36,8 @@ public:
     virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const = 0;     // apply the note grouping algorithm to the inserted sequence and return the modified sequence
     virtual void getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const = 0; // Prepares the Sql to insert for all songs
     virtual std::string getDatabaseCreationSQL() const = 0;
+    virtual std::string getDatabaseName() const = 0;
+    virtual std::string getDatabaseDirectory() const = 0;
     virtual ~NoteGrouping() {}
     
     // Refactor the following three functinos
