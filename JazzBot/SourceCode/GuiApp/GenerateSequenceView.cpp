@@ -114,8 +114,8 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
         if (!m_chord_sequence.empty())
         {
             // these two can be passed in from gui
-            
             MidiSequence midi_sequence = m_note_sequence->generateSequence(default_number_of_choruses);
+            // check if midi sequence empty - then display something in gui.
             MidiFileUtility::writeMidiFile(midi_sequence);
         }
     }

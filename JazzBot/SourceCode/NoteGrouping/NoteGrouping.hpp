@@ -32,8 +32,10 @@ using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<std:
 class NoteGrouping // Different note groupings can be created, for now its just for eighth notes
 {
 public:
-    virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) = 0;
-    virtual NoteGroupingData createDatabaseKeys(const std::vector<Sequence>& sequence) = 0;
+
+    virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const = 0;     // apply the note grouping algorithm to the inserted sequence and return the modified sequence
+    virtual void getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const = 0; // Prepares the Sql to insert for all songs
+    virtual std::string getDatabaseCreationSQL() const = 0;
     virtual ~NoteGrouping() {}
     
     // Refactor the following three functinos

@@ -16,8 +16,9 @@ using BeatMarkers = std::pair<double, bool>;
 class EighthNotes : public NoteGrouping
 {
 public:
-    MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) override;
-    NoteGroupingData createDatabaseKeys(const std::vector<Sequence>& sequence) override;
+    MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const override;
+    void getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const override; // Look over a group of songs in the database
+    std::string getDatabaseCreationSQL() const override;
     
 private:
     std::size_t findEighthNoteGrouping(std::size_t& increment,
@@ -27,10 +28,10 @@ private:
                                        BeatMarkers& beat_marker_2,
                                        MidiSequence& eigth_notes_midi_sequence,
                                        const bool& first_time,
-                                       bool& found_grouping); // maybe a better way to do this
+                                       bool& found_grouping) const; // maybe a better way to do this
     
     std::array<BeatMarkers, 2> getBeatMarkers(const std::size_t& note_index,
-                                              const MidiSequence& midi_events);
+                                              const MidiSequence& midi_events) const;
     
     
     void calculateNoteGroupingKeys(MidiSequence& grouping,
@@ -40,7 +41,7 @@ private:
                                          NoteGroupingData& eighth_note_data,
                                          const std::string& file_name,
                                          const TimeSignature& time_signature,
-                                         unsigned int& grouping_counter);
+                                         unsigned int& grouping_counter) const;
     
 };
 

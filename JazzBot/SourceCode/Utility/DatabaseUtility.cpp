@@ -1,13 +1,13 @@
 //
 //  DatabaseUtility.cpp
-//  JazzBotGui
+//  JazzBotCommandLine
 //
-//  Created by Tom Harvey on 21/06/2022.
+//  Created by Tom Harvey on 22/07/2022.
 //
 
 #include "DatabaseUtility.hpp"
+
 #include <iostream>
-#include <regex>
 
 sqlite3*
 DatabaseUtility::getDatabase(const std::string& database_name, const std::string& database_directory)
@@ -28,7 +28,7 @@ DatabaseUtility::getDatabase(const std::string& database_name, const std::string
 }
 
 bool
-DatabaseUtility::selectFromDatabase(const std::string& sql, sqlite3* sql_database) // pass in an sql database pointer
+DatabaseUtility::selectFromDatabase(const std::string& sql, sqlite3* sql_database, SQLColumns& sql_columns) // pass in an sql database pointer
 {
     bool success = false;
     if (sql_database != nullptr)
@@ -48,7 +48,10 @@ DatabaseUtility::selectFromDatabase(const std::string& sql, sqlite3* sql_databas
         while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
         {
             success = true;
-            eighth_note_grouping = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)); // need to loop through the passed in array
+            for (auto& sql_column : sql_columns)
+            {
+                sql_column.m_data = reinterpret_cast<const char*>(sqlite3_column_text(stmt, sql_column.m_index)); // need to loop through the passed in array
+            }
         }
         if (rc != SQLITE_DONE)
         {

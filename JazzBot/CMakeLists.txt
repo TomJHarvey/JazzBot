@@ -31,10 +31,10 @@ set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
 set(COMMON_SOURCES SourceCode/main.cpp
                    SourceCode/NoteGrouping/EighthNotes.cpp
-                   SourceCode/NoteGrouping/GroupingsDatabase.cpp
                    SourceCode/NoteGrouping/NoteGrouping.cpp
                    SourceCode/NoteSequence/EighthNoteSequence.cpp
                    SourceCode/Utility/ChordParsingUtility.cpp
+                   SourceCode/Utility/DatabaseUtility.cpp
                    SourceCode/Utility/MidiFileUtility.cpp
                    SourceCode/Utility/SequenceUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 

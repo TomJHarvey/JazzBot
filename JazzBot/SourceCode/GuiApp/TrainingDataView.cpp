@@ -7,8 +7,9 @@
 
 #include "TrainingDataView.hpp"
 #include "../NoteGrouping/EighthNotes.hpp"
-#include "../NoteGrouping/GroupingsDatabase.hpp"
+#include "../Utility/DatabaseUtility.hpp"
 #include "../Utility/SequenceUtility.hpp"
+#include "../DatabaseConstants.h"
 
 static const int training_data_tool_bar_height = 50;
 static const int midi_sequence_view_height = 450;
@@ -18,7 +19,6 @@ static const char* load_file_text = "Load file";
 static const char* view_algorithm_text = "View algorithm"; // this shows the algorithm at work, for example it will show just eigth notes
 static const char* apply_algorithm_text = "Apply algorithm"; // this will apply the algorithm to all files and generate data to be used for sequence generation
 
-static const char* eighth_note_groupings_db_string = "eighth_note_groupings.db";
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
 
@@ -99,7 +99,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &apply_algorithm_button)
+    else if (button == &apply_algorithm_button) // the logic in this function needs to be made more gneric
     {
         if (m_sequences.empty())
         {
@@ -107,12 +107,18 @@ TrainingDataView::buttonClicked(juce::Button* button)
         }
         
         // its eight note string for now. That can be stored in noteGrouping as get database name.
-//        if (!GroupingsDatabase::databaseExists(eighth_note_groupings_db_string))
+//        if (!DatabaseUtility::databaseExists(eighth_note_groupings_db_string))
 //        {
-            NoteGroupingData data = m_note_grouping->createDatabaseKeys(m_sequences);
-            if (GroupingsDatabase::createDatabase(eighth_note_groupings_db_string))
-            {
-                GroupingsDatabase::populateDatabase(eighth_note_groupings_db_string, data);
+            std::vector<std::string> sql_insert_statements;
+            m_note_grouping->getSQLInsertQueries(m_sequences, sql_insert_statements);
+            if (!sql_insert_statements.empty())
+            {                
+                // create the datavase by passing in the database filename, the datavase directory and the sql for creating the database
+                if (DatabaseUtility::createDatabase(eighth_note_groupings_db_string, note_groupings_directory, m_note_grouping->getDatabaseCreationSQL()))
+                {
+                    // create the datavase by passing in the database filename, the datavase directory and the sql for inserting the eighth note grouping data into the datbase
+                    DatabaseUtility::populateDatabase(eighth_note_groupings_db_string, note_groupings_directory, sql_insert_statements);
+                }
             }
 //        }
 //        else
