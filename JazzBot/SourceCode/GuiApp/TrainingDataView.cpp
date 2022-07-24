@@ -98,7 +98,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &apply_algorithm_button) // the logic in this function needs to be made more gneric
+    else if (button == &apply_algorithm_button)
     {
         if (m_sequences.empty())
         {
@@ -110,7 +110,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
         if (!DatabaseUtility::databaseExists(m_note_grouping->getDatabaseName(), m_note_grouping->getDatabaseDirectory(), database_location))
         {
             std::vector<std::string> sql_insert_statements;
-            m_note_grouping->getSQLInsertQueries(m_sequences, sql_insert_statements);
+            m_note_grouping->getSQLInsertStatements(m_sequences, sql_insert_statements);
             if (!sql_insert_statements.empty())
             {                
                 // create the database by passing in the database filename, the database directory and the sql for creating the database

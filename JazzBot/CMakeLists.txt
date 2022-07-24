@@ -31,12 +31,12 @@ set(GUI_SOURCES SourceCode/GuiApp/CustomViewport.cpp
 set(CMD_LINE_SOURCES SourceCode/CommandLineApp/CommandLineApplication.cpp)
 set(COMMON_SOURCES SourceCode/main.cpp
                    SourceCode/NoteGrouping/EighthNotes.cpp
-                   SourceCode/NoteGrouping/NoteGrouping.cpp
                    SourceCode/NoteSequence/EighthNoteSequence.cpp
                    SourceCode/Utility/ChordParsingUtility.cpp
                    SourceCode/Utility/DatabaseUtility.cpp
                    SourceCode/Utility/MidiFileUtility.cpp
-                   SourceCode/Utility/SequenceUtility.cpp)
+                   SourceCode/Utility/SequenceUtility.cpp
+                   SourceCode/Utility/SongInformationUtility.cpp)
 # set(COMMON_DIRECTORIES source_code/midi) 
 
 #Useful to keep for future on how to include common directories
@@ -117,7 +117,6 @@ add_executable(tests tests/ChordSequenceParsingTests.cpp
                      tests/EighthNoteGroupingDetectionTests.cpp
                      tests/EighthNoteGroupingGenerationTests.cpp
                      SourceCode/NoteGrouping/EighthNotes.cpp
-                     SourceCode/NoteGrouping/NoteGrouping.cpp
                      SourceCode/Utility/ChordParsingUtility.cpp
                      SourceCode/Utility/SequenceUtility.cpp)
 

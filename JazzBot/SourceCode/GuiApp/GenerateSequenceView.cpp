@@ -9,6 +9,7 @@
 #include "../Utility/ChordParsingUtility.hpp"
 #include "../Utility/MidiFileUtility.hpp"
 #include "../Utility/SequenceUtility.hpp"
+#include "../Utility/SongInformationUtility.hpp"
 #include "../NoteSequence/EighthNoteSequence.hpp"
 
 static const int training_data_tool_bar_height = 50;
@@ -62,7 +63,7 @@ GenerateSequenceView::GenerateSequenceView(Listener* listener)
     // Check if both files exist
     SongInformation song_information;
     ChordSequence chord_sequence;
-    if (SequenceUtility::parseSongInformation(m_song_information_file, song_information))
+    if (SongInformationUtility::parseSongInformation(m_song_information_file, song_information))
     {
         if (ChordParsingUtility::parseChordSequence(m_chord_sequence_file,
                                                     chord_sequence,
@@ -134,6 +135,7 @@ GenerateSequenceView::updateViewPort(const MidiSequenceView* const changed_view,
 //    {
 //        m_original_sequence.updateViewPort(x_posistion, y_posistion);
 //    }
+    juce::ignoreUnused(changed_view,x_posistion, y_posistion);
 }
 
 void

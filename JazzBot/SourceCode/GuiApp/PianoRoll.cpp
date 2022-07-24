@@ -132,7 +132,6 @@ PianoRoll::getPianoRollWidth(const int &number_of_bars)
 void
 PianoRoll::resized()
 {
-
 }
 
 void

@@ -14,50 +14,55 @@
 
 #include "../SequenceTypes.h"
 
-struct NoteGroupingKey // used to hold the data for various note groupings for the database entry
-{
-    std::string m_chord;
-    std::string m_beat;
-    std::string m_starting_note;
-    std::string m_group_size;
-    std::string m_direction;
-    std::string m_next_chord;
-    std::string m_file_name;
-    std::string m_grouping_number;
-    std::string m_location;
-};
-
-using NoteGroupingData = std::vector<std::pair<NoteGroupingKey, std::vector<std::string>>>;
-
-class NoteGrouping // Different note groupings can be created, for now its just for eighth notes
+/**
+    @brief  This interface is designed for a specified grouping of notes to be selected from a midi file,
+            by applying an algorithm to a midi sequence. The algorithm can then be applied to show only
+            instances of the grouping in an entire sequence - getModifiedSequence()
+            Or it can be used to extract all isntances of the grouping from a midi file and insert them
+            into a database.
+ */
+class NoteGrouping
 {
 public:
-
-    virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const = 0;     // apply the note grouping algorithm to the inserted sequence and return the modified sequence
-    virtual void getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const = 0; // Prepares the Sql to insert for all songs
+    
+    /**
+     @brief Applies the grouping algorithm to an existing sequence and returns the modified sequence.
+     @param midi_sequence to modify
+     @returns The modified sequence
+     */
+    virtual MidiSequence getModifiedSequence(const MidiSequence& midi_sequence) const = 0;
+    
+    /**
+     @brief Appiles the algorithm to a group of sequences, extracts the note groupings and
+            populates a vector of strings which will contain the insert statements to place these groupings
+            into the database.
+     @param sequences to extract note groupings from
+     @param sql_insert_statements to populate
+     */
+    virtual void getSQLInsertStatements(const std::vector<Sequence>& sequences, std::vector<std::string>& sql_insert_statements) const = 0; // Prepares the Sql to insert for all songs
+    
+    /**
+     @brief Retrives the sql to create the database for this grouping.
+     @returns The sql statement
+     */
     virtual std::string getDatabaseCreationSQL() const = 0;
+    
+    /**
+     @brief Gets the name of the database file.
+     @returns The file name
+     */
     virtual std::string getDatabaseName() const = 0;
+    
+    /**
+     @brief Gets the name of the database directory.
+     @returns The directory name
+     */
     virtual std::string getDatabaseDirectory() const = 0;
+    
+    /**
+     @brief Virtual destructor.
+     */
     virtual ~NoteGrouping() {}
-    
-    // Refactor the following three functinos
-    static std::string findChordForNote(const double& note_on,
-                                 const ChordSequence& chord_sequence,
-                                 const bool& next_chord,
-                                 const TimeSignature& time_signature);
-    static RootNote findRootNoteForChord(const double& note_on,
-                                  const ChordSequence& chord_sequence,
-                                  const TimeSignature& time_signature);
-    
-    static std::string getLocation(const double& note_on,
-                            const ChordSequence& chord_sequence,
-                            const TimeSignature& time_signature);
-    
-    static RootNote convertNoteValueToRootNote(const int& note_value);
-    static int calculateRootNoteDifference(const RootNote& note_1, const RootNote& note_2);
-    static RootNote getChordLetter(const std::string& chord_str);
-    
-    
 };
 
 #endif /* NoteGrouping_hpp */

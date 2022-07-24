@@ -7,12 +7,15 @@
 
 #include "EighthNoteSequence.hpp"
 #include "../Utility/DatabaseUtility.hpp"
-#include "../NoteGrouping/NoteGrouping.hpp"
+#include "../Utility/SequenceUtility.hpp"
 #include "../DatabaseConstants.h"
 #include <random>
 #include <sqlite3.h>
 
 static const int notes_index = 10;
+static const int min_note_limit = 54;
+static const int max_note_limit = 80;
+static const int default_grouping_length = 3;
 
 EighthNoteSequence::EighthNoteSequence(const ChordSequence& chord_sequence,
                            const TimeSignature& time_signature,
@@ -45,52 +48,46 @@ EighthNoteSequence::generateSequence(const std::size_t& number_of_choruses)
     NotePosition note_position = std::make_pair(0, "D"); // use constant?
     while (m_chorus_number < number_of_choruses)
     {
-        if (note_position.first == -160)
-        {
-            std::cout << "wrong" << std::endl;
-        }
-        
-        
         // prepare rows for database unaffected by grouping length
         const std::string starting_note_str = convertMidiNoteToStartingNote(last_note, note_position.first);
-        const std::string current_chord_str = NoteGrouping::findChordForNote(note_position.first, m_chord_sequence, false, m_time_signature);  // this can be reused in eighth notes, just pass ina  vector of note positions. (thats whats given in the other function
+        const std::string current_chord_str = SequenceUtility::findChordForNote(note_position.first, m_chord_sequence, false, m_time_signature);  // this can be reused in eighth notes, just pass ina  vector of note positions. (thats whats given in the other function
         const std::string beat_type_str = note_position.second;
         std::string direction_str;
         
-        if (last_note < 54)
+        if (last_note < min_note_limit)
         {
             direction_str = "up";;
         }
-        else if (last_note > 80)
+        else if (last_note > max_note_limit)
         {
             direction_str = "down";
         }
         
         int grouping_length = generateRandomGroupingLength();
         
-        std::string insert_query = generateSQLInsertQuery(note_position,
+        std::string select_query = generateSQLSelectQuery(note_position,
                                                           current_chord_str,
                                                           starting_note_str,
                                                           beat_type_str,
                                                           grouping_length,
                                                           direction_str);
         
-        DatabaseUtility::selectFromDatabase(insert_query, sql_database, sql_columns);
+        DatabaseUtility::selectFromDatabase(select_query, sql_database, sql_columns);
         if (!sql_columns[0].m_data.empty())
         {
             appendEighthNoteGroupingToMidiSequence(sql_columns[0].m_data, midi_sequence, note_position, last_note);
         }
         else // if it can't find an entry with this size, it will try to use on of size 3
         {
-            const int new_grouping_length = 3;
-            insert_query = generateSQLInsertQuery(note_position,
+            const int new_grouping_length = default_grouping_length;
+            select_query = generateSQLSelectQuery(note_position,
                                                    current_chord_str,
                                                    starting_note_str,
                                                    beat_type_str,
                                                    new_grouping_length,
                                                    direction_str);
             
-            DatabaseUtility::selectFromDatabase(insert_query, sql_database, sql_columns);
+            DatabaseUtility::selectFromDatabase(select_query, sql_database, sql_columns);
             if (!sql_columns[0].m_data.empty())
             {
                 grouping_length = new_grouping_length; // override the grouping length to be the new one
@@ -115,9 +112,9 @@ EighthNoteSequence::convertMidiNoteToStartingNote(const int& last_note,
                                             const double& note_position) const
 {
     // these three steps in a row are already use, refactor this down to one function, this static one wont be needed.
-    RootNote first_note = NoteGrouping::convertNoteValueToRootNote(last_note);
-    RootNote chord_root_key = NoteGrouping::findRootNoteForChord(note_position, m_chord_sequence, m_time_signature);
-    std::string starting_note_str = std::to_string(NoteGrouping::calculateRootNoteDifference(chord_root_key, first_note));
+    RootNote first_note = SequenceUtility::convertNoteValueToRootNote(last_note);
+    RootNote chord_root_key = SequenceUtility::findRootNoteForChord(note_position, m_chord_sequence, m_time_signature);
+    std::string starting_note_str = std::to_string(SequenceUtility::calculateRootNoteDifference(chord_root_key, first_note));
     return starting_note_str;
 }
 
@@ -144,10 +141,8 @@ EighthNoteSequence::appendEighthNoteGroupingToMidiSequence(const std::string& ei
     
     if (reset_note_position)
     {
-        std::cout << "reset midi sequnece" << std::endl;
         note_position.first -= m_sequence_length;
     }
-    
     last_note = midi_sequence[midi_sequence.size() -1].note_value;
 }
 
@@ -158,7 +153,6 @@ EighthNoteSequence::addNoteToSequence(const std::string& increment_str,
                                 int& note_value,
                                 bool& reset_note_position)
 {
-    // put this in a function so that it increases when note position is incremented (this is sort oft he problem
     if (note_position.first >= m_sequence_length) // + bar length (get calculation from other function) // this would be a member variable when this function is no longer static
     {
         note_position.first = 0;
@@ -176,7 +170,7 @@ EighthNoteSequence::addNoteToSequence(const std::string& increment_str,
 }
 
 std::string
-EighthNoteSequence::generateSQLInsertQuery(const NotePosition& note_position,
+EighthNoteSequence::generateSQLSelectQuery(const NotePosition& note_position,
                                                     const std::string& first_chord_str,
                                                     const std::string& starting_note_str,
                                                     const std::string& beat_type_str,
@@ -191,7 +185,7 @@ EighthNoteSequence::generateSQLInsertQuery(const NotePosition& note_position,
     std::string chords_str = current_chord_str + "&"; // constant?
     for (int index = 1; index < grouping_length; index ++)
     {
-        std::string search_chord_str = NoteGrouping::findChordForNote(temp_note_position.first,
+        std::string search_chord_str = SequenceUtility::findChordForNote(temp_note_position.first,
                                                                       m_chord_sequence,
                                                                       false,
                                                                       m_time_signature);
@@ -213,8 +207,6 @@ EighthNoteSequence::generateSQLInsertQuery(const NotePosition& note_position,
     // starting_note_str = findChordForNote(note_position, chord_sequence, true, time_signature);
     EighthNoteGroupingRows rows{starting_note_str, beat_type_str, chords_str, group_size_str, "next_chord_str", direction};
     
-    // calculate insert query
-    
     std::string direction_str;
     if (rows.m_direction == "up")
     {
@@ -232,7 +224,6 @@ EighthNoteSequence::generateSQLInsertQuery(const NotePosition& note_position,
                       direction_str +
                       //" AND NEXTCHORD='"  + next_chord + "'" +
                       " order by RANDOM() LIMIT 1;";
-    
     return sql;
 }
 

@@ -22,7 +22,7 @@ std::string chord_degrees[12] = {"I",
                                  "bVI",
                                  "VI",
                                  "bVII",
-                                 "VII"};
+                                 "VII"}; // static?
 
 static const std::string minor_key = "-min";
 static const std::string major_key = "-maj";
@@ -461,6 +461,6 @@ ChordParsingUtility::getChordSequenceAsString(const juce::File& file)
     chord_sequence_str.erase(std::remove(chord_sequence_str.begin(),
                                          chord_sequence_str.end(),
                                          '\n'),
-                            chord_sequence_str.end());
+                                         chord_sequence_str.end());
     return chord_sequence_str;
 }

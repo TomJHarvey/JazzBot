@@ -21,7 +21,6 @@ struct SQLColumn
 
 using SQLColumns = std::vector<SQLColumn>;
 
-
 class DatabaseUtility
 {
 public:

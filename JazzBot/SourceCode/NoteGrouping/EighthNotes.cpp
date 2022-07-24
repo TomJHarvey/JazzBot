@@ -6,6 +6,7 @@
 //
 
 #include "EighthNotes.hpp"
+#include "../Utility/SequenceUtility.hpp"
 #include "../DatabaseConstants.h"
 #include "../SequenceTypes.h"
 
@@ -57,40 +58,40 @@ EighthNotes::getModifiedSequence(const MidiSequence& midi_events) const
 }
 
 void
-EighthNotes::getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vector<std::string>& sql_insert_statements) const
+EighthNotes::getSQLInsertStatements(const std::vector<Sequence>& sequences, std::vector<std::string>& sql_insert_statements) const
 {
-    NoteGroupingData eighth_note_data;
-    for (std::size_t sequence_index = 0; sequence_index < sequence.size(); sequence_index++)
+    EighthNoteGroupingData eighth_note_data;
+    for (std::size_t sequence_index = 0; sequence_index < sequences.size(); sequence_index++)
     {
         std::array<BeatMarkers,2> beat_markers;
         unsigned int grouping_counter = 0;
         for (std::size_t midi_sequence_index = 0;
-             midi_sequence_index < sequence[sequence_index].m_midi_sequence.size();
+             midi_sequence_index < sequences[sequence_index].m_midi_sequence.size();
              midi_sequence_index++)
         {
-            beat_markers = getBeatMarkers(midi_sequence_index, sequence[sequence_index].m_midi_sequence);
+            beat_markers = getBeatMarkers(midi_sequence_index, sequences[sequence_index].m_midi_sequence);
             std::size_t increment = 1;
             bool found_grouping = false;
             MidiSequence eighth_note_grouping;
             bool beat_type = beat_markers[0].second;
             increment = findEighthNoteGrouping(increment,
                                                midi_sequence_index,
-                                               sequence[sequence_index].m_midi_sequence,
+                                               sequences[sequence_index].m_midi_sequence,
                                                beat_markers[0],
                                                beat_markers[1],
                                                eighth_note_grouping,
                                                true,
                                                found_grouping);
             std::size_t index = 0;
-            if (eighth_note_grouping.size() > 2)
+            if (eighth_note_grouping.size() > 2) // if its found a grouping larger that 2, then store it
             {
                 calculateNoteGroupingKeys(eighth_note_grouping,
                                           index,
                                           beat_type,
-                                          sequence[sequence_index].m_chord_sequence,
+                                          sequences[sequence_index].m_chord_sequence,
                                           eighth_note_data,
-                                          sequence[sequence_index].m_song_information.m_title,
-                                          sequence[sequence_index].m_song_information.m_time_signature,
+                                          sequences[sequence_index].m_song_information.m_title,
+                                          sequences[sequence_index].m_song_information.m_time_signature,
                                           grouping_counter);
             }
             if (increment > 1)
@@ -99,35 +100,62 @@ EighthNotes::getSQLInsertQueries(const std::vector<Sequence>& sequence, std::vec
             }
         }
     }
+    constructSQLInsertStatements(sql_insert_statements, eighth_note_data);
+}
+    
+std::string
+EighthNotes::getDatabaseCreationSQL() const
+{
+    
+    // return this overriden virtual methods from note_grouping
+    std::string sql_create_db = "CREATE TABLE NOTEGROUPING("
+                          "ID INT PRIMARY KEY     NOT NULL, "
+                          "FILENAME         TEXT    NOT NULL, "
+                          "CHORD            TEXT    NOT NULL, "
+                          "STARTINGNOTE     TEXT    NOT NULL, "
+                          "GROUPSIZE        TEXT    NOT NULL, "
+                          "DIRECTION        TEXT    NOT NULL, "
+                          "NEXTCHORD        TEXT    NOT NULL, "
+                          "BEAT             TEXT    NOT NULL, "
+                          "LOCATION         TEXT    NOT NULL, "
+                          "GROUPINGNUM      TEXT    NOT NULL, "
+                          "NOTES            TEXT    NOT NULL);";
+    return sql_create_db;
+}
+
+std::string
+EighthNotes::getDatabaseName() const
+{
+    return eighth_note_groupings_db_string;
+}
+
+std::string
+EighthNotes::getDatabaseDirectory() const
+{
+    return note_groupings_directory;
+}
+
+void
+EighthNotes::constructSQLInsertStatements(std::vector<std::string>& sql_insert_statements, const EighthNoteGroupingData& eighth_note_data) const
+{
     for (std::size_t index = 0; index < eighth_note_data.size(); index++) // this could go in a seprate function
     {
-        
-        // Here it will pass in an array of sql strings for each insert
-        
-        std::string file_name = eighth_note_data[index].first.m_file_name;
+        std::string file_name = eighth_note_data[index].m_file_name;
         if (std::count(file_name.begin(), file_name.end(), apostrophe) != 0)
         {
             file_name = std::regex_replace(file_name, std::regex("'"), "''");
         }
-        
-        std::string notes;
-        for (auto& note : eighth_note_data[index].second)
-        {
-            notes += note + "&";
-        }
-        
-        notes.pop_back();
         std::string sql = "INSERT INTO NOTEGROUPING VALUES(" + std::to_string(index + 1) + // rewrite with std::format
                             ",'" + file_name + "'," +
-                            "'" + eighth_note_data[index].first.m_chord + "'," +
-                            "'" + eighth_note_data[index].first.m_starting_note + "'," +
-                            "'" + eighth_note_data[index].first.m_group_size + "'," +
-                            "'" + eighth_note_data[index].first.m_direction + "'," +
-                            "'" + eighth_note_data[index].first.m_next_chord + "'," +
-                            "'" + eighth_note_data[index].first.m_beat + "'," +
-                            "'" + eighth_note_data[index].first.m_location + "'," +
-                            "'" + eighth_note_data[index].first.m_grouping_number + "'," +
-                            "'" + notes + "');";
+                            "'" + eighth_note_data[index].m_chord + "'," +
+                            "'" + eighth_note_data[index].m_starting_note + "'," +
+                            "'" + eighth_note_data[index].m_group_size + "'," +
+                            "'" + eighth_note_data[index].m_direction + "'," +
+                            "'" + eighth_note_data[index].m_next_chord + "'," +
+                            "'" + eighth_note_data[index].m_beat + "'," +
+                            "'" + eighth_note_data[index].m_location + "'," +
+                            "'" + eighth_note_data[index].m_grouping_number + "'," +
+                            "'" + eighth_note_data[index].m_notes + "');";
         sql_insert_statements.push_back(sql);
     }
 }
@@ -171,30 +199,7 @@ EighthNotes::findEighthNoteGrouping(std::size_t& increment,
     if (index + increment < midi_events.size())
     {
         std::size_t first_index = index + increment - 1;
-        
-//        if (!(midi_events[index + increment].note_on < (beat_marker_2.first+20))) // do i need this?
-//        {
-//            std::cout << std::endl;
-//        }
-//        if (!(midi_events[first_index].duration < dotted_quaver))
-//        {
-//            std::cout << std::endl;
-//        }
-//        if (!(midi_events[index + increment].note_on - midi_events[first_index].note_on < dotted_quaver))
-//        {
-//            std::cout << std::endl;
-//        }
-//        if (!(midi_events[index + increment].note_on - midi_events[first_index].note_on > dotted_semi) && beat_marker_1.second)
-//        {
-//           std::cout << midi_events[index + increment].note_on << " - " << midi_events[first_index].note_on << std::endl;
-//        }
-//        if (!(midi_events[index + increment].note_on - midi_events[first_index].note_on > offbeat_dotted_semi) && !beat_marker_1.second)
-//        {
-//           std::cout << midi_events[index + increment].note_on << " - " << midi_events[first_index].note_on << std::endl;
-//        }
-        
         // for now these sets of conditions will have to do, i think i can always go back and edit them if i need to.
-
         if (increment < grouping_limit && // limit for 8th note groupings
            midi_events[index + increment].note_on < (beat_marker_2.first+20) &&
             (midi_events[first_index].duration < dotted_quaver ) &&
@@ -247,13 +252,13 @@ EighthNotes::findEighthNoteGrouping(std::size_t& increment,
 
 void
 EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
-                                             std::size_t& index,
-                                             const bool& starting_beat_type,
-                                             const ChordSequence& chord_sequence,
-                                             NoteGroupingData& eighth_note_data,
-                                             const std::string& file_name,
-                                             const TimeSignature& time_signature,
-                                             unsigned int& grouping_counter) const
+                                       std::size_t& index,
+                                       const bool& starting_beat_type,
+                                       const ChordSequence& chord_sequence,
+                                       EighthNoteGroupingData& eighth_note_data,
+                                       const std::string& file_name,
+                                       const TimeSignature& time_signature,
+                                       unsigned int& grouping_counter) const
 {
     // This could be done more effeciently, by working out the key once then changing the values of the key
     // Instead it loops through multiple times to create the key.
@@ -280,31 +285,31 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                 std::string direction_str = std::to_string(grouping[index].note_value -
                                                            grouping[increment].note_value);
                 // this function needs changing, it should return the root
-                std::string next_chord_str = findChordForNote(grouping[index-1].note_on, chord_sequence, true, time_signature); // is this correct, why -1
+                std::string next_chord_str = SequenceUtility::findChordForNote(grouping[index-1].note_on, chord_sequence, true, time_signature); // is this correct, why -1
                 
-                RootNote first_note = convertNoteValueToRootNote(grouping[increment].note_value);
-                RootNote chord_root_key = findRootNoteForChord(grouping[increment].note_on, chord_sequence, time_signature);
-                std::string starting_note_str = std::to_string(calculateRootNoteDifference(chord_root_key, first_note));
+                RootNote first_note = SequenceUtility::convertNoteValueToRootNote(grouping[increment].note_value);
+                RootNote chord_root_key = SequenceUtility::findRootNoteForChord(grouping[increment].note_on, chord_sequence, time_signature);
+                std::string starting_note_str = std::to_string(SequenceUtility::calculateRootNoteDifference(chord_root_key, first_note));
                 
-                
-                std::string location_str = getLocation(grouping[increment].note_on, chord_sequence, time_signature);
+                std::string location_str = SequenceUtility::getLocation(grouping[increment].note_on, chord_sequence, time_signature);
                 grouping_counter ++;
                 std::string grouping_counter_str = std::to_string(grouping_counter);
 
                 std::vector<std::string> chords; // lines below to get groupsize and chords could be done differently, i think its unnecessary.
-                std::vector<std::string> notes; // this can probably stay... 
+                std::string notes; // this can probably stay...
                 
                 // Find the next chord by getting the last note and finding out the chord of the next bar
                 for (std::size_t i = increment; i <= index; i++) // 0-5, 1-5, 2-5, 3-5
                 {
                     // Find the chord for this note
-                    std::string chord_degree = findChordForNote(grouping[i].note_on, chord_sequence, false, time_signature);
+                    std::string chord_degree = SequenceUtility::findChordForNote(grouping[i].note_on, chord_sequence, false, time_signature);
                     chords.push_back(chord_degree);
                     if (i != increment)
                     {
-                        notes.push_back(std::to_string(grouping[i].note_value - grouping[i-1].note_value));
+                        notes += std::to_string(grouping[i].note_value - grouping[i-1].note_value) + "&";
                     }
                 }
+                notes.pop_back();
 
                 std::size_t current_chord_counter = 0;
                 std::string current_chord = chords[0];
@@ -336,25 +341,17 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
                     chords_str.pop_back();
                     group_size_str += std::to_string(current_chord_counter);
                 }
-                
-//                std::cout << chords_str << std::endl;
-//                std::cout << group_size_str << std::endl;
-                NoteGroupingKey grouping_key = {chords_str,
-                                                beat_type_str,
-                                                starting_note_str,
-                                                group_size_str,
-                                                direction_str,
-                                                next_chord_str,
-                                                file_name,
-                                                grouping_counter_str,
-                                                location_str};
 
-                eighth_note_data.push_back({grouping_key, notes});
-
-                //std::cout << "C=" << chords_str << "B=" << beat_type_str << "SN=" << starting_note_str << "GS=" << group_size_str << "D=" << direction_str << "NC=" << next_chord_str << "FN=" << file_name << std::endl;
-//                for (auto& note : notes) {
-//                    std::cout << note << std::endl;
-//                }
+                eighth_note_data.push_back({chords_str,
+                                            beat_type_str,
+                                            starting_note_str,
+                                            group_size_str,
+                                            direction_str,
+                                            next_chord_str,
+                                            file_name,
+                                            grouping_counter_str,
+                                            location_str,
+                                            notes});
                 beat_type = !beat_type;
                 increment ++;
             }
@@ -362,37 +359,7 @@ EighthNotes::calculateNoteGroupingKeys(MidiSequence& grouping,
     }
 }
 
-std::string
-EighthNotes::getDatabaseCreationSQL() const
-{
-    
-    // return this overriden virtual methods from note_grouping
-    std::string sql_create_db = "CREATE TABLE NOTEGROUPING("
-                          "ID INT PRIMARY KEY     NOT NULL, "
-                          "FILENAME         TEXT    NOT NULL, "
-                          "CHORD            TEXT    NOT NULL, "
-                          "STARTINGNOTE     TEXT    NOT NULL, "
-                          "GROUPSIZE        TEXT    NOT NULL, "
-                          "DIRECTION        TEXT    NOT NULL, "
-                          "NEXTCHORD        TEXT    NOT NULL, "
-                          "BEAT             TEXT    NOT NULL, "
-                          "LOCATION         TEXT    NOT NULL, "
-                          "GROUPINGNUM      TEXT    NOT NULL, "
-                          "NOTES            TEXT    NOT NULL);";
-    return sql_create_db;
-}
 
-std::string
-EighthNotes::getDatabaseName() const
-{
-    return eighth_note_groupings_db_string;
-}
-
-std::string
-EighthNotes::getDatabaseDirectory() const
-{
-    return note_groupings_directory;
-}
 
 
 
