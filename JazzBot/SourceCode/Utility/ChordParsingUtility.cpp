@@ -261,8 +261,8 @@ ChordParsingUtility::parseChordSequence(const juce::File& chord_changes_file,
                                  const TimeSignature& time_signature,
                                  const RootNote& key)
 {
-    std::string chord_sequence_str = ChordParsingUtility::getChordSequenceAsString(chord_changes_file);
-    ChordsInKey chords_in_key = ChordParsingUtility::getChordsInKey(key);
+    std::string chord_sequence_str = getChordSequenceAsString(chord_changes_file);
+    ChordsInKey chords_in_key = getChordsInKey(key);
     std::string current_bar;
     std::string delimiter = "|";
     std::size_t pos, bar_number = 0;
@@ -316,7 +316,7 @@ ChordParsingUtility::parseChordSequence(const juce::File& chord_changes_file,
 }
 
 bool
-ChordParsingUtility::setChordsInCurrentBar(const std::string& current_bar,
+ChordParsingUtility::setChordsInCurrentBar(const std::string& current_bar_chords,
                                        ChordSequence& chord_sequence,
                                        const bool& found_chord,
                                        const ChordsInKey& chords_in_key,
@@ -326,31 +326,31 @@ ChordParsingUtility::setChordsInCurrentBar(const std::string& current_bar,
 {
     int previous_number_of_beats = 0;
     std::size_t current_chord_position = 0; // maybe not 0.
-    for (std::size_t i = 0; i < current_bar.length(); i++)
+    for (std::size_t i = 0; i < current_bar_chords.length(); i++)
     {
-        if (current_bar[i] == 'N')
+        if (current_bar_chords[i] == 'N')
         {
             //std::cout << file.getFileName() << ": Does not handle N.C chord at bar number " << bar_number << std::endl;
             chord_sequence.clear();
             return false;
         }
-        else if (isupper(current_bar[i]))
+        else if (isupper(current_bar_chords[i]))
         {
             if (found_chord)
             {
                 std::size_t bar_position = i+1;
-                std::size_t number_of_beats = findChord(current_bar, bar_position);
+                std::size_t number_of_beats = findNumberOfbeatsForChord(current_bar_chords, bar_position);
                 std::string chord;
                 if (number_of_beats != 0)
                 {
-                    chord = current_bar.substr(current_chord_position, bar_position - current_chord_position - 1);
+                    chord = current_bar_chords.substr(current_chord_position, bar_position - current_chord_position - 1);
                     chord.erase(remove(chord.begin(), chord.end(), ' '), chord.end());
                 }
                 else
                 {
-                    chord = current_bar.substr(current_chord_position, bar_position - current_chord_position);
+                    chord = current_bar_chords.substr(current_chord_position, bar_position - current_chord_position);
                 }
-                std::string chord_degree = ChordParsingUtility::convertChordNameToDegree(chords_in_key, chord);
+                std::string chord_degree = convertChordNameToDegree(chords_in_key, chord);
                 int chord_position = (bar_number * bar_length) + (previous_number_of_beats * beat_length);
                 //std::cout << "Bar number = " << bar_number << " - Position = " << chord_position << " chord = " << chord << " degree = " << chord_degree << std::endl;
                 number_of_beats += 1;
@@ -393,26 +393,26 @@ ChordParsingUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_se
 
 
 std::size_t
-ChordParsingUtility::findChord(const std::string& current_bar, std::size_t& bar_position)
+ChordParsingUtility::findNumberOfbeatsForChord(const std::string& current_bar_chords, std::size_t& bar_position)
 {
     std::size_t number_of_beats = 0;
-    while (bar_position < current_bar.length())
+    while (bar_position < current_bar_chords.length())
     {
-        if (current_bar[bar_position] == ' ')
+        if (current_bar_chords[bar_position] == ' ')
         {
             // count the number of beats
             number_of_beats ++;
         }
-        else if (isupper(current_bar[bar_position]))
+        else if (isupper(current_bar_chords[bar_position]))
         {
             return number_of_beats;
         }
-        else if(current_bar[bar_position] == '/')
+        else if(current_bar_chords[bar_position] == '/')
         {
-            if (isupper(current_bar[bar_position+1]))
+            if (isupper(current_bar_chords[bar_position+1]))
             {
                 bar_position +=2;
-                return findChord(current_bar, bar_position); // ignore slash enter function again
+                return findNumberOfbeatsForChord(current_bar_chords, bar_position); // ignore slash enter function again
             }
             else
             {

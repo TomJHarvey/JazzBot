@@ -35,8 +35,8 @@ static const std::size_t default_number_of_choruses = 8;
 
 GenerateSequenceView::GenerateSequenceView(Listener* listener)
     : m_midi_sequence(this)
-    , m_chord_sequence_file(custom_chord_sequence_dir + giant_steps_chord_sequence_file)
-    , m_song_information_file(custom_song_infromation_dir + giant_steps_song_information_file)
+    , m_chord_sequence_file(custom_chord_sequence_dir + just_friends_chord_sequence_file)
+    , m_song_information_file(custom_song_infromation_dir + just_friends_song_information_file)
     , m_listener(listener)
 {
     addAndMakeVisible(&m_midi_sequence);

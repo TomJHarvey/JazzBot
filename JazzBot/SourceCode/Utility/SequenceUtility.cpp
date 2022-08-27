@@ -157,11 +157,11 @@ SequenceUtility::convertStringToRootNote(const std::string& key, const bool& is_
 }
 
 std::size_t
-SequenceUtility::findLastBar(const ChordSequence& chord_sequence, const std::size_t& bar_number)
+SequenceUtility::findLastBar(const ChordSequence& chord_sequence, const std::size_t& last_chord_position)
 {
     for (std::size_t index = chord_sequence.size() -1; index >= 0; index --)
     {
-        if (chord_sequence[index].m_bar_number != bar_number) // we don't want - 1, we will do that before entering function in this case
+        if (chord_sequence[index].m_bar_number != last_chord_position) // we don't want - 1, we will do that before entering function in this case
         {
             return (index +1);
         }

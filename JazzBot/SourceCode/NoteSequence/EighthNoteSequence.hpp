@@ -120,7 +120,7 @@ private:
      @brief Generates a random grouping length
      @returns The random grouping length
      */
-    int generateRandomGroupingLength() const; // this can be static somewhere
+    int generateRandomGroupingLength() const;
     
     /**
      @brief Increments the note position by a swung eighth notes
