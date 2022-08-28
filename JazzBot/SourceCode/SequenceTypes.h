@@ -12,6 +12,10 @@
 #include <string>
 #include <vector>
 
+
+/**
+    @brief Used to store the root note C-B as enum values 0-11
+ */
 enum class RootNote
 {
     C = 0,
@@ -29,7 +33,9 @@ enum class RootNote
     Invalid = -1
 };
 
-
+/**
+    @brief Stores information about the current chord
+ */
 struct Chord
 {
     std::string m_chord;
@@ -38,8 +44,14 @@ struct Chord
     std::string m_chord_degree;
 };
 
+/**
+    @brief A vector  of chords
+ */
 using ChordSequence = std::vector<Chord>;
 
+/**
+    @brief Stores the possible time signature values
+ */
 enum class TimeSignature
 {
     four_four = 4,
@@ -50,6 +62,9 @@ enum class TimeSignature
     not_set = -1
 };
 
+/**
+    @brief Stores information about the current song
+ */
 struct SongInformation
 {
     std::string m_title;
@@ -58,6 +73,9 @@ struct SongInformation
     TimeSignature m_time_signature;
 };
 
+/**
+    @brief Stores note on and off, duration and note value for a midi event
+ */
 struct MidiNoteEvent
 {
     int note_value;
@@ -66,8 +84,14 @@ struct MidiNoteEvent
     double duration;
 };
 
+/**
+    @brief A vector of midi events to create a midi sequence
+ */
 using MidiSequence = std::vector<MidiNoteEvent>;
 
+/**
+    @brief A sequence which is  made up of three types. 1.song information 2. chord sequence 3.midi sequence
+ */
 struct Sequence
 {
     SongInformation m_song_information;
@@ -75,6 +99,9 @@ struct Sequence
     MidiSequence m_midi_sequence;
 };
 
+/**
+    @brief Defines the beat length
+ */
 static const int beat_length = 480;
 
 #endif /* SequenceTypes_h */
