@@ -351,7 +351,7 @@ ChordParsingUtility::setChordsInCurrentBar(const std::string& current_bar_chords
                     chord = current_bar_chords.substr(current_chord_position, bar_position - current_chord_position);
                 }
                 std::string chord_degree = convertChordNameToDegree(chords_in_key, chord);
-                int chord_position = (bar_number * bar_length) + (previous_number_of_beats * beat_length);
+                int chord_position = (static_cast<int>(bar_number) * bar_length) + (previous_number_of_beats * beat_length);
                 //std::cout << "Bar number = " << bar_number << " - Position = " << chord_position << " chord = " << chord << " degree = " << chord_degree << std::endl;
                 number_of_beats += 1;
                 previous_number_of_beats += number_of_beats;
@@ -381,7 +381,7 @@ ChordParsingUtility::checkLastBarHasCorrectMidiTickValue(ChordSequence& chord_se
         std::size_t last_bar_position = SequenceUtility::findLastBar(chord_sequence, bar_number);
         if ((chord_sequence[last_bar_position].m_chord_position != 0) &&
             (chord_sequence[last_bar_position].m_chord_position /
-             chord_sequence[last_bar_position].m_bar_number) != bar_length)
+             static_cast<int>(chord_sequence[last_bar_position].m_bar_number)) != bar_length)
         {
             chord_sequence.clear();
             std::cout << "Midi tick values for chords mis alligned" << std::endl;

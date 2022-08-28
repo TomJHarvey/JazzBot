@@ -26,11 +26,6 @@ PianoRoll::PianoRoll(Listener* listener)
     drawVerticalLines(m_number_of_bars);
 }
 
-PianoRoll::~PianoRoll()
-{
-    m_gui_notes.clearQuick(true);
-}
-
 void
 PianoRoll::drawHorizontalLines()
 {

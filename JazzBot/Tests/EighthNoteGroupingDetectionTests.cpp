@@ -2,6 +2,7 @@
 //#include "TestFiles"
 #include "../SourceCode/NoteGrouping/EighthNotes.hpp"
 #include "../SourceCode/Utility/MidiFileUtility.hpp"
+#include "../SourceCode/Utility/SongInformationUtility.hpp"
 
 static juce::String test_file_dir = "../../Tests/TestFiles/EighthNoteDetection/";
 static juce::String ableton_file_dir = "../../Tests/TestFiles/EighthNoteDetection/Ableton/";

@@ -51,11 +51,6 @@ public:
     PianoRoll(Listener* listener);
     
     /**
-        @brief Destructor
-     */
-    virtual ~PianoRoll();
-    
-    /**
      @brief Draws a midi sequence and bar lines on the piano roll
      @param midi_sequence to draw
      */

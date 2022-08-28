@@ -127,14 +127,6 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
 void
 GenerateSequenceView::updateViewPort(const MidiSequenceView* const changed_view, const int& x_posistion, const int& y_posistion)
 {
-//    if (changed_view == &m_original_sequence)
-//    {
-//        m_modified_sequence.updateViewPort(x_posistion, y_posistion);
-//    }
-//    else if (changed_view == &m_modified_sequence)
-//    {
-//        m_original_sequence.updateViewPort(x_posistion, y_posistion);
-//    }
     juce::ignoreUnused(changed_view,x_posistion, y_posistion);
 }
 

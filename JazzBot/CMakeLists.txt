@@ -118,7 +118,9 @@ add_executable(tests tests/ChordSequenceParsingTests.cpp
                      tests/EighthNoteGroupingGenerationTests.cpp
                      SourceCode/NoteGrouping/EighthNotes.cpp
                      SourceCode/Utility/ChordParsingUtility.cpp
-                     SourceCode/Utility/SequenceUtility.cpp)
+                     SourceCode/Utility/MidiFileUtility.cpp
+                     SourceCode/Utility/SequenceUtility.cpp
+                     SourceCode/Utility/SongInformationUtility.cpp)
 
 target_link_libraries(tests
     PRIVATE
