@@ -1,0 +1,5 @@
+A1: ||D- D-j7 |D-7 D-6 |G- G-j7 |G-7 G-6A7|D-   |D7   |G-7 C7 |Fj7 Em7b5A7||
+A2: ||D- D-j7 |D-7 D-6 |G- G-j7 |G-7 G-6A7|D- NC |D7  NC|G-7 C7 |Fj7 Eb-7Ab7||
+B1: ||Dbj7 Bb-7 |Eb-7 Ab7 |Db7 Bb7 |Eb7 Ab7 |Dbj7 Bb-7 |Eb-7 Ab7 |G-7   |C7/G   ||
+I1: ||NC   ||
+

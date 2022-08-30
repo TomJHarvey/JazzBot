@@ -1,0 +1,6 @@
+A1: ||Bbj7   |Bbj7   |Bo   |Bo   |C-7   |F7   |Bbj7   |F7   ||
+A2: ||Bbj7   |Bbj7   |Bo   |Bo   |C-7   |F7   |Bbj7   |Bbj7   ||
+B1: ||Bb7   |Bb7   |Eb7   |Eb7   |C7   |C7   |F7   |F7   ||
+A3: ||Bbj7   |Bbj7   |Bo   |Bo   |C-7   |F7   |Bbj7   |Bbj7   ||
+I1: ||Bbj7   ||
+

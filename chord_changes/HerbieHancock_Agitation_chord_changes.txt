@@ -1,0 +1,3 @@
+A1: ||NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   |NC   ||
+B1: ||Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   |Db/Ab   ||
+

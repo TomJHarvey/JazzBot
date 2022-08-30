@@ -58,7 +58,7 @@ def downdown_song_information(database_soup):
 
         # this should be okay, may need to check some of the files if there is another occurrence of the highlight line
         for div in song_synopsis_soup.find_all('div', attrs={"class": "highlight-default notranslate"}):
-            write_text_to_file(div.text, chords_file_name, "chord_changes")
+            write_text_to_file(div.text, chords_file_name, "../chord_changes")
 
         table = song_synopsis_soup.find('table')
         rows = table.find_all('tr')
@@ -89,7 +89,7 @@ def downdown_song_information(database_soup):
         song_info_to_write = song_info_line + '\n' + instrument + '\n' + key + '\n' + time_signature + '\n'
         song_info_file_name = file_name.replace('_FINAL.pdf', '_song_information.txt')
 
-        write_text_to_file(song_info_to_write, song_info_file_name, "song_information")
+        write_text_to_file(song_info_to_write, song_info_file_name, "../song_information")
 
 
 # def download_midi(database_soup):

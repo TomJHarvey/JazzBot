@@ -1,0 +1,5 @@
+A1: ||E-7   |E-7   |E-7   |E-7   |D7   |D7   |D7   |D7   ||
+B1: ||C7911#   |C7911#   |C7911#   |C7911#   |B79b   |Am7b5   |B/G   |F7alt   ||
+C1: ||Eb/E   |D/Eb   |Eb/E   |Eb/E   |Db/D   |Db/D   |Db/D   |Db/D   ||
+B2: ||C7911#   |C7911#   |C7911#   |C7911#   |Bb79b   |Am7b5   |B/G   |F7alt   ||
+

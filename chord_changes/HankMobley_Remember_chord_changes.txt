@@ -1,0 +1,5 @@
+A1: ||Db7   |C7   |B7911#   |Bb7   |Bb-7   |Eb79b   |Abj7   |Eb-7 Ab7 ||
+A2: ||Db7   |C7   |B7911#   |Bb7   |Bb-7   |Eb79b   |Abj7   |Eb-7 Ab7 ||
+B1: ||Dbj7   |Dbj7   |Eb-7   |Gb7   |Abj7   |Abj7   |Gm7b5   |C7   ||
+A3: ||Db7   |C7   |B7911#   |Bb7   |Bb-7   |Eb7   |Abj7   |Eb-7 Ab7 ||
+

@@ -1,0 +1,6 @@
+A1: ||G-   |G-   |D7   |D7   |D7   |D7   |G-   |G- D7 ||
+A2: ||G-   |G-   |D7   |D7   |D7   |D7   |G- A7 |D7   ||
+B1: ||G   |G   |G   |G7   |C7   |C7 D7 |G   |G   |D7   |A7 D7 |G   |D7   ||
+B2: ||G   |G   |G   |G7   |C7   |C7 D7 |G   |G   |D7   |A7 D7 |G   |D7   ||
+B3: ||G   |G   |G   |G7   |C7   |C7 D7 |G   |G   |D7   |A7 D7 |G   |G7   |G7   ||
+

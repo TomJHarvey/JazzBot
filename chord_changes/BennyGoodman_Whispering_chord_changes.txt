@@ -1,0 +1,4 @@
+A1: ||Eb   |Eb   |D7   |D7   |Eb   |Eb   |C+7   |C7   |F7   |F7   |Bb7   |Bb7   |Eb   |Eb   |Bb7   |Bb+7   ||
+A2: ||Eb   |Eb   |D7   |D7   |Eb   |Eb   |C+7   |C7   |F7   |F7   |Bb7   |Bb7   |F-7   |Bb7   |Eb   |F-7 Bb7 ||
+I1: ||Eb   |Eb   ||
+

@@ -1,0 +1,5 @@
+A1: ||Dj7   |A-7 Dsus7 |Gj7   |Go7   |F#-7 B7 |E-7 A7 |F#-7 B7 |E-7 A7 ||
+A2: ||Dj7   |A-7 Dsus7 |Gj7   |Go7   |F#-7 B7 |E-7 A7 |Dj7 C7 |D6   ||
+B1: ||E-7   |A7   |Dj7   |A-7 D7 |Gj7   |F#m7b5 B7 |E7   |E-7 A7 ||
+A3: ||Dj7   |A-7 Dsus7 |Gj7   |Go7   |F#-7 B7 |E-7 A7 |Dj7 B-7 |E-7 A7 ||
+

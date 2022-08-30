@@ -1,0 +1,5 @@
+A1: ||C-   |C-   |C-   |C-   |C-   |C-   |C-   |C-   ||
+A2: ||C-   |C-   |C-   |C-   |C-   |C-   |C-   |C-   ||
+B1: ||Eb79#   |Eb79#   |C79#   |C79#   |Ab7alt   |Ab7alt   |G7alt   |G7alt   ||
+A3: ||C-   |C-   |C-   |C-   |C-   |C-   |C-   |C-   ||
+

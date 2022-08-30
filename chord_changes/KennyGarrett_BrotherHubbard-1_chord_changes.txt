@@ -1,0 +1,5 @@
+A1: ||D-   |G-   |D-   |G-   |D-   |G-   |D-   |G-   |Abj7   |G-   |Abj7   |G- A7 |D-   |G-   |D-   |G-   ||
+A2: ||D-   |G-   |D-   |G-   |D-   |G-   |D-   |G-   |Abj7   |G-   |Abj7   |G- A7 |D-   |G-   |D-   |G-   ||
+B1: ||G- A7 |D-   |G- A7 |D-   |G- A7 |D-   |G-   |A7 Eb7 |D-   |A7 Eb7 ||
+A3: ||D-   |G-   |D-   |G-   |D-   |Bb-   |D-   |G-   ||
+

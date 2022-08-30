@@ -1,0 +1,5 @@
+A1: ||G-7   |F-7   |Ebj7   |A79b13   |Gbj7   |Fsus79   |Eb-7   |Bbsus79   |Bb7   ||
+B1: ||Ebj7   |Ej7/D#   |Ebj7911#   |Ej7911#   |Bj7   |Bbsus79   |Ab-7   |Ebsus79   |D+79#   ||
+A2: ||G-7   |F-7   |Ebj7   |A79b13   |Gbj7   |Fsus79   |Eb-7   |Bbsus79   |Bbsus79   ||
+I1: ||G-7   |F-7   ||
+

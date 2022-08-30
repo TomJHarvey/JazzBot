@@ -1,0 +1,6 @@
+A1: ||A-7 D7 |G E7 |A-7 D7 |D-7 G-7 |C C-7F7|Bb Bb-7Eb7|A-7 D7 |G   ||
+A2: ||A-7 D7 |G E7 |A-7 D7 |D-7 G7 |C C-7F7|Bb Bb-7Eb7|A-7 D7 |G C ||
+B1: ||D-7 G7 |C A7 |D-7 G7 |C   |C-7 F7 |Bb   |A-7 D7 |B-7 E7 ||
+A3: ||A-7 D7 |G E7 |A-7 D7 |D-7 G-7 |C C-7F7|Bb Bb-7Eb7|A-7 D7 |G C ||
+I1: ||NC   ||
+

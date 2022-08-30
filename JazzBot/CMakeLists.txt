@@ -58,8 +58,6 @@ target_sources(JazzBotCommandLine
 
 set(PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(MIDI_FILES_DIRECTORY ${CMAKE_SOURCE_DIR}../midi_files)
-set(CHORD_CHANGES_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/chord_changes)
-set(SONG_INFORMATION_DIRECTORY ${CMAKE_SOURCE_DIR}../DatabaseParser/song_information)
 set(CUSTOM_CHORD_CHANGES_DIRECTORY ${CMAKE_SOURCE_DIR}/ChordChanges)
 
 target_compile_definitions(JazzBotGui

@@ -1,0 +1,5 @@
+A1: ||C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |F-   |F-   |F-   |F-   ||
+A2: ||C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |F-   |F-   |F-   |F-   ||
+B1: ||F7   |F7   |F7   |F7   |Bb7   |Bb7   |Bb7   |Bb7   |Eb7   |Eb7   |Eb7   |Eb79 Eb79b |Abj7   |Abj7   |G7   |Db7   ||
+A3: ||C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |C79b   |F-   |F-   |F-   |F-   ||
+

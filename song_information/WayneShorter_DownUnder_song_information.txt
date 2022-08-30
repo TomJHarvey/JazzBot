@@ -1,0 +1,4 @@
+WayneShorter_DownUnder
+ts
+F#-min
+4/4

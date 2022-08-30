@@ -1,0 +1,5 @@
+A1: ||G-   |G-   |G7911#   |D79#11#   |F-7911   |E/G G |Csus7   |C79#   ||
+B1: ||Fsus   |D79#11#   |Bbsus   |Gb/A   |C/Ab   |C7alt   |Fj7   |Ej79# D7alt ||
+C1: ||G-79   |F7/G   |Gj7911#   |D79#11#   |Gb/F   |E/B G7alt |G-7   |A/C   ||
+D1: ||Dbj7   |Eb6   |Db+/C A/B |Bj7/A#   |C/Ab   |Db79#11# C7alt |F-j7   |F-j7   ||
+

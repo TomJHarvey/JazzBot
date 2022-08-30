@@ -1,0 +1,6 @@
+A1: ||A-79   |A-79   |G#o7   |G#o7   |G-6   |G-6   |D7/F#   |D7/F#   ||
+B1: ||Fj7   |Fj7   |Bbj7   |Bbj7   |Bm7b5   |E79b   |A-7   |Ab7913   ||
+C1: ||G-7   |G-7   |F#o7   |F#o7   |Fj7   |Bm7b5 E7 |A-7   |A-7 Ab7 ||
+D1: ||G-79   |C7   |F#-7   |B79b   |Fj7   |E7   |A-7   |A-7   ||
+I1: ||NC   |NC   ||
+

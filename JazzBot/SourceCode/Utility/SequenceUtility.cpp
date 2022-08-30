@@ -5,7 +5,6 @@
 //  Created by Tom Harvey on 09/05/2022.
 //
 
-
 #include "ChordParsingUtility.hpp"
 #include "MidiFileUtility.hpp"
 #include "SequenceUtility.hpp"
@@ -14,18 +13,18 @@
 #include <algorithm>
 #include <cmath>
 
-//static const juce::File chord_changes_directory(CHORD_CHANGES_DIRECTORY);
-//static const juce::File song_information_directory(SONG_INFORMATION_DIRECTORY);
-
-// Todo: Figure out how to remove relative path from macro, why does it work with the file chooser but not here?
-static const juce::String song_information_directory = "/Users/tom-harvey/dev/JazzBot/DatabaseParser/song_information";
-static const juce::String chord_changes_directory = "/Users/tom-harvey/dev/JazzBot/DatabaseParser/chord_changes";
-static const juce::String midi_files_directory = "/Users/tom-harvey/dev/JazzBot/midi_files";
+static const juce::String project_directory_str(PROJECT_DIRECTORY);
+static const juce::File project_directory(project_directory_str);
 
 std::vector<Sequence>
-SequenceUtility::generateAllSequenceObjects()
+SequenceUtility::generateAllSequenceObjects() // seperator is not portable to windwos
 {
     std::vector<Sequence> sequences;
+    const juce::String parent_directory_str = project_directory.getParentDirectory().getFullPathName();
+    const juce::String midi_files_directory(parent_directory_str + "/midi_files");
+    const juce::String song_information_directory(parent_directory_str + "/song_information");
+    const juce::String chord_changes_directory(parent_directory_str + "/chord_changes");
+    
     for (const auto& file : juce::File(midi_files_directory).findChildFiles (2, false))
     {
         std::cout << file.getFileName() << std::endl;
