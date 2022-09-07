@@ -12,6 +12,7 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 #include "MidiSequenceView.hpp"
 #include "../SequenceTypes.h"
+#include "../NoteSequence/EighthNoteSequence.hpp"
 #include "../NoteSequence/NoteSequence.hpp"
 
 /**
@@ -53,6 +54,18 @@ public:
     void updateViewPort(const MidiSequenceView* const changed_view,
                         const int& x_posistion,
                         const int& y_posistion) override;
+private:
+    
+    /**
+     @brief Sets the label for the currently selected song
+     @param current_song_text to format and set as label
+     */
+    void setCurrentSongLabel(const juce::String& current_song_text);
+    
+    /**
+     @brief Parses the song information and the chord sequence files6
+     */
+    void parseDataFiles();
 
 private:
     /** Contains the midi sequence view which displays the generated sequence */
@@ -84,6 +97,15 @@ private:
     
     /** Used to point to different types of note sequences used to generate a melody*/
     std::unique_ptr<NoteSequence> m_note_sequence;
+    
+    /** Label used to display the current song title*/
+    juce::Label m_current_song_label;
+    
+    /** Contains the swing ratio */
+    SwingRatio m_swing_ratio;
+    
+    /** Defines the range of notes for the eighth note grouping */ // TODO: when there are more types of groupings this needs to be made generic
+    EighthNoteGroupingRange m_grouping_range;
 };
 
 #endif /* GenerateSequenceView_hpp */
