@@ -23,9 +23,13 @@ public:
     /**
      @brief Writes a midi file
      @param midi_sequence to write to file
+     @param file_directory of file
+     @param file_name of file
      @returns If successfully wrote midi file
      */
-    static bool writeMidiFile(const MidiSequence& midi_sequence);
+    static bool writeMidiFile(const MidiSequence& midi_sequence,
+                              const juce::String& file_directory,
+                              const juce::String& file_name);
     
     /**
      @brief Parses a midi file into a MidiSequence object

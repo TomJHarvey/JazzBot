@@ -41,6 +41,9 @@ static const juce::String song_information_file_ending = "_song_information.txt"
 static const std::string please_load_file_str = "Please load a song file";
 static const std::string chord_changes_suffix = "_chord_changes.txt";
 
+static const juce::String output_directory(juce::String(PROJECT_DIRECTORY) + "/GeneratedSequences"); // TODO: updated when more types of sequence are added
+//static const juce::String output_directory =+ "/GeneratedSequences"
+
 GenerateSequenceView::GenerateSequenceView(Listener* listener)
     : m_midi_sequence(this)
     , m_chord_sequence_file(chord_changes_directory_str + default_chord_sequence_file)
@@ -141,12 +144,14 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
     }
     else if (button == &m_generate_melody_button)
     {
-        if (!m_note_sequence)
+        if (m_note_sequence)
         {
             // these two can be passed in from gui
             MidiSequence midi_sequence = m_note_sequence->generateSequence(default_number_of_choruses);
             // check if midi sequence empty - then display something in gui.
-            MidiFileUtility::writeMidiFile(midi_sequence);
+            MidiFileUtility::writeMidiFile(midi_sequence,
+                                           output_directory,
+                                           m_chord_sequence_file.getFileName().upToFirstOccurrenceOf(chord_changes_suffix, false, false));
         }
     }
     // TODO: add a drop down menu to select the type of algorithm, it will change m_note_grouping

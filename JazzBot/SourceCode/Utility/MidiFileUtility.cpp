@@ -15,13 +15,23 @@ static const int test_scaling = 10;
 static const int test_divison_scaling = 2;
 
 bool
-MidiFileUtility::writeMidiFile(const MidiSequence& midi_sequence)
+MidiFileUtility::writeMidiFile(const MidiSequence& midi_sequence,
+                               const juce::String& file_directory,
+                               const juce::String& file_name)
 {
+    
+    juce::File output_directory = file_directory;
+    if (!output_directory.isDirectory())
+    {
+        std::cout << "creating directory " << output_directory.getFileName() << std::endl;
+        output_directory.createDirectory();
+    }
+    
     juce::MidiFile midi_file;
     midi_file.setTicksPerQuarterNote(480);
-    juce::File output_directory = juce::File("/users/tom-harvey/test_file" + juce::String(".mid")); // write output place properly
+    juce::File output_file = juce::File(file_directory + "/" + file_name + juce::String(".mid")); // write output place properly
     juce::MidiMessageSequence midi_message_sequence;
-    juce::FileOutputStream file_output_stream(output_directory);
+    juce::FileOutputStream file_output_stream(output_file);
     
     for (auto& midi_event : midi_sequence)
     {
