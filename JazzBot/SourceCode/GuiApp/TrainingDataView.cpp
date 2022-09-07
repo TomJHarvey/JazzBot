@@ -16,12 +16,18 @@ static const int midi_sequence_view_height = 450;
 static const char* return_to_menu_text = "Main Menu";
 static const char* load_file_text = "Load file";
 static const char* view_algorithm_text = "View algorithm"; // this shows the algorithm at work, for example it will show just eigth notes
-static const char* apply_algorithm_text = "Apply algorithm"; // this will apply the algorithm to all files and generate data to be used for sequence generation
+static const char* generate_sequence_data_text = "Generate Sequence Data"; // this will apply the algorithm to all files and generate data to be used for sequence generation
 
 static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
 // static const std::string midi_file_extension = "mid";
 
 static const juce::File default_file_path(midi_files_directory);
+
+static const int button_height = 45;
+static const int button_width = 120;
+static const int load_file_x_position = 160;
+static const int view_algorithm_x_position = 320;
+static const int generate_sequence_data_x_position = 480;
 
 TrainingDataView::TrainingDataView(Listener* listener)
     : m_original_sequence(this)
@@ -34,24 +40,24 @@ TrainingDataView::TrainingDataView(Listener* listener)
     
     // Different buttons will be shown depending on what mode it is, some will always be there. Like these ones here
     m_return_to_menu_button.addListener(this);
-    m_return_to_menu_button.setBounds(0, 0, 80, 45); // constants when i have the spacing sorted
+    m_return_to_menu_button.setBounds(0, 0, button_width, button_height); // constants when i have the spacing sorted
     m_return_to_menu_button.setButtonText(return_to_menu_text);
     addAndMakeVisible(m_return_to_menu_button);
     
     m_load_file_button.addListener(this);
-    m_load_file_button.setBounds(160, 0, 80, 45);
+    m_load_file_button.setBounds(load_file_x_position, 0, button_width, button_height);
     m_load_file_button.setButtonText(load_file_text);
     addAndMakeVisible(m_load_file_button);
     
     view_algorithm_button.addListener(this);
-    view_algorithm_button.setBounds(320, 0, 80, 45);
+    view_algorithm_button.setBounds(view_algorithm_x_position, 0, button_width, button_height);
     view_algorithm_button.setButtonText(view_algorithm_text);
     addAndMakeVisible(view_algorithm_button);
     
-    apply_algorithm_button.addListener(this);
-    apply_algorithm_button.setBounds(480, 0, 80, 45);
-    apply_algorithm_button.setButtonText(apply_algorithm_text);
-    addAndMakeVisible(apply_algorithm_button);
+    generate_sequence_data_button.addListener(this);
+    generate_sequence_data_button.setBounds(generate_sequence_data_x_position, 0, button_width, button_height);
+    generate_sequence_data_button.setButtonText(generate_sequence_data_text);
+    addAndMakeVisible(generate_sequence_data_button);
 }
 
 void
@@ -98,7 +104,7 @@ TrainingDataView::buttonClicked(juce::Button* button)
             m_modified_sequence.displaySequence();
         }
     }
-    else if (button == &apply_algorithm_button)
+    else if (button == &generate_sequence_data_button)
     {
         if (m_sequences.empty())
         {

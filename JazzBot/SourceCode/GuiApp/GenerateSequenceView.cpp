@@ -19,7 +19,7 @@ static const char* generate_melody_text = "Generate Melody";
 static const std::string default_chord_sequence_file = "/ChetBaker_JustFriends_chord_changes.txt";
 static const std::string default_song_information_file = "/ChetBaker_JustFriends_song_information.txt";
 
-static const int button_width = 80;
+static const int button_width = 120;
 static const int button_height = 45;
 static const int select_chord_sequence_x_position = 160;
 static const int generate_melody_x_position = 320;

@@ -84,7 +84,7 @@ private:
     juce::TextButton view_algorithm_button;
     
     /** Button used to apply algorithm to a group of files and save analysed grouping data into a database */
-    juce::TextButton apply_algorithm_button;
+    juce::TextButton generate_sequence_data_button;
 };
 
 #endif /* TrainingDataView_hpp */

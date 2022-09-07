@@ -10,10 +10,8 @@
 
 static const char* generate_sequence_data_text = "Generate Sequence Data";
 static const char* generate_sequence_text = "Generate Sequence";
-static const char* view_sequence = "View Sequence";
 static const std::string menu_items_text[menu_items_size] = {generate_sequence_data_text,
-                                         generate_sequence_text,
-                                         view_sequence};
+                                         generate_sequence_text};
 static const int button_y_pos = 60;
 static const int button_y_spacing = 185;
 static const int button_x_pos = 30;
@@ -54,7 +52,7 @@ MainMenu::resized()
 void
 MainMenu::paint(juce::Graphics & g)
 {
-    g.fillAll(juce::Colours::green); // menu colour tbd
+    g.fillAll(juce::Colours::purple); // menu colour tbd
     int button_pos = button_y_pos;
     for (std::size_t index = 0; index < menu_items_size; index ++)
     {

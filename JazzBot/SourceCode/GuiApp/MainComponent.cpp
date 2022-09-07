@@ -34,9 +34,6 @@ MainComponent::menuItemSelected(const MenuItem& menu_selection)
             m_generate_sequence_view.setBounds(0, 0, getWidth(), getHeight());
             addAndMakeVisible(m_generate_sequence_view);
             break;
-        case MenuItem::view_sequence:
-            addAndMakeVisible(m_main_menu); // tmp
-            break;
         default:
             break;
     }
@@ -63,7 +60,7 @@ MainComponent::resized()
     m_main_menu.setBounds((getWidth()/2) - (m_main_menu.getWidth()/2) ,
                                             getHeight()/main_menu_y_position_scaling,
                                             m_main_menu.getWidth(),
-                                            m_main_menu.getHeight());
+                                            450);
     m_training_data_view.setBounds(0, 0, getWidth(), getHeight());
     m_generate_sequence_view.setBounds(0, 0, getWidth(), getHeight());
     

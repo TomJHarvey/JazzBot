@@ -12,14 +12,13 @@
 #include <juce_gui_extra/juce_gui_extra.h>
 
 /** Contains the number of menu items*/
-static const std::size_t menu_items_size = 3;
+static const std::size_t menu_items_size = 2;
 
 /** Contains the menu items indexes*/
 enum class MenuItem
 {
     view_test_data,
-    generate_sequence,
-    view_sequence
+    generate_sequence
 };
 
 /**
