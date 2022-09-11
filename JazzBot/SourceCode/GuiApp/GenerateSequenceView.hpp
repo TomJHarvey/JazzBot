@@ -106,6 +106,8 @@ private:
     
     /** Defines the range of notes for the eighth note grouping */ // TODO: when there are more types of groupings this needs to be made generic
     EighthNoteGroupingRange m_grouping_range;
+    
+    std::unique_ptr<juce::FileChooser> m_file_chooser;
 };
 
 #endif /* GenerateSequenceView_hpp */

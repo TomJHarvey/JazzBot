@@ -132,6 +132,7 @@ GenerateSequenceView::buttonClicked(juce::Button* button)
     else if (button == &m_select_chord_sequence_button)
     {
         juce::String chord_sequence_song_name = m_chord_sequence_file.getFileName().upToFirstOccurrenceOf(chord_changes_suffix, false, false);
+        
         juce::FileChooser chooser{"Please load a File", chord_changes_directory};
         if (chooser.browseForFileToOpen())
         {

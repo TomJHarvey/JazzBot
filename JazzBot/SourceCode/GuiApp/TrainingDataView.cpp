@@ -18,11 +18,6 @@ static const char* load_file_text = "Load file";
 static const char* view_algorithm_text = "View algorithm"; // this shows the algorithm at work, for example it will show just eigth notes
 static const char* generate_sequence_data_text = "Generate Sequence Data"; // this will apply the algorithm to all files and generate data to be used for sequence generation
 
-static const std::string midi_files_directory = MIDI_FILES_DIRECTORY;
-// static const std::string midi_file_extension = "mid";
-
-static const juce::File default_file_path(midi_files_directory);
-
 static const int button_height = 45;
 static const int button_width = 120;
 static const int load_file_x_position = 160;
@@ -34,7 +29,11 @@ TrainingDataView::TrainingDataView(Listener* listener)
     , m_modified_sequence(this)
     , m_note_grouping(new EighthNotes())
     , m_listener(listener)
+    , m_midi_files_directory(PROJECT_DIRECTORY)
 {
+    
+    m_midi_files_directory =  m_midi_files_directory.replace("JazzBot/JazzBot", "JazzBot/midi_files"); // fix relative path bug in file chooser.
+
     addAndMakeVisible(&m_original_sequence);
     addAndMakeVisible(&m_modified_sequence);
     
@@ -81,8 +80,8 @@ TrainingDataView::buttonClicked(juce::Button* button)
         m_listener->returnToMainMenu();
     }
     else if (button == &m_load_file_button)
-    {
-        juce::FileChooser chooser{"Please load a File", default_file_path};
+    {        
+        juce::FileChooser chooser{"", m_midi_files_directory};
         if (chooser.browseForFileToOpen())
         {
             auto midi_file = chooser.getResult();

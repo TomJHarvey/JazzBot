@@ -85,6 +85,8 @@ private:
     
     /** Button used to apply algorithm to a group of files and save analysed grouping data into a database */
     juce::TextButton generate_sequence_data_button;
+    
+    juce::String m_midi_files_directory;
 };
 
 #endif /* TrainingDataView_hpp */
