@@ -14,5 +14,3 @@ A c++ application used to generate MIDI jazz melodies. For more information see 
 Update
 
 Update 2
- 
-Update 3
