@@ -11,5 +11,7 @@ A C++ application which takes time information in seconds for the onsets and dur
 JazzBot:
 A c++ application used to generate MIDI jazz melodies. For more information see project_summary.pdf. 
 
+Update
+
 
  
