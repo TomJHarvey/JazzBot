@@ -2,7 +2,7 @@
 
 This project consists of 3 sub projects :
 
-DatabaseParser:
+DatabaseParser: (changes to merge)
 A python application built specificly to go through a jazz solo database and save the relevant information into files to be used for this project.
 
 MidiFileBpmCorrector:
